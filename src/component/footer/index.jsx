@@ -10,7 +10,7 @@ export const Footer = () => {
     <>
     <div className="footer">
 
-        <h2 class="name">"BAD HABITS DIGITAL RETAIL STORE"</h2>
+        <h2 class="name">"BAD RABBITS DIGITAL RETAIL STORE"</h2>
       <div className="footer-bottom">
         <div className="container">
           <div className="row">
