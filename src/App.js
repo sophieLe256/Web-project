@@ -1,25 +1,17 @@
-import "./App.css";
-import { Button } from "react-bootstrap";
-import { BiAtom } from "react-icons/bi";
-import Navbar from "./component/Navbar";
-import { Login } from "./Login";
-import { Register } from "./Register";
-import { useState } from "react";
+import React from "react";
+import { Outlet } from "react-router-dom";
+import { Header } from "./component/header";
+import { Sidebar } from "./component/sidebar";
+import { Footer } from "./component/footer";
 
 function App() {
-  const [currentForm, setCurrentForm] = useState('login');
-
   return (
-    <div className="App">
-      {
-        currentForm === "login" ? <Login /> : Register
-      /* <Button variant="outline-success">Close me</Button>
-      <BiAtom /> */
-}
-      {/* <>
-        <Navbar/>
-      </> */}
-    </div>
+    <>
+      <Header />
+      <Sidebar />
+      <Outlet />
+      <Footer />
+    </>
   );
 }
 
