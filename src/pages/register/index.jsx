@@ -1,21 +1,35 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
+import authService from "../../api/auth.service";
 
 export const Register = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState({
-    FullName: "",
-    Email: "",
-    Password: "",
-    ConfirmPassword: "",
+  const [user, setUser] = useState({
+    FullName: "Nguyen Quang",
+    Email: "quang.nv212@gmail.com",
+    Password: "1234",
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(email);
+    try {
+      const resp = await authService.register(user);
+      console.log(resp);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  const handleInputChange = (event, key) => {
+    setUser((prev) => {
+      return {
+        ...prev,
+        [key]: event.target.value,
+      };
+    });
+  };
+  console.log(user);
   return (
     <div className="auth-form-container">
       <Container>
@@ -32,11 +46,21 @@ export const Register = () => {
                         <Form.Label className="text-center">
                           FullName
                         </Form.Label>
-                        <Form.Control type="text" placeholder="FullName" />
+                        <Form.Control
+                          type="text"
+                          value={user.FullName}
+                          onChange={(e) => handleInputChange(e, "FullName")}
+                          placeholder="FullName"
+                        />
                       </Form.Group>
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className="text-center">Email</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control
+                          type="email"
+                          value={user.Email}
+                          onChange={(e) => handleInputChange(e, "Email")}
+                          placeholder="Enter email"
+                        />
                       </Form.Group>
 
                       <Form.Group
@@ -44,20 +68,16 @@ export const Register = () => {
                         controlId="formBasicPassword"
                       >
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
-                      </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formConfirmPassword"
-                      >
-                        <Form.Label>Confirm Password</Form.Label>
                         <Form.Control
                           type="password"
-                          placeholder="Confirm Password"
+                          value={user.Password}
+                          onChange={(e) => handleInputChange(e, "Password")}
+                          placeholder="Password"
                         />
                       </Form.Group>
                       <div className="d-flex justify-content-center">
                         <Button
+                          onClick={handleSubmit}
                           className="w-50"
                           variant="primary"
                           type="submit"

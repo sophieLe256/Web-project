@@ -1,14 +1,33 @@
 import React, { useState } from "react";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import authService from "../../api/auth.service";
 
-export const Login = (props) => {
+export const Login = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState({
+    Email: "quang.nv212@gmail.com",
+    Password: "1234",
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const resp = await authService.login(user);
+      console.log(resp);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  const handleInputChange = (event, key) => {
+    setUser((prev) => {
+      return {
+        ...prev,
+        [key]: event.target.value,
+      };
+    });
+  };
   return (
     <div className="auth-form-container">
       <Container>
@@ -23,7 +42,12 @@ export const Login = (props) => {
                     <Form>
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className="text-center">Email</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control
+                          value={user.Email}
+                          onChange={(e) => handleInputChange(e, "Email")}
+                          type="email"
+                          placeholder="Enter email"
+                        />
                       </Form.Group>
 
                       <Form.Group
@@ -31,10 +55,16 @@ export const Login = (props) => {
                         controlId="formBasicPassword"
                       >
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
+                        <Form.Control
+                          value={user.Password}
+                          onChange={(e) => handleInputChange(e, "Password")}
+                          type="password"
+                          placeholder="Password"
+                        />
                       </Form.Group>
                       <div className="d-flex justify-content-center">
                         <Button
+                          onClick={handleSubmit}
                           className="w-50"
                           variant="primary"
                           type="submit"
