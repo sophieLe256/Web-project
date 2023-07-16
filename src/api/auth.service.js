@@ -2,7 +2,7 @@ import axios from "axios";
 
 class AuthService {
   getEndpoint() {
-    return "http://localhost:5000/auth";
+    return `${process.env.REACT_APP_SERVER_URL}/auth`;
   }
 
   register(data) {
