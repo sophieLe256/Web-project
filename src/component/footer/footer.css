@@ -1,15 +1,20 @@
+.footer {
+    margin-top: 30px;
+    background-color: beige;
+}
+
+.container {
+    border: 1px black solid;
+
+}
 .name {
     display: flex;
     align-items: center;
-}
-.container h2 {
+    padding-top: 10px;
     color: pink;
     display: flex;
     align-items: center;
     padding-left: 30%;
-}
-.container {
-    background-color: beige;
 }
 
 .address-list,  .footer-menu{
