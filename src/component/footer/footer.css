@@ -1,0 +1,44 @@
+.name {
+    display: flex;
+    align-items: center;
+}
+.container h2 {
+    color: pink;
+    display: flex;
+    align-items: center;
+    padding-left: 30%;
+}
+.container {
+    background-color: beige;
+}
+
+.address-list,  .footer-menu{
+   list-style: none;
+}
+
+.footer-menu li a{
+    color: black;
+    font-weight: 500;
+}
+
+.footer-menu li {
+    padding: 10px 0;
+    
+}
+
+.contact-email {
+    list-style: none;
+}
+
+.copyright {
+    margin-top: 10rem;
+}
+
+.contact-icons {
+    font-size: 30px;
+}
+
+.footer-title h4 {
+    padding-top: 10px;
+    font-size: 15px;
+}
