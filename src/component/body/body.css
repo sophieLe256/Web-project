@@ -1,0 +1,15 @@
+.body {
+    flex-direction: column !important;
+    align-items: center;
+}
+.width-80 {
+    width: 80%;
+}
+.product-item {
+    flex-direction: column !important;
+    align-items: center;
+}
+.text {
+    color: #616087;
+    font-weight: 700;
+}

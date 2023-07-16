@@ -2,3 +2,33 @@
     height: 94px;
     background-color: #fff;
 }
+.image-left {
+    height: 100%;
+}
+.image-right {
+    height: 40px;
+}
+.right {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    align-items: center;
+}
+.hover-decor {
+    position: relative;
+}
+.hover-decor::before {
+    position: absolute;
+    content: "";
+    height: 2px;
+    width: 20px;
+    background-color: pink;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+}
+.hover-decor:hover::before {
+    display: block !important;
+}
