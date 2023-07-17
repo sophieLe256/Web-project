@@ -6,15 +6,16 @@ import authService from "../../api/auth.service";
 export const Login = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({
-    Email: "quang.nv212@gmail.com",
-    Password: "1234",
+    Email: "",
+    Password: "",
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const resp = await authService.login(user);
-      console.log(resp);
+      localStorage.setItem("user_info", JSON.stringify(resp.data));
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

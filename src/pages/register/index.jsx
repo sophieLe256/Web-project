@@ -5,17 +5,18 @@ import authService from "../../api/auth.service";
 
 export const Register = () => {
   const navigate = useNavigate();
+
   const [user, setUser] = useState({
-    FullName: "Nguyen Quang",
-    Email: "quang.nv212@gmail.com",
-    Password: "1234",
+    FullName: "",
+    Email: "",
+    Password: "",
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const resp = await authService.register(user);
-      console.log(resp);
+      await authService.register(user);
+      navigate("/auth/login");
     } catch (error) {
       console.log(error);
     }
@@ -29,7 +30,7 @@ export const Register = () => {
       };
     });
   };
-  console.log(user);
+
   return (
     <div className="auth-form-container">
       <Container>
