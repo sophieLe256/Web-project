@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Slab:wght@300;400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,100&display=swap');
+*{
+    font-family: 'Roboto', sans-serif;
+
+}
+.site {
+    display: flex;
+    justify-content: center;
+}
+
+.section-1 h2, .section-2 h2, .section-3 h2, .section-4 h2 {
+    margin-left: 80px;
+    font-size: 30px;
+    padding: 5px 0;
+}
+
+.section-1 p, .section-2 p, .section-3 p, .section-4 p {
+    margin-left: 100px;
+    font-size: 15px;
+    padding: 5px 0;
+}
