@@ -9,7 +9,7 @@ export const Description = () => {
     </div>
     <div className="section-1">
         <h2>Describe who are the users of your site</h2>
-        <p>General account</p>
+        <p>General account:</p>
         <p>Username: youremail@gmail.com</p>
         <p>Password: *********</p>
 

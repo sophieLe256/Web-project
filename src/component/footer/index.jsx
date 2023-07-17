@@ -182,7 +182,7 @@ export const Footer = () => {
                       <li>3. 57 Nguyen Gia Tri phuong 25, quan Binh Thanh</li>
                       <li>4. 26 Ly Tu Trong, Phuong Ben Nghe, Quan 1</li>
                       <li>
-                        <b>Ha Noi</b>
+                        <b>HA NOI</b>
                       </li>
                       <li>
                         5. 21B Pho Lo Duc, Phuong Ngo Thi Nham, Quan Hai Ba
