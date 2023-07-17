@@ -18,7 +18,7 @@ export const Description = () => {
         <h2>What problem are you trying to solve for the users of the site</h2>
     </div>
     <div className="section-4">
-        <h2>DWhat are the actions that you want the users to take once they have used your site</h2>
+        <h2>What are the actions that you want the users to take once they have used your site</h2>
     </div>
   
     
