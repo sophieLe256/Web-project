@@ -1,5 +1,6 @@
 import React from "react";
 import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./header.css";
 
 export const Header = () => {
@@ -19,12 +20,14 @@ export const Header = () => {
       ></img>
       <div className="right d-flex justify-content-around">
         <div className="hover-decor">
-          <img
-            role="button"
-            className="image-right"
-            src="header-icon-1.webp"
-            alt="WebP rules."
-          ></img>
+          <Link to="/about-us">
+            <img
+              role="button"
+              className="image-right"
+              src="header-icon-1.webp"
+              alt="WebP rules."
+            ></img>
+          </Link>
         </div>
         <div className="hover-decor">
           <img
@@ -43,12 +46,12 @@ export const Header = () => {
           ></img>
         </div>
         <div className="hover-decor">
-          <img
-            role="button"
-            className="image-right"
-            src="header-icon-4.webp"
-            alt="WebP rules."
-          ></img>
+            <img
+              role="button"
+              className="image-right"
+              src="header-icon-4.webp"
+              alt="WebP rules."
+            ></img>
         </div>
       </div>
     </div>

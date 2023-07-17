@@ -6,11 +6,21 @@ import "./index.css";
 import App from "./App";
 import { Register } from "./pages/register";
 import { Login } from "./pages/login";
+import { AboutUs } from "./pages/about-us";
+import { Description } from "./component/description";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/about-us",
+    element: <AboutUs />,
+  },
+  {
+    path: "/description",
+    element: <Description />,
   },
   {
     index: true,
