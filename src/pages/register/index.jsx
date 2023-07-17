@@ -46,7 +46,7 @@ export const Register = () => {
       const timeout = setTimeout(() => {
         navigate("/auth/login");
         clearTimeout(timeout);
-      }, 300);
+      }, 500);
     } catch (error) {
       if (error && error.response?.status === 409) {
         setToast({

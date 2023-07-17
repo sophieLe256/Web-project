@@ -1,6 +1,6 @@
 import React from "react";
-import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
 import "./header.css";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   return (
@@ -42,14 +42,16 @@ export const Header = () => {
             alt="WebP rules."
           ></img>
         </div>
-        <div className="hover-decor">
-          <img
-            role="button"
-            className="image-right"
-            src="header-icon-4.webp"
-            alt="WebP rules."
-          ></img>
-        </div>
+        <Link to="/auth/login">
+          <div className="hover-decor">
+            <img
+              role="button"
+              className="image-right"
+              src="header-icon-4.webp"
+              alt="WebP rules."
+            ></img>
+          </div>
+        </Link>
       </div>
     </div>
   );

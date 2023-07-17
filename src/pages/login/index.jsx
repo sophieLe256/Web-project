@@ -43,7 +43,7 @@ export const Login = () => {
       const timeout = setTimeout(() => {
         navigate("/");
         clearTimeout(timeout);
-      }, 300);
+      }, 500);
     } catch (error) {
       if (error && error.response?.status === 401) {
         setToast({
