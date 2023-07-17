@@ -3,7 +3,6 @@ import "./body.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-
 export const Body = () => {
   const DUMMY_DATA = [
     {
@@ -46,15 +45,15 @@ export const Body = () => {
         src="section-1.webp"
         alt="WebP rules."
       ></img>
-      <Link to="description width-80">
-      <img
-        role="button"
-        className="image-left w-100"
-        src="section-2.webp"
-        alt="WebP rules."
-      ></img>
+      <Link className="width-80 mt-4" to="description">
+        <img
+          role="button"
+          className="image-left w-100"
+          src="section-2.webp"
+          alt="WebP rules."
+        ></img>
       </Link>
-      <Container className="mt-5">
+      <Container className="mt-5 border-0">
         <Row>
           {DUMMY_DATA.slice(0, 3).map((p, i) => {
             return <ProductItem key={i} data={p} />;
@@ -79,8 +78,8 @@ const ProductItem = ({ data }) => {
         src={data.image}
         alt="WebP rules."
       ></img>
-      <div className="name text">{data.name}</div>
-      <div className="price text">{data.price}</div>
+      <div className="body-name body-text">{data.name}</div>
+      <div className="body-price body-text">{data.price}</div>
     </Col>
   );
 };

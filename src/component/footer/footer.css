@@ -3,10 +3,6 @@
     background-color: beige;
 }
 
-.container {
-    border: 1px black solid;
-
-}
 .name {
     display: flex;
     align-items: center;
@@ -17,18 +13,18 @@
     padding-left: 30%;
 }
 
-.address-list,  .footer-menu{
-   list-style: none;
+.address-list,
+.footer-menu {
+    list-style: none;
 }
 
-.footer-menu li a{
+.footer-menu li a {
     color: black;
     font-weight: 500;
 }
 
 .footer-menu li {
     padding: 10px 0;
-    
 }
 
 .contact-email {

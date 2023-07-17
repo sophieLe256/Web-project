@@ -4,17 +4,14 @@
 }
 .width-80 {
     width: 80%;
+    max-width: 80%;
 }
 .product-item {
     flex-direction: column !important;
     align-items: center;
 }
 
-.text {
+.body-text {
     color: #616087;
     font-weight: 700;
-    padding-right: 9px;
-}
-.image-left {
-    max-width: 80%;
 }
