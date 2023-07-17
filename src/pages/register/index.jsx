@@ -1,22 +1,67 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
+import {
+  Col,
+  Button,
+  Row,
+  Container,
+  Card,
+  Form,
+  Toast,
+} from "react-bootstrap";
 import authService from "../../api/auth.service";
 
 export const Register = () => {
   const navigate = useNavigate();
+  const [toast, setToast] = useState({
+    show: false,
+    bg: "success",
+    message: "",
+  });
   const [user, setUser] = useState({
-    FullName: "Nguyen Quang",
-    Email: "quang.nv212@gmail.com",
-    Password: "1234",
+    FullName: "",
+    Email: "",
+    Password: "",
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const resp = await authService.register(user);
-      console.log(resp);
+      if (!user.Email || !user.Password || !user.FullName) {
+        return setToast({
+          bg: "info",
+          message: "Please enter your information!",
+          show: true,
+        });
+      }
+
+      await authService.register(user);
+
+      setToast({
+        bg: "success",
+        message: "Register success. Redirect to login page...",
+        show: true,
+      });
+
+      const timeout = setTimeout(() => {
+        navigate("/auth/login");
+        clearTimeout(timeout);
+      }, 500);
     } catch (error) {
+      if (error && error.response?.status === 409) {
+        setToast({
+          bg: "warning",
+          message: "Account already exists, please try again",
+          show: true,
+        });
+      } else {
+        setToast({
+          bg: "danger",
+          message: "Something went wrong!",
+          show: true,
+        });
+      }
+
       console.log(error);
     }
   };
@@ -29,10 +74,20 @@ export const Register = () => {
       };
     });
   };
-  console.log(user);
+
   return (
     <div className="auth-form-container">
-      <Container>
+      <Toast
+        className="position-fixed top-0 end-0"
+        onClose={() => setToast((prev) => ({ ...prev, show: false }))}
+        show={toast.show}
+        delay={3000}
+        bg={toast.bg}
+        autohide
+      >
+        <Toast.Body className="text-light fs-6">{toast.message}</Toast.Body>
+      </Toast>
+      <Container className="border-0">
         <Row className="vh-100 d-flex justify-content-center align-items-center">
           <Col xs={12} md={8} lg={5}>
             <Card className="shadow">

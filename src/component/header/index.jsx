@@ -1,7 +1,11 @@
 import React from "react";
+<<<<<<< HEAD
 import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
+=======
+>>>>>>> 7493541e15ea9320d08d1368794cd9844f6b1eb3
 import "./header.css";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   return (
@@ -45,14 +49,24 @@ export const Header = () => {
             alt="WebP rules."
           ></img>
         </div>
+<<<<<<< HEAD
         <div className="hover-decor">
+=======
+        <Link to="/auth/login">
+          <div className="hover-decor">
+>>>>>>> 7493541e15ea9320d08d1368794cd9844f6b1eb3
             <img
               role="button"
               className="image-right"
               src="header-icon-4.webp"
               alt="WebP rules."
             ></img>
+<<<<<<< HEAD
         </div>
+=======
+          </div>
+        </Link>
+>>>>>>> 7493541e15ea9320d08d1368794cd9844f6b1eb3
       </div>
     </div>
   );
