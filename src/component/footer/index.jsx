@@ -9,7 +9,7 @@ export const Footer = () => {
   return (
     <>
       <div className="footer">
-        <h2 className="name">"BAD RABBITS DIGITAL RETAIL STORE"</h2>
+        <h2 className="name">"FUNNY BUNNY DIGITAL RETAIL STORE"</h2>
         <div className="footer-bottom">
           <div className="container">
             <div className="row">

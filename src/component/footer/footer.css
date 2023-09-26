@@ -1,6 +1,10 @@
+:root{
+    --primary-color: #FDF7F2;
+    --text-color: #EDB7AD;
+}
 .footer {
     margin-top: 30px;
-    background-color: beige;
+    background-color: var(--primary-color);
 }
 
 .name {
