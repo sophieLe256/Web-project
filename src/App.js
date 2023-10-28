@@ -1,33 +1,84 @@
 import React from "react";
-import { BrowserRouter as Router, Link } from 'react-router-dom';
-import { Header } from "./component/header";
-import { Footer } from "./component/footer";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Register } from "./pages/register";
+import { Login } from "./pages/login";
+import { AboutUs } from "./pages/about-us";
+import { Products } from "./pages/products";
+import { Tshirts } from "./pages/t-shirts";
+import { Jackets } from "./pages/jackets";
+import { Pants } from "./pages/pants";
+import { Accessories } from "./pages/accessories";
+import { OutletSale } from "./pages/outlet-sale";
+import { Description } from "./component/description";
+import { CommonLayout } from "./layouts/CommonLayout";
 import { Body } from "./component/body";
-// import { Carousel } from "react-bootstrap";
-// import 'react-multi-carousel/lib/styless.css';
+import { ProductLayout } from "./layouts/ProductLayout";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <CommonLayout />,
+    children: [
+      {
+        index: true,
+        element: <Body />,
+      },
+      {
+        path: "about-us",
+        element: <AboutUs />,
+      },
+      {
+        path: "description",
+        element: <Description />,
+      },
+      {
+        path: "products",
+        element: <ProductLayout />,
+        children: [
+          {
+            index: true,
+            element: <Products />,
+          },
+          // {
+          //   path: "/t-shirts",
+          //   element: <Tshirts />,
+          // },
+          // {
+          //   path: "/jackets",
+          //   element: <Jackets />,
+          // },
+          // {
+          //   path: "/pants",
+          //   element: <Pants />,
+          // },
+          // {
+          //   path: "/accessories",
+          //   element: <Accessories />,
+          // },
+          // {
+          //   path: "/outlet-sale",
+          //   element: <OutletSale />,
+          // },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/auth",
+    children: [
+      {
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+    ],
+  },
+]);
 
 function App() {
-  return (
-    <>
-      <Header />
-      <Body>
-        <Router>
-          <div>
-            <ul className="menu-list">
-              <li><Link to="/">Best Seller</Link></li>
-              <li><Link to="/products">Products</Link></li>
-              <li><Link to="/t-shirts">T-Shirts</Link></li>
-              <li><Link to="/jackets">Jackets</Link></li>
-              <li><Link to="/pants">Pants</Link></li>
-              <li><Link to="/accessories">Accessories</Link></li>
-              <li><Link to="/outlet-sale">Outlet Sale</Link></li>
-            </ul>
-          </div>
-        </Router>
-      </Body>
-      <Footer />
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 export default App;
-

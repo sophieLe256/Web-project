@@ -2,7 +2,6 @@ import React from "react";
 import "./body.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-// import { BrowserRouter as Router, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const Body = () =>{
