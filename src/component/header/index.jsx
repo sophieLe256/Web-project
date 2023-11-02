@@ -2,22 +2,23 @@ import React from "react";
 import "./header.css";
 import { Link } from "react-router-dom";
 
-
 export const Header = () => {
   return (
     <div className="header d-flex align-items-center">
-      <img
-        role="button"
-        className="image-left"
-        src="header_left.webp"
-        alt="WebP rules."
-      ></img>
-      <img
-        role="button"
-        className="image-left"
-        src="logo.webp"
-        alt="WebP rules."
-      ></img>
+      {/* <Link to="/"> */}
+        <img
+          role="button"
+          className="image-left"
+          src="header_left.webp"
+          alt="WebP rules."
+        ></img>
+        <img
+          role="button"
+          className="image-left"
+          src="logo.webp"
+          alt="WebP rules."
+        ></img>
+      {/* </Link> */}
       <div className="right d-flex justify-content-around">
         <div className="hover-decor">
           <Link to="/about-us">
@@ -59,4 +60,3 @@ export const Header = () => {
     </div>
   );
 };
-

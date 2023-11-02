@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Pacifico&family=Playpen+Sans:wght@100;300;400;500;600&family=Roboto+Slab:wght@300;400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,100&display=swap');
+*{
+  font-family: 'Playpen Sans', sans-serif;
+}
+
+
+.menu-products-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.menu-products-nav {
+  /* position: fixed;
+  z-index: 100; */
+  padding-top: 50px;
+  background-color: var(--nav-color);
+  width: 200px;
+  height: 1000px;
+  line-height: 50px;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 500;
+}
+.menu-products-nav a {
+  color: var(--menu-color);
+  /* position: fixed; */
+   /* z-index: 100; */
+} 
+
+.menu-products-list {
+  list-style-type: none;
+}
+.products-container {
+  flex: 1;
+}

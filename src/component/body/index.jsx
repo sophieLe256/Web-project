@@ -4,6 +4,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 export const Body = () =>{
 const DUMMY_DATA = [
     {
@@ -78,7 +79,7 @@ const DUMMY_DATA = [
 
       {/* Make your Style section */}
       <div className="make-style">
-        <p><Link to="./style">MAKE YOUR STYLE</Link></p>
+        <p><Link to="/styles">MAKE YOUR STYLE</Link></p>
       </div>
       <div className="banner w-80">
         <div className="row">

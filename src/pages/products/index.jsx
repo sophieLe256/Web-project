@@ -1,7 +1,7 @@
 import React from 'react';
 import "./products.css";
 import { Col, Container, Row } from "react-bootstrap";
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const Products = () => {
     const DUMMY_DATA = [

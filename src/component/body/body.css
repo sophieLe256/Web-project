@@ -7,6 +7,9 @@
     --primary-color: #FDF7F2;
     --text-color: #EDB7AD;
     --background-color: #FDF7F2;
+    --nav-color: #f8cdac;
+    --menu-color: #616087;
+  
 }
 
 .body {
@@ -30,12 +33,13 @@
     position: absolute;
     top: 200px;
     transform: translateX(100px);
-    width: 30%;
-    height: 70%;
+    width: 400px;
+    height: 600px;
     background-color: var(--primary-color);
     border-radius: 5px;
     z-index: 100;
     box-shadow: 5px 5px 5px grey;
+    transition: all 0.3s; 
 }
 .image-left{
     z-index: 1;
@@ -78,7 +82,7 @@
     font-weight: 500;
 }
 .make-style a {
-    padding-left: 40px;
+    padding-left: 30px;
     font-size: 20px;
     color: var(--text-color);
 }
@@ -134,7 +138,7 @@
     border: 3px solid var(--text-color);
 }
 .title-selling a {
-    font-size: 25px;
+    font-size: 23px;
     color: var(--text-color);
     font-weight: 500;
 }
@@ -172,14 +176,53 @@
 }
 
 .title-arrivals a {
-    font-size: 25px;
+    font-size: 23px;
     color: var(--text-color);
     font-weight: 500; 
+}
+
+
+.menu-products {
+
+}
+
+.menu-producs--nav{
+    
 }
 
 @media (min-width: 992px){
     .list-banner .scroll-banner-left {
         padding-right: 46px;
+    }
+}
+/* Add responsive styles */
+@media (max-width: 992px) {
+    .overlay-box {
+        width: 50%;
+        height: 50%; /* Adjust the width for medium-sized screens */
+    }
+    .menu-list li {
+        font-size: 18px; /* Adjust font size for medium-sized screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .overlay-box {
+        width: 70%;
+        height: 60%; /* Further adjust the width for smaller screens */
+    }
+    .menu-list li {
+        font-size: 16px; /* Decrease font size for smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+    .overlay-box {
+        width: 40%;
+        height: 50%; /* Further adjust the width for even smaller screens */
+    }
+    .menu-list li {
+        font-size: 14px; /* Further decrease font size for even smaller screens */
     }
 }
 

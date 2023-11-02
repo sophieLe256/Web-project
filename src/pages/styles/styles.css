@@ -1,0 +1,7 @@
+* { margin: 0; padding: 0; }
+
+.lazyloaded {
+    width: 450px;
+    height: 550px;
+    padding: 30px 60px;
+}
