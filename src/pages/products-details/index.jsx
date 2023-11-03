@@ -6,7 +6,7 @@ export const ProductsDetails = () => {
     <>
       <div id="product-template">
         <div class="product-detail">
-          <div class="container-fluid p-0">
+          {/* <div class="container-fluid p-0">
             <div class="product-image-sliders">
               <div class="slider-left swiper-styled">
                 <div class="swiper-container swiper-styled swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events">
@@ -14,19 +14,19 @@ export const ProductsDetails = () => {
                     class="swiper-wrapper"
                     id="swiper-wrapper-51e28659bd18c727"
                     aria-live="polite"
-                    style="transition-duration: 0ms; transform: translate3d(-373px, 0px, 0px);"
+                    style={{ transitionDuration: "0ms", transform: "translate3d(-373px, 0px, 0px)" }}
                   >
                     <div
                       class="swiper-slide swiper-slide-duplicate swiper-slide-prev swiper-slide-duplicate-next"
                       data-swiper-slide-index="1"
                       role="group"
                       aria-label="2 / 2"
-                      style="width: 373px;"
+                      style={{width: "373px"}}
                     />
                     <div
                       data-zoom-url="//product.hstatic.net/1000351433/product/ms_669dea3d9dc94b958983b70b698649e9_master.jpg"
                       class="product-image "
-                      style="position: relative; overflow: hidden;"
+                      style={{position: "relative", overflow: "hidden"}}
                     >
                       <img
                         src="//product.hstatic.net/1000351433/product/ms_669dea3d9dc94b958983b70b698649e9_master.jpg"
@@ -40,7 +40,7 @@ export const ProductsDetails = () => {
                         alt=""
                         src="//product.hstatic.net/1000351433/product/ms_669dea3d9dc94b958983b70b698649e9_master.jpg"
                         class="zoomImg"
-                        style="position: absolute; top: 0px; left: 0px; opacity: 0; width: 2048px; height: 2048px; border: none; max-width: none; max-height: none;"
+                        style={{position: "absolute", top: "0px", left: "0px", opacity: "0", width: "2048px", height: "2048px", border: "none", maxWidth: "none", maxHeight: "none"}}
                       />
                     </div>
                   </div>
@@ -49,12 +49,12 @@ export const ProductsDetails = () => {
                     data-swiper-slide-index="0"
                     role="group"
                     aria-label="1 / 2"
-                    style="width: 373px;"
+                    style={{width: "373px"}}
                   >
                     <div
                       data-zoom-url="//product.hstatic.net/1000351433/product/rabbit-special-tee_ebe7ea140fc248c49c78e76bcd6cd1e1_master.jpg"
                       class="product-image featured_image"
-                      style="position: relative; overflow: hidden;"
+                      style={{position: "relative", overflow: "hidden"}}
                     />
                     <img
                       src="//product.hstatic.net/1000351433/product/rabbit-special-tee_ebe7ea140fc248c49c78e76bcd6cd1e1_master.jpg"
@@ -68,7 +68,18 @@ export const ProductsDetails = () => {
                       alt=""
                       src="//product.hstatic.net/1000351433/product/rabbit-special-tee_ebe7ea140fc248c49c78e76bcd6cd1e1_master.jpg"
                       class="zoomImg"
-                      style="position: absolute; top: -481.198px; left: -112.265px; opacity: 0; width: 2048px; height: 2048px; border: none; max-width: none; max-height: none;"
+                      className="zoomImg"
+                      style={{
+                        position: "absolute",
+                        top: "-481.198px",
+                        left: "-112.265px",
+                        opacity: 0,
+                        width: "2048px",
+                        height: "2048px",
+                        border: "none",
+                        maxWidth: "none",
+                        maxHeight: "none"
+                      }}
                     />
                   </div>
                 </div>
@@ -77,12 +88,12 @@ export const ProductsDetails = () => {
                   data-swiper-slide-index="1"
                   role="group"
                   aria-label="2 / 2"
-                  style="width: 373px;"
+                  style={{width: "373px"}}
                 >
                   <div
                     data-zoom-url="//product.hstatic.net/1000351433/product/ms_669dea3d9dc94b958983b70b698649e9_master.jpg"
                     class="product-image "
-                    style="position: relative; overflow: hidden;"
+                    style={{position: "relative", overflow: "hidden"}}
                   >
                     <img
                       src="//product.hstatic.net/1000351433/product/ms_669dea3d9dc94b958983b70b698649e9_master.jpg"
@@ -96,7 +107,17 @@ export const ProductsDetails = () => {
                       alt=""
                       src="//product.hstatic.net/1000351433/product/ms_669dea3d9dc94b958983b70b698649e9_master.jpg"
                       class="zoomImg"
-                      style="position: absolute; top: 0px; left: 0px; opacity: 0; width: 2048px; height: 2048px; border: none; max-width: none; max-height: none;"
+                      style={{
+                        position: "absolute",
+                        top: "0px",
+                        left: "0px",
+                        opacity: 0,
+                        width: "2048px",
+                        height: "2048px",
+                        border: "none",
+                        maxWidth: "none",
+                        maxHeight: "none"
+                      }}
                     />
                   </div>
                 </div>
@@ -106,12 +127,12 @@ export const ProductsDetails = () => {
                   data-swiper-slide-index="0"
                   role="group"
                   aria-label="1 / 2"
-                  style="width: 373px;"
+                  style={{width: "373px"}}
                 >
                   <div
                     data-zoom-url="//product.hstatic.net/1000351433/product/rabbit-special-tee_ebe7ea140fc248c49c78e76bcd6cd1e1_master.jpg"
                     class="product-image featured_image"
-                    style="position: relative; overflow: hidden;"
+                    style={{position: "relative", overflow: "hidden"}}
                   >
                     <img
                       src="//product.hstatic.net/1000351433/product/rabbit-special-tee_ebe7ea140fc248c49c78e76bcd6cd1e1_master.jpg"
@@ -125,7 +146,17 @@ export const ProductsDetails = () => {
                       alt=""
                       src="//product.hstatic.net/1000351433/product/rabbit-special-tee_ebe7ea140fc248c49c78e76bcd6cd1e1_master.jpg"
                       class="zoomImg"
-                      style="position: absolute; top: 0px; left: 0px; opacity: 0; width: 2048px; height: 2048px; border: none; max-width: none; max-height: none;"
+                      style={{
+                        position: "absolute",
+                        top: "0px",
+                        left: "0px",
+                        opacity: 0,
+                        width: "2048px",
+                        height: "2048px",
+                        border: "none",
+                        maxWidth: "none",
+                        maxHeight: "none"
+                      }}
                     />
                   </div>
                 </div>
@@ -146,7 +177,7 @@ export const ProductsDetails = () => {
             <div class="mobile-zoom-wrap">
               <a href="javascript:void(0)" class="open-zoom"></a>
             </div>
-          </div>
+          </div> */}
 
           <div class="product-info">
             <h1 class="font-weight-bold">SPECIAL RABBIT TEE</h1>
@@ -157,32 +188,32 @@ export const ProductsDetails = () => {
             <div class="product-desc">
               <p></p>
               <p>
-                <span style="font-size:15px">
+                <span style={{fontSize:"15px"}}>
                   <strong>OVERSIZED FIT&nbsp;</strong>
                 </span>
               </p>
               <p>
-                <span style="font-size:14px">
+                <span style={{fontSize:"14px"}}>
                   <strong>Features:</strong>
                 </span>
               </p>
               <p>
-                <span style="font-size:14px">
+                <span style={{fontSize:"14px"}}>
                   • Chất liệu: Cotton thoải mái và dễ chịu&nbsp;
                 </span>
               </p>
               <p>
-                <span style="font-size:14px">
+                <span style={{fontSize:"14px"}}>
                   • Graphic: In mặt trước và mặt sau&nbsp;
                 </span>
               </p>
               <p>
-                <span style="font-size:14px">
+                <span style={{fontSize:"14px"}}>
                   • Kỹ thuật: In tràn thân&nbsp;
                 </span>
               </p>
               <p>
-                <span style="font-size:14px">
+                <span style={{fontSize:"14px"}}>
                   • Áo đi kèm với gấu bông trước túi áo
                 </span>
               </p>
@@ -471,7 +502,7 @@ export const ProductsDetails = () => {
                         <div class="bluecore-histogram-bar">
                           <div
                             class="bluecore-histogram-bar-content"
-                            style="width:0%"
+                            style={{width:"0%"}}
                           ></div>
                         </div>
                         <div class="bluecore-histogram-percent">0%</div>
@@ -486,7 +517,7 @@ export const ProductsDetails = () => {
                         <div class="bluecore-histogram-bar">
                           <div
                             class="bluecore-histogram-bar-content"
-                            style="width:0%"
+                            style={{width:"0%"}}
                           ></div>
                         </div>
                         <div class="bluecore-histogram-percent">0%</div>
@@ -496,7 +527,7 @@ export const ProductsDetails = () => {
                         <div class="bluecore-histogram-bar">
                           <div
                             class="bluecore-histogram-bar-content"
-                            style="width:0%"
+                            style={{width:"0%"}}
                           ></div>
                         </div>
                         <div class="bluecore-histogram-percent">0%</div>
