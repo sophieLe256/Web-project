@@ -22,6 +22,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        path: "body",
         element: <Body />,
       },
       {

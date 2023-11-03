@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export const Header = () => {
   return (
     <div className="header d-flex align-items-center">
-      {/* <Link to="/"> */}
+      <Link to="/body"  className="left d-flex justify-content-around">
         <img
           role="button"
           className="image-left"
@@ -18,7 +18,7 @@ export const Header = () => {
           src="logo.webp"
           alt="WebP rules."
         ></img>
-      {/* </Link> */}
+      </Link>
       <div className="right d-flex justify-content-around">
         <div className="hover-decor">
           <Link to="/about-us">
