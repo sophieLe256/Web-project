@@ -38,7 +38,6 @@ export const ProductLayout = () => {
 
         <Products />
       </div>
-      <Outlet />
     </>
   );
 };

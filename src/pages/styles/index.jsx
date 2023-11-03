@@ -10,7 +10,7 @@ export const Styles = () => {
           <div class="container">
             <div class="text-under d-flex justify-content-between align-items-center">
               <h2 class="text-effect font-weight-bold h2 text-left">
-                <span>CHỌN TRANG PHỤC CỦA BẠN</span>
+                <span>CHOOSE YOUR OWN STYLES</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="50pt"
