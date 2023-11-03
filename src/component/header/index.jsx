@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export const Header = () => {
   return (
     <div className="header d-flex align-items-center">
-       <Link to="/body"  className="left d-flex justify-content-around">
+       <Link to="/"  className="left d-flex justify-content-around">
         <img
           role="button"
           className="image-left"

@@ -2,7 +2,7 @@ import React from "react";
 import "./products.css";
 import { Col, Container, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 export const Products = () => {
   const DUMMY_DATA = [
@@ -58,13 +58,14 @@ export const Products = () => {
 const ProductItem = ({ data }) => {
   return (
     <Col className="d-flex product-item">
-      
+      {/* <Link to="./products-details"> */}
         <img
           role="button"
           className="w-100"
           src={data.image}
           alt="WebP rules."
         ></img>
+      {/* </Link> */}
 
       <div className="body-name body-text">{data.name}</div>
       <div className="body-price body-text">{data.price}</div>

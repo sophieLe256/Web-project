@@ -1,7 +1,6 @@
 //ul li link
 import React from "react";
 import { Link } from "react-router-dom";
-import { Outlet } from "react-router-dom";
 import { Products } from "../pages/products/index";
 import "./ProductLayout.css";
 
@@ -35,7 +34,6 @@ export const ProductLayout = () => {
               </li>
             </ul>
           </div>
-
         <Products />
       </div>
     </>

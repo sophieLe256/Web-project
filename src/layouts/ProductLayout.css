@@ -16,11 +16,12 @@
   padding-top: 50px;
   background-color: var(--nav-color);
   width: 200px;
-  height: 1000px;
   line-height: 50px;
+  height: 1000px;
   text-transform: uppercase;
   font-size: 20px;
   font-weight: 500;
+  
 }
 .menu-products-nav a {
   color: var(--menu-color);

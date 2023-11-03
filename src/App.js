@@ -4,7 +4,8 @@ import { Register } from "./pages/register";
 import { Login } from "./pages/login";
 import { AboutUs } from "./pages/about-us";
 import { Products } from "./pages/products";
-import { Styles } from "./pages/styles"
+import { Styles } from "./pages/styles";
+// import { ProductsDetails} from "./pages/products-details";
 // import { Tshirts } from "./pages/t-shirts";
 // import { Jackets } from "./pages/jackets";
 // import { Pants } from "./pages/pants";
@@ -19,12 +20,16 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <CommonLayout />,
-    children: [
-      {
+    children: [   
+      {        
         index: true,
-        path: "body",
+        path: "",
         element: <Body />,
       },
+      // {
+      //   path: "products-details",
+      //   element: <ProductsDetails />,
+      // },
       {
         path: "about-us",
         element: <AboutUs />,
