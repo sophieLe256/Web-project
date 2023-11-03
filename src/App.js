@@ -5,7 +5,7 @@ import { Login } from "./pages/login";
 import { AboutUs } from "./pages/about-us";
 import { Products } from "./pages/products";
 import { Styles } from "./pages/styles";
-// import { ProductsDetails} from "./pages/products-details";
+import { ProductsDetails } from "./pages/products-details";
 // import { Tshirts } from "./pages/t-shirts";
 // import { Jackets } from "./pages/jackets";
 // import { Pants } from "./pages/pants";
@@ -20,16 +20,12 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <CommonLayout />,
-    children: [   
-      {        
+    children: [
+      {
         index: true,
         path: "",
         element: <Body />,
       },
-      // {
-      //   path: "products-details",
-      //   element: <ProductsDetails />,
-      // },
       {
         path: "about-us",
         element: <AboutUs />,
@@ -38,9 +34,14 @@ const router = createBrowserRouter([
         path: "styles",
         element: <Styles />,
       },
+
       {
         path: "description",
         element: <Description />,
+      },
+      {
+        path: "products-details",
+        element: <ProductsDetails />,
       },
       {
         path: "products",
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
             index: true,
             element: <Products />,
           },
+          
           // {
           //   path: "/t-shirts",
           //   element: <Tshirts />,
@@ -85,7 +87,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-      
     ],
   },
 ]);
