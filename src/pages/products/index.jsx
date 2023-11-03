@@ -58,7 +58,7 @@ export const Products = () => {
 const ProductItem = ({ data }) => {
   return (
     <Col className="d-flex product-item">
-      <Link to="./products-details">
+      <Link to="/products-details">
         <img
           role="button"
           className="w-100"

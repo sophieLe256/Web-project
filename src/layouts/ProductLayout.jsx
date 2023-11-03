@@ -35,10 +35,11 @@ export const ProductLayout = () => {
               </li>
             </ul>
           </div>
-        <Products />
+        <Products>
         <ProductsDetails/>
-        
+        </Products>
       </div>
+       
     </>
   );
 };
