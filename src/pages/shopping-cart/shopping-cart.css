@@ -13,7 +13,7 @@
 .content-cart {
   border: 1px solid black;
   display: flex;
-  width: 1000px;
+  width: 800px;
   height: 30px;
   font-size: 15px;
   color: var(--menu-color);
@@ -26,7 +26,7 @@
 }
 
 .content-cart .item-total-price {
-  padding-left: 130px;
+  padding-left: 90px;
 }
 
 .product-quantity {
@@ -58,7 +58,8 @@
 .item-remove img {
   width: 20px;
   height: 20px;
-  /* padding-top: 40px; */
+  margin-left: 130px;
+  margin-top: 40px;
 }
 
 .quantity-box {
@@ -105,6 +106,10 @@
   padding-left: 50px;
   font-size: 20px;
   margin-bottom: 50px;
+}
+
+.quantity-box input {
+    width: 20px;
 }
 /* 
 .summary-action .summary-button .checkout-btn {
