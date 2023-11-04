@@ -39,6 +39,7 @@ export const Header = () => {
             alt="WebP rules."
           ></img>
         </div>
+        <Link to="/shopping-cart">
         <div className="hover-decor">
           <img
             role="button"
@@ -47,6 +48,7 @@ export const Header = () => {
             alt="WebP rules."
           ></img>
         </div>
+        </Link>
         <Link to="/auth/login">
           <div className="hover-decor">
             <img

@@ -6,6 +6,8 @@ import { AboutUs } from "./pages/about-us";
 import { Products } from "./pages/products";
 import { Styles } from "./pages/styles";
 import { ProductsDetails } from "./pages/products-details";
+import { ShoppingCart } from "./pages/shopping-cart";
+import { CheckOut } from "./pages/checkout";
 // import { Tshirts } from "./pages/t-shirts";
 // import { Jackets } from "./pages/jackets";
 // import { Pants } from "./pages/pants";
@@ -35,6 +37,10 @@ const router = createBrowserRouter([
         element: <ProductsDetails />,
       },
       {
+        path: "shopping-cart",
+        element: <ShoppingCart />,
+      },
+      {
         path: "styles",
         element: <Styles />,
       },
@@ -42,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "description",
         element: <Description />,
+      },
+      {
+        path: "checkout",
+        element: <CheckOut />,
       },
 
       {

@@ -203,7 +203,7 @@ export const ProductsDetails = () => {
               data-id="1050687980"
               data-reviews-title="SPECIAL RABBIT TEE"
             >
-                <h3 class="bluecore-reviews-title" style={{ color: "var(--menu-color)" }}>
+                <h3 class="bluecore-reviews-title" style={{ color: "var(--menu-color)", paddingLeft: "20px"}}>
                   Customer reviews{" "}
                   <span class="bluecore-reviews-number">(0)</span>
                 </h3>
