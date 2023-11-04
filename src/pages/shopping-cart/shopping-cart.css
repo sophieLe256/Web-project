@@ -111,19 +111,7 @@
 .quantity-box input {
     width: 20px;
 }
-/* 
-.summary-action .summary-button .checkout-btn {
 
-  border: 2px solid var(--text-color);
-  border-radius: 30px; 
-}
-
-.button {
-  margin-bottom: 10px;
-  border: 2px solid var(--text-color);
-  border-radius: 30px;  
-  padding: 10px; 
-}  */
  /* Style for "Checkout" button */
 .container .row .order-summary-block .summary-action .summary-button .checkout-btn {
     display: block;
@@ -154,3 +142,6 @@
     text-decoration: none;
   }
   
+  .form-control {
+    width: 70%;
+  }

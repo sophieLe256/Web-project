@@ -17,10 +17,14 @@ import { Description } from "./component/description";
 import { CommonLayout } from "./layouts/CommonLayout";
 import { Body } from "./component/body";
 import { ProductLayout } from "./layouts/ProductLayout";
-
+import { MainLayout } from "./layouts/MainLayout";
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+    path: "",
     element: <CommonLayout />,
     children: [
       {
@@ -50,11 +54,6 @@ const router = createBrowserRouter([
         element: <Description />,
       },
       {
-        path: "checkout",
-        element: <CheckOut />,
-      },
-
-      {
         path: "products",
         element: <ProductLayout />,
         children: [
@@ -63,26 +62,6 @@ const router = createBrowserRouter([
             element: <Products />,
           },
 
-          // {
-          //   path: "/t-shirts",
-          //   element: <Tshirts />,
-          // },
-          // {
-          //   path: "/jackets",
-          //   element: <Jackets />,
-          // },
-          // {
-          //   path: "/pants",
-          //   element: <Pants />,
-          // },
-          // {
-          //   path: "/accessories",
-          //   element: <Accessories />,
-          // },
-          // {
-          //   path: "/outlet-sale",
-          //   element: <OutletSale />,
-          // },
         ],
       },
       {
@@ -99,6 +78,12 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "checkout",
+    element: <CheckOut />,
+  },
+]
   },
 ]);
 
