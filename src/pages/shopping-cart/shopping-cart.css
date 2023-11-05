@@ -4,68 +4,108 @@
 }
 
 .table-cart-container {
-  background-color: #f0f0f0; /* Set your desired background color */
-  padding: 10px; /* Add padding for spacing */
-  border: 1px solid #ccc; /* Add a border if needed */
-  border-radius: 5px; /* Round the corners if desired */
+  background-color: #f0f0f0;
+  /* Set your desired background color */
+  padding: 10px;
+  /* Add padding for spacing */
+  border: 1px solid #ccc;
+  /* Add a border if needed */
+  border-radius: 5px;
+  /* Round the corners if desired */
+}
+
+.table-cart {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-cart th,
+.table-cart td {
+  padding: 10px;
+  text-align: left;
 }
 
 .content-cart {
   border: 1px solid black;
-  display: flex;
-  width: 800px;
-  height: 30px;
   font-size: 15px;
   color: var(--menu-color);
   font-weight: 500;
   padding: 0px 10px;
 }
 
-.content-cart .item-qty {
-  padding-left: 400px;
-}
-
+.content-cart .item-qty,
 .content-cart .item-total-price {
-  padding-left: 90px;
+  text-align: center;
 }
 
-.product-quantity {
-  display: flex;
-}
 .item-img img {
   width: 150px;
   height: 150px;
 }
+
 .media-title {
   display: flex;
 }
+
 .item-info {
   display: block;
   padding-top: 40px;
   font-size: 10px;
 }
 
+.cart-row {
+  width: 100%;
+}
+
+.item-quantity {
+  border: 1px solid #999;
+  border-radius: 4px;
+  text-align: center; /* Center-align text in the input */
+}
+
 .item-info a {
   font-size: 15px;
 }
+
 .item--title a {
   color: var(--menu-color);
 }
+
 .item--variant {
   color: var(--menu-color);
 }
 
-.item-remove img {
+.item-remove {
+  text-align: center;
+}
+
+.item-remove a img {
   width: 20px;
   height: 20px;
-  margin-left: 130px;
-  margin-top: 40px;
+  display: block;
+  margin: 0 auto;
 }
 
 .quantity-box {
-  padding-top: 40px;
-  padding-left: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.qty-btn {
+  padding: 0px 10px;
+  background-color: #ccc;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.list-pageform-cart {
+  display: flex;
+  justify-content: center;
+}
+
 .wrapper-mainCart .item-qty .button.qty-btn {
   float: left;
   font-weight: 700;
@@ -85,23 +125,27 @@
   -o-appearance: none;
   appearance: none;
 }
+
 .line-item-total {
   padding-top: 40px;
   padding-left: 130px;
 }
+
 .summary-title {
   color: var(--menu-color);
   font-weight: 500;
 }
+
 .summary-total {
   font-size: 20px;
   font-weight: 700;
   color: var(--menu-color);
 }
+
 .row {
   display: flex;
-  justify-content: space-evenly;
 }
+
 .order-summary-block {
   padding-left: 50px;
   font-size: 20px;
@@ -109,39 +153,44 @@
 }
 
 .quantity-box input {
-    width: 20px;
+  width: 40px;
 }
 
- /* Style for "Checkout" button */
+.product-quantity {
+  border-bottom: 1px solid rgb(219, 218, 218);
+}
+
+/* Style for "Checkout" button */
 .container .row .order-summary-block .summary-action .summary-button .checkout-btn {
-    display: block;
-    width: 50%;
-    margin-top: 20px;
-    padding: 5px 0;
-    margin-bottom: 10px; /* Add space below the Checkout button */
-    text-align: center;
-    background-color: var(--primary-color);
-    color: var(--menu-color);
-    font-family: 500;
-    border: 3px solid var(--text-color);
-    border-radius: 50px;
-    text-decoration: none;
-  }
-  
-  /* Style for "Continue Shopping" button (similar to Checkout button) */
-  .container .summary-action .button {
-    display: block;
-    width: 80%;
-    padding: 5px 0;
-    text-align: center;
-    background-color: var(--primary-color);
-    color: var(--menu-color);
-    font-family: 500;
-    border: 3px solid var(--text-color);
-    border-radius: 50px;
-    text-decoration: none;
-  }
-  
-  .form-control {
-    width: 70%;
-  }
+  display: block;
+  width: 50%;
+  margin-top: 20px;
+  padding: 5px 0;
+  margin-bottom: 10px;
+  /* Add space below the Checkout button */
+  text-align: center;
+  background-color: var(--primary-color);
+  color: var(--menu-color);
+  font-family: 500;
+  border: 3px solid var(--text-color);
+  border-radius: 50px;
+  text-decoration: none;
+}
+
+/* Style for "Continue Shopping" button (similar to Checkout button) */
+.container .summary-action .button {
+  display: block;
+  width: 80%;
+  padding: 5px 0;
+  text-align: center;
+  background-color: var(--primary-color);
+  color: var(--menu-color);
+  font-family: 500;
+  border: 3px solid var(--text-color);
+  border-radius: 50px;
+  text-decoration: none;
+}
+
+.form-control {
+  width: 70%;
+}
