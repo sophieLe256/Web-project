@@ -91,7 +91,7 @@ export const Header = () => {
               alt="WebP rules."
             ></img>
             {isShow4 && 
-              <div className="message" > Login page</div>
+              <div className="login" > login page</div>
             }
             </div>
         </Link>
