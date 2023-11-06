@@ -1,15 +1,26 @@
 import React from "react";
 import "./products-details.css";
+import { useParams } from "react-router-dom";
+import { DUMMY_DATA } from "../dummyData/dummyData";
 
 export const ProductsDetails = () => {
+  let { productId } = useParams();
+  const selectedProduct = DUMMY_DATA.find(
+    (product) => product.id.toString() === productId
+  );
+
+  if (!selectedProduct) {
+    return <div>Product not found</div>;
+  }
+
   return (
     <>
       <div id="product-template">
         <div class="product-detail">
           <div class="product-info">
-            <img className="" src="tee-1.webp" alt="WebP rules."></img>
+            <img src={selectedProduct.image} alt={selectedProduct.name}></img>
             <div className="product-display">
-              <h1 class="font-weight-bold">SPECIAL RABBIT TEE</h1>
+              <h1 class="font-weight-bold">{selectedProduct.name}</h1>
 
               <div class="product-price-wrap">
                 <span class="product-price font-weight-bold">$30.00 </span>
