@@ -1,0 +1,100 @@
+.customers-register-rabbit-en {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    margin: 0;
+    padding: 0;
+}
+
+.layout-account {
+    width: 100%;
+    padding-top: 4%;
+}
+
+.wrapbox-content-account {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+.wrapbox-content-account a {
+    color: #888;
+}
+
+.customer_register {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.header-register-page {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header-register-page h1 {
+    font-size: 25px;
+}
+
+.register-form {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.register-form .clearfix {
+    margin-bottom: 20px;
+}
+
+.register-form .icon-field {
+    display: none;
+}
+
+.register-form .clearfix input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    background-color: #ededed;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.register-form input:focus {
+    border: 1px solid #ededed;
+    background-color: white;
+}
+
+.register-form .button {
+    padding: 8px 30px 8px 30px;
+    border-radius: 45px;
+    background-color: #fbe7d1;
+    border: 3px solid #f4b7ba;
+    color: #616087;
+    cursor: pointer;
+}
+
+.register-form .sitebox-recaptcha {
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: #888;
+}
+
+.register-form .custommer_account_action {
+    display: flex;
+    justify-content: center;
+}
+
+.register-form .req_pass {
+    font-size: 12px;
+    color: #888;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 60px;
+}
+
+.radio-buttons {
+    display: flex;
+    margin-bottom: 20px;
+    gap: 10px;
+}
