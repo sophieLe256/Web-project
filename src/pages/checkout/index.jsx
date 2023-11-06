@@ -1,5 +1,8 @@
 import React from "react";
+import "./checkout.css";
 
 export const CheckOut = () => {
-  return <div>CheckOut</div>;
+  return (
+    <div className="">Funny Bunny Official Store</div>
+  );
 };
