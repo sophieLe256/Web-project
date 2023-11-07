@@ -26,6 +26,10 @@
     color: var(--menu-color);
 }
 
+.option {
+    padding-bottom: 10px;
+}
+
 .option-values {
     font-size: 20px;
 }
@@ -36,7 +40,184 @@
 }
 .product-add-cart{
     color: var(--menu-color);
+    display: inline-block;
+    border: 3px solid var(--text-color);
+    border-radius: 20px;
+    background-color: #FBE7D1;
+    color: #fff;
+    padding: 5px 10px;
+    text-decoration: none;
+    width: 205px;
 }
+
+.bh-logo img {
+    width: 150px;
+    height: 63px;
+}
+
+.products-policy {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .products-policy a,
+  .products-policy .policy_pro {
+    margin-bottom: 10px;
+  }
+  
+  .products-policy .bh-logo {
+    margin-top: 20px;
+  }
+
+
 .container {
-    justify-content: center;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.bluecore-histogram-content .bluecore-histogram-title {
+    font-size: 14px;
+    color: #969897;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.bluecore-reviews-title {
+    color: var(--menu-color);
+    padding-top: 20px;
+}
+
+.bluecore-reviews-head {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    padding: 30px 40px;
+    background: #fbf7f0;
+}
+
+.bluecore-reviews-head .bluecore-reviews-stats {
+    flex: 0 0 50%;
+    -ms-flex: 0 0 50%;
+}
+
+.bluecore-histogram-content {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.bluecore-histogram {
+    flex: 0 0 50%;
+    -ms-flex: 0 0 50%;
+}
+
+
+.bluecore-reviews-head .bluecore-reviews-stats .bluecore-ratings-display {
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 1;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.bluecore-reviews-ratings-star {
+    display: flex;
+    font-size: 18px;
+    color: #f8ce1a;
+    margin-right: 5px;
+}
+
+.bluecore-histogram-row {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    margin-bottom: 8px;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+.bluecore-histogram-row .bluecore-histogram-bar {
+    max-width: 250px;
+    width: 100%;
+    display: inline-block;
+    height: 10px;
+    background: #e3e3e3;
+    position: relative;
+}
+
+.bluecore-histogram-row .bluecore-histogram-t {
+    -ms-flex: 0 0 100px;
+    flex: 0 0 100px;
+    display: inline-block;
+    line-height: 1.2;
+}
+
+.bluecore-histogram-row .bluecore-histogram-percent {
+    margin-left: 8px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.bluecore-reviews-tabs {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    -webkit-align-items: center;
+    border-bottom: 1px solid #ddd;
+    margin: 15px 0;
+}
+
+.bluecore-reviews-tabs .reviews-actions-list {
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    padding-left: 15px;
+    list-style: none;
+}
+
+.reviews-actions-list {
+    display: flex;
+    gap: 20px;
+}
+
+
+.bluecore-reviews-tabs .bluecore-reviews-sort {
+    flex: 1;
+    -ms-flex: 1;
+    text-align: right;
+    gap: 20px;
+}
+
+.bluecore-reviews-tabs .bluecore-reviews-sort .bluecore-sort-item {
+    display: inline-block;
+    justify-content: space-evenly;
+}
+
+.bluecore-reviews-tabs .bluecore-reviews-sort .bluecore-sort-item:not(:first-child) {
+    margin-left: 15px;
+}
+
+.bluecore-reviews-tabs .bluecore-reviews-sort .bluecore-sort-item .bluecore-sort-select {
+    width: 110px;
+    height: 30px;
+    border: 1px solid #ddd;
+    padding: 0 20px 0 10px;
+    margin: 0 0 0 10px;
+    font-weight: 600;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: 90px center;
+    background-size: 17px;
+    outline: 0;
 }

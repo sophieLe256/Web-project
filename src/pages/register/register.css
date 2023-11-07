@@ -91,6 +91,7 @@
     display: flex;
     justify-content: center;
     margin-bottom: 60px;
+    text-decoration: underline;
 }
 
 .radio-buttons {

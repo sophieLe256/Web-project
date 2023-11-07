@@ -3,40 +3,9 @@ import "./products.css";
 import { Col, Container, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
+import { DUMMY_DATA } from "../dummyData/dummyData";
 
 export const Products = () => {
-  const DUMMY_DATA = [
-    {
-      image: "product-1.webp",
-      name: "RABBIT POCKET SHIRT",
-      price: "420 000 VND",
-    },
-    {
-      image: "product-2.webp",
-      name: "CREAM CARROT RABBIT SHORTS",
-      price: "450 000 VND",
-    },
-    {
-      image: "product-3.webp",
-      name: "BLACK CARROT RABBIT SHORTS",
-      price: "450 000 VND",
-    },
-    {
-      image: "product-4.webp",
-      name: "CREAM STRIPE RABBIT POLO",
-      price: "450 000 VND",
-    },
-    {
-      image: "product-5.webp",
-      name: "RABBIT IN THE BOX TEE",
-      price: "400 000 VND",
-    },
-    {
-      image: "product-6.jpg",
-      name: "HIDDEN RABBIT BACKPACK",
-      price: "700 000 VND",
-    },
-  ];
   return (
     <>
       <Container className="mt-5 border-0">
@@ -58,7 +27,7 @@ export const Products = () => {
 const ProductItem = ({ data }) => {
   return (
     <Col className="d-flex product-item">
-      <Link to="/products-details">
+      <Link to={`/products-details/${data.id}`}>
         <img
           role="button"
           className="w-100"
@@ -72,3 +41,4 @@ const ProductItem = ({ data }) => {
     </Col>
   );
 };
+
