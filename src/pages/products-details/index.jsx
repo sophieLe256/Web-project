@@ -2,6 +2,8 @@ import React from "react";
 import "./products-details.css";
 import { useParams } from "react-router-dom";
 import { DUMMY_DATA } from "../dummyData/dummyData";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-regular-svg-icons";
 
 export const ProductsDetails = () => {
   let { productId } = useParams();
@@ -23,7 +25,7 @@ export const ProductsDetails = () => {
               <h1 class="font-weight-bold">{selectedProduct.name}</h1>
 
               <div class="product-price-wrap">
-                <span class="product-price font-weight-bold">$30.00 </span>
+                <span class="product-price font-weight-bold">{selectedProduct.price}</span>
               </div>
 
               <div class="product-desc">
@@ -38,26 +40,11 @@ export const ProductsDetails = () => {
                     <strong>Features:</strong>
                   </span>
                 </p>
-                <p>
-                  <span style={{ fontSize: "14px" }}>
-                    • Material: Comfortable and pleasant cotton&nbsp;
-                  </span>
-                </p>
-                <p>
-                  <span style={{ fontSize: "14px" }}>
-                    • Graphic: Print front and back&nbsp;
-                  </span>
-                </p>
-                <p>
-                  <span style={{ fontSize: "14px" }}>
-                    • Technique: Full body printing&nbsp;
-                  </span>
-                </p>
-                <p>
-                  <span style={{ fontSize: "14px" }}>
-                    • The shirt comes with a teddy bear in the front pocket
-                  </span>
-                </p>
+                {selectedProduct.features.map((feature, index) => (
+                  <p key={index}>
+                    <span style={{ fontSize: "14px" }}> • {feature}</span>
+                  </p>
+                ))}
                 <p></p>
                 <p></p>
               </div>
@@ -83,21 +70,15 @@ export const ProductsDetails = () => {
                     size:
                   </span>
                   <div class="option-values">
-                    <span data-option-value="xs" class="active">
-                      XS
-                    </span>
-                    <span data-option-value="s" class="">
-                      S
-                    </span>
-                    <span data-option-value="m" class="">
-                      M
-                    </span>
-                    <span data-option-value="l" class="">
-                      L
-                    </span>
-                    <span data-option-value="xl" class="">
-                      XL
-                    </span>
+                    {selectedProduct.size.map((size) => (
+                      <span
+                        key={size}
+                        data-option-value={size.toLowerCase()}
+                        className={size === "XS" ? "active" : ""}
+                      >
+                        {size}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -110,7 +91,6 @@ export const ProductsDetails = () => {
                 >
                   Size guide
                 </a>
-
                 <div class="policy_pro">
                   <a
                     href="/pages/chinh-sach-doi-tra"
@@ -124,15 +104,6 @@ export const ProductsDetails = () => {
                   href="#"
                   class="product-add-cart text-uppercase font-weight-bold "
                   data-prid="1050687980"
-                  style={{
-                    display: "inline-block",
-                    border: "3px solid var(--text-color)",
-                    borderRadius: "20px",
-                    backgroundColor: "#FBE7D1",
-                    color: "#fff",
-                    padding: "5px 10px",
-                    textDecoration: "none",
-                  }}
                 >
                   ADD TO CART{" "}
                   <img
@@ -146,11 +117,11 @@ export const ProductsDetails = () => {
                 </a>
 
                 <div class="bh-logo mt-4">
-                  {/* <img
+                  <img
                     width="150"
-                    height="80"
-                    src="https://file.hstatic.net/200000377411/file/header_ebf55fe6f31b4f3e941f13bacfe43c84.png"
-                  /> */}
+                    height="63"
+                    src="/logo.webp"
+                  />
                 </div>
               </div>
             </div>
@@ -207,82 +178,80 @@ export const ProductsDetails = () => {
 
 		</div>*/}
 
-          <div class="container" style={{ marginLeft: "50px" }}>
+          <div class="container">
             <div
               class="bluecore-reviews-wrapper"
               id="bluecore-reviews"
               data-id="1050687980"
               data-reviews-title="SPECIAL RABBIT TEE"
             >
-                <h3 class="bluecore-reviews-title" style={{ color: "var(--menu-color)", paddingLeft: "20px"}}>
-                  Customer reviews{" "}
-                  <span class="bluecore-reviews-number">(0)</span>
-                </h3>
-              <div class="customer-reviews" style={{padding: "20px 20px", backgroundColor: "var(--primary-color)", margin: "20px 20px"}}>
-                <div class="bluecore-reviews-head">
-                  <div class="bluecore-reviews-stats reviews-col-50">
-                    {/* <div class="bluecore-reviews-ratings-avg">
-                      <span class="bluecore-ratings-display">0</span>
-                    </div> */}
-                    <div class="bluecore-reviews-ratings-star">
-                      <i class="fa fa-star-o"></i>
-                      <i class="fa fa-star-o"></i>
-                      <i class="fa fa-star-o"></i>
-                      <i class="fa fa-star-o"></i>
-                      <i class="fa fa-star-o"></i>
-                    </div>
+              <h3 class="bluecore-reviews-title">
+                Customer reviews{" "}
+                <span class="bluecore-reviews-number">(0)</span>
+              </h3>
+              <div class="bluecore-reviews-head">
+                <div class="bluecore-reviews-stats reviews-col-50">
+                  <div class="bluecore-reviews-ratings-avg">
+                    <span class="bluecore-ratings-display">0</span>
                   </div>
-                  <div class="bluecore-histogram reviews-col-50">
-                    <div class="bluecore-histogram-content">
-                      <h4 class="bluecore-histogram-title" style={{ color: "#969897", fontSize: "15px", display:"flex", justifyContent: "center"}}>
-                        Product available in the right size?
-                      </h4>
-                      <div class="bluecore-histogram-block" style={{ color: "var(--menu-color)"}}>
-                        <div class="bluecore-histogram-row" style={{ display: "flex", justifyContent: "space-evenly"}} data-key="Nhỏ">
-                          <div class="bluecore-histogram-t" >Small</div>
-                          <div class="bluecore-histogram-bar" style={{position: "relative", backdgroundColor: "var(--menu-color)", left: 0, top: 0}}>
-                            <div
-                              class="bluecore-histogram-bar-content"
-                              style={{ width: "100%" }}
-                            ></div>
-                          </div>
-                          <div class="bluecore-histogram-percent" >0%</div>
+                  <div class="bluecore-reviews-ratings-star">
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                  </div>
+                </div>
+                <div class="bluecore-histogram reviews-col-50">
+                  <div class="bluecore-histogram-content">
+                    <h4 class="bluecore-histogram-title" style={{ color: "#969897", fontSize: "15px", display: "flex" }}>
+                      Product available in the right size?
+                    </h4>
+                    <div class="bluecore-histogram-block" style={{ color: "var(--menu-color)" }}>
+                      <div class="bluecore-histogram-row" data-key="Nhỏ">
+                        <div class="bluecore-histogram-t" >Small</div>
+                        <div class="bluecore-histogram-bar" style={{ position: "relative", backdgroundColor: "var(--menu-color)", left: 0, top: 0 }}>
+                          <div
+                            class="bluecore-histogram-bar-content"
+                            style={{ width: "100%" }}
+                          ></div>
                         </div>
-                        <div
-                          class="bluecore-histogram-row"
-                          data-key="Đúng với kích thước"
-                          style={{ display: "flex", justifyContent: "space-evenly"}}
-                        >
-                          <div class="bluecore-histogram-t">
-                            Fits the size correctly
-                          </div>
-                          <div class="bluecore-histogram-bar">
-                            <div
-                              class="bluecore-histogram-bar-content"
-                              style={{ width: "0%" }}
-                            ></div>
-                          </div>
-                          <div class="bluecore-histogram-percent">0%</div>
+                        <div class="bluecore-histogram-percent" >0%</div>
+                      </div>
+                      <div
+                        class="bluecore-histogram-row"
+                        data-key="Đúng với kích thước"
+
+                      >
+                        <div class="bluecore-histogram-t">
+                          Fits the size correctly
                         </div>
-                        <div class="bluecore-histogram-row" style={{ display: "flex", justifyContent: "space-evenly"}} data-key="Lớn">
-                          <div class="bluecore-histogram-t">Large</div>
-                          <div class="bluecore-histogram-bar">
-                            <div
-                              class="bluecore-histogram-bar-content"
-                              style={{ width: "0%" }}
-                            ></div>
-                          </div>
-                          <div class="bluecore-histogram-percent">0%</div>
+                        <div class="bluecore-histogram-bar">
+                          <div
+                            class="bluecore-histogram-bar-content"
+                            style={{ width: "0%" }}
+                          ></div>
                         </div>
+                        <div class="bluecore-histogram-percent">0%</div>
+                      </div>
+                      <div class="bluecore-histogram-row" data-key="Lớn">
+                        <div class="bluecore-histogram-t">Large</div>
+                        <div class="bluecore-histogram-bar">
+                          <div
+                            class="bluecore-histogram-bar-content"
+                            style={{ width: "0%" }}
+                          ></div>
+                        </div>
+                        <div class="bluecore-histogram-percent">0%</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="bluecore-reviews-tabs" style={{ display: "flex", justifyContent: "space-between"}}>
+              <div class="bluecore-reviews-tabs">
                 <div class="bluecore-reviews-actions">
-                  <ul class="reviews-actions-list" style={{listStyle: "none", display: "flex", justifyContent: "space-between"}}>
-                    <li class="reviews-actions-btn active" data-tab="all" style={{ marginRight: "10px" }}>
+                  <ul class="reviews-actions-list">
+                    <li class="reviews-actions-btn active" data-tab="all">
                       All reviews<span class="reviews-all-num">(0)</span>
                     </li>
                     <li class="reviews-actions-btn" data-tab="reviews-img">
@@ -290,20 +259,19 @@ export const ProductsDetails = () => {
                     </li>
                   </ul>
                 </div>
-                <div class="bluecore-reviews-sort" style={{ display: "flex", justifyContent: "space-between" }}>
-                  
-                  <div class="bluecore-sort-item" style={{ marginRight: "10px" }}>
+                <div class="bluecore-reviews-sort" >
+                  <div class="bluecore-sort-item">
                     <label>Rank</label>
                     <select
                       class="bluecore-sort-select sort-rank"
                       name="sort_rank"
                     >
                       <option value="all">All</option>
-                      <option value="5">5 sao</option>
-                      <option value="4">4 sao</option>
-                      <option value="3">3 sao</option>
-                      <option value="2">2 sao</option>
-                      <option value="1">1 sao</option>
+                      <option value="5">5 stars</option>
+                      <option value="4">4 stars</option>
+                      <option value="3">3 stars</option>
+                      <option value="2">2 stars</option>
+                      <option value="1">1 star</option>
                     </select>
                   </div>
                   <div class="bluecore-sort-item">
