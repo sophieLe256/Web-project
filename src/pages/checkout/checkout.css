@@ -11,17 +11,18 @@
   }
   
   h1{
-    font-weight: normal;
+    font-weight: bold;
     margin: 0;
     line-height: 1em;
     color:black;
     cursor: pointer;
-    font-size:20px;
+    font-size:30px;
     padding-bottom:15px;
   }
 
   h2{
-    font-size:12px;
+    font-weight: bold;
+    font-size:20px;
   }
   .text_fill{
     border-radius: 5px ;
@@ -29,6 +30,9 @@
     font-size: 12px;
     height:40px;
     padding-left: 10px;
+    padding: 5px;
+    width: 100%;
+    border: 1px solid #ddd;
   }
   .order-summary {
     flex: 1;
@@ -43,26 +47,23 @@
     padding: 10px;
     border: 1px solid #ddd;
     text-align: left;
+    background-color: #fdf7f2;
+    border-radius: 20px;
   }
   
-  form {
+  .check-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
     border:none;
     border-radius: 25%;
   }
-  
-  label {
-    font-weight: bold;
+  input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
   }
-  
-  input {
-    padding: 5px;
-    width: 100%;
-    border: 1px solid #ddd;
-  }
-  
+
   button {
     background-color: #FDF7F2;
     color: black;
@@ -87,4 +88,69 @@
   }
   .cart{
     margin-left:10px;
+    color:blue;
+    margin-top: 20px;
+    font-weight: bold;
   }
+
+
+  .custom-radio {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .custom-radio img {
+    width: 80px;
+    height: 50px;
+    margin-right: 50px;
+  }
+  .check-item-img img {
+    width:100px;
+    height: 100px;
+    border-radius: 23px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  }
+  .check-item-info a {
+    margin-left:50px;
+    font-size: 10px;
+  }
+  
+  .check-item--title a {
+    color: var(--menu-color);
+  }
+.gap{
+  height:20px;
+}
+.quantity-circle {
+  position: absolute;
+  background-color: #696969; /* You can change the background color as needed */
+  color: #fff;
+  border-radius: 50%;
+  padding: 4px;
+  font-size: 12px;
+  height:20px;
+  width:20px;
+  text-align:center;
+  line-height: 14px;
+}
+p{
+  font-size: 12px;
+}
+.check-table-cart-container {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.check-table-cart {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.check-table-cart th,
+.check-table-cart td {
+  padding: 10px;
+  text-align: left;
+}
