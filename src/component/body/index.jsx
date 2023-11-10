@@ -6,6 +6,30 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { DUMMY_DATA } from "../../dummyData/dummyData";
 
 export const Body = () => {
+  // Define the number of products per row
+  const productsPerRow = 3;
+
+  // Function to chunk the array into smaller arrays
+  const chunkArray = (array, size) => {
+    return array.reduce((chunks, item, index) => {
+      if (index % size === 0) {
+        chunks.push([item]);
+      } else {
+        chunks[chunks.length - 1].push(item);
+      }
+      return chunks;
+    }, []);
+  };
+
+  // Reverse the order of the DUMMY_DATA array
+  const reversedData = DUMMY_DATA.slice().reverse();
+
+  // Chunk the reversed array into smaller arrays based on productsPerRow
+  const chunkedData = chunkArray(reversedData, productsPerRow);
+
+  // Limit to 2 rows
+  const limitedData = chunkedData.slice(0, 2);
+
   return <>
 
     <div className="body d-flex">
@@ -145,16 +169,13 @@ export const Body = () => {
       </div>
 
       <Container className="border-0 product-new-arival">
-        <Row>
-          {DUMMY_DATA.slice(0, 3).reverse().map((p, i) => {
-            return <ProductItem key={i} data={p} />;
-          })}
-        </Row>
-        <Row>
-          {DUMMY_DATA.slice(3, 6).reverse().map((p, i) => {
-            return <ProductItem key={i} data={p} />;
-          })}
-        </Row>
+        {limitedData.map((row, rowIndex) => (
+          <Row key={rowIndex}>
+            {row.map((product) => (
+              <ProductItem key={product.id} data={product} />
+            ))}
+          </Row>
+        ))}
       </Container>
 
     </div>
