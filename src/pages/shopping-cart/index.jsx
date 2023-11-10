@@ -122,7 +122,7 @@ export const ShoppingCart = () => {
                                 <span>{product.total}</span>
                               </td>
                               <td className="item-remove">
-                                <a href="javascript:void(0)" onClick={() => handleRemoveItem(product.removeLink)}>
+                                <a href="#" onClick={() => handleRemoveItem(product.removeLink)}>
                                   <img src="//theme.hstatic.net/1000351433/1001138941/14/delete.png?v=243" />
                                 </a>
                               </td>

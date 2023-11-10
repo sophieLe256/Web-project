@@ -3,12 +3,12 @@ import "./products.css";
 import { Col, Container, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
-import { DUMMY_DATA } from "../dummyData/dummyData";
+import { DUMMY_DATA } from "../../dummyData/dummyData";
 
 export const Products = () => {
   return (
     <>
-      <Container className="mt-5 border-0">
+      <div className="col-xl-10 col-lg-9 col-md-12 col-12 content-collection products-container ">
         <Row>
           {DUMMY_DATA.slice(0, 3).map((p, i) => {
             return <ProductItem key={i} data={p} />;
@@ -19,7 +19,7 @@ export const Products = () => {
             return <ProductItem key={i} data={p} />;
           })}
         </Row>
-      </Container>
+      </div>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import {
   Button,
   Container,
@@ -9,8 +9,8 @@ import {
 import "./register.css";
 
 export const Register = () => {
-  const navigate = useNavigate();
   /*
+  const navigate = useNavigate();
   const [toast, setToast] = useState({
     show: false,
     bg: "success",

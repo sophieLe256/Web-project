@@ -1,25 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Pacifico&family=Roboto+Slab:wght@300;400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,100&display=swap');
 
-*{
+* {
     font-family: 'SVN Omnes', sans-serif;
 }
-:root{
+
+:root {
     --primary-color: #FDF7F2;
     --text-color: #EDB7AD;
     --background-color: #FDF7F2;
     --nav-color: #f8cdac;
     --menu-color: #616087;
-  
+
 }
 
 .body {
     flex-direction: column !important;
     align-items: center;
 }
+
 .width-80 {
     width: 80%;
     max-width: 80%;
 }
+
 .product-item {
     flex-direction: column !important;
     align-items: center;
@@ -29,7 +32,8 @@
     color: #616087;
     font-weight: 700;
 }
-.overlay-box{
+
+.overlay-box {
     position: absolute;
     top: 200px;
     transform: translateX(100px);
@@ -39,23 +43,27 @@
     border-radius: 5px;
     z-index: 100;
     box-shadow: 5px 5px 5px grey;
-    transition: all 0.3s; 
+    transition: all 0.3s;
 }
-.image-left{
+
+.image-left {
     z-index: 1;
     position: relative;
 }
-.menu-list{
+
+.menu-list {
     padding-top: 50px;
 }
-.menu-list li{
+
+.menu-list li {
     list-style: none;
     padding-top: 20px;
     padding-left: 50px;
     font-size: 30px;
     text-transform: uppercase;
 }
-.menu-list li a{
+
+.menu-list li a {
     margin-top: 20px;
     color: var(--text-color);
     cursor: pointer;
@@ -65,6 +73,7 @@
 .header-menu img {
     position: relative;
 }
+
 .make-style {
     width: 250px;
     height: 100px;
@@ -77,15 +86,18 @@
     box-shadow: 10px 5px 5px grey;
     /* border: 3px solid var(--text-color); */
 }
+
 .make-style p {
     padding-top: 10px;
     font-weight: 500;
 }
+
 .make-style a {
     padding-left: 30px;
     font-size: 20px;
     color: var(--text-color);
 }
+
 .row {
     display: flex;
     flex-wrap: wrap;
@@ -100,7 +112,8 @@
     display: block;
     width: 80%;
 }
-.aspect-ratio img{
+
+.aspect-ratio img {
     position: absolute;
     width: 100%;
     left: 0;
@@ -108,21 +121,22 @@
     max-width: 100%;
     max-height: 100%;
 }
+
 .scroll {
     background-image: url(https://file.hstatic.net/200000377411/file/4_copy_c9729c77bc8348d19e3bf9de4bed2c34.png);
 }
+
 .list-banner {
     display: flex;
     align-items: center;
 
 }
+
 .scroll-banner {
     width: 30%;
 }
 
-.scroll-banner-right {
-   
-}
+.scroll-banner-right {}
 
 .title-selling {
     padding-left: 25px;
@@ -137,31 +151,36 @@
     border-radius: 100px;
     border: 3px solid var(--text-color);
 }
+
 .title-selling a {
     font-size: 23px;
     color: var(--text-color);
     font-weight: 500;
 }
-.collections{
+
+.collections {
     margin-bottom: 70px;
 }
+
 .collections .container .list-items {
     display: flex;
     width: 100%;
     cursor: pointer;
 }
-.collections .container .list-items .image-container .name{
+
+.collections .container .list-items .image-container .name {
     display: flex;
     padding-left: 140px;
     color: black;
 }
 
 
-.collections .container .list-items .image-container .desc{
+.collections .container .list-items .image-container .desc {
     display: flex;
     padding-left: 170px;
 }
-.title-arrivals{
+
+.title-arrivals {
     padding-left: 25px;
     padding-top: 10px;
     width: 230px;
@@ -178,51 +197,60 @@
 .title-arrivals a {
     font-size: 23px;
     color: var(--text-color);
-    font-weight: 500; 
+    font-weight: 500;
 }
 
 
-.menu-products {
+.menu-products {}
 
+.menu-producs--nav {}
+
+.product-new-arival {
+    margin-bottom: 6rem;
 }
 
-.menu-producs--nav{
-    
-}
-
-@media (min-width: 992px){
+@media (min-width: 992px) {
     .list-banner .scroll-banner-left {
         padding-right: 46px;
     }
 }
+
 /* Add responsive styles */
 @media (max-width: 992px) {
     .overlay-box {
         width: 50%;
-        height: 50%; /* Adjust the width for medium-sized screens */
+        height: 50%;
+        /* Adjust the width for medium-sized screens */
     }
+
     .menu-list li {
-        font-size: 18px; /* Adjust font size for medium-sized screens */
+        font-size: 18px;
+        /* Adjust font size for medium-sized screens */
     }
 }
 
 @media (max-width: 768px) {
     .overlay-box {
         width: 70%;
-        height: 60%; /* Further adjust the width for smaller screens */
+        height: 60%;
+        /* Further adjust the width for smaller screens */
     }
+
     .menu-list li {
-        font-size: 16px; /* Decrease font size for smaller screens */
+        font-size: 16px;
+        /* Decrease font size for smaller screens */
     }
 }
 
 @media (max-width: 576px) {
     .overlay-box {
         width: 40%;
-        height: 50%; /* Further adjust the width for even smaller screens */
+        height: 50%;
+        /* Further adjust the width for even smaller screens */
     }
+
     .menu-list li {
-        font-size: 14px; /* Further decrease font size for even smaller screens */
+        font-size: 14px;
+        /* Further decrease font size for even smaller screens */
     }
 }
-

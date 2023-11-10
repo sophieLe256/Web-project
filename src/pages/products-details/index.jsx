@@ -1,7 +1,7 @@
 import React from "react";
 import "./products-details.css";
 import { useParams } from "react-router-dom";
-import { DUMMY_DATA } from "../dummyData/dummyData";
+import { DUMMY_DATA } from "../../dummyData/dummyData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 
@@ -84,7 +84,7 @@ export const ProductsDetails = () => {
               </div>
               <div className="products-policy">
                 <a
-                  href="javascript:void(0)"
+                  href="#"
                   data-toggle="modal"
                   data-target="#product-sizechart-modal"
                   class="product-size-chart text-uppercase font-weight-bold"
