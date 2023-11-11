@@ -5,12 +5,14 @@
 }
 .image-left {
   height: 100%;
+  background-color: var(--primary-color);
 }
 .image-right {
   height: 40px;
 }
 
 .right, .left {
+  background-color: var(--primary-color);
   height: 100%;
   display: flex;
   justify-content: space-between;
