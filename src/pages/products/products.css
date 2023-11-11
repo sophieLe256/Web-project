@@ -1,4 +1,6 @@
-
-/* .product-item {
-    cursor: pointer;
-} */
+.products-container {
+    width: 100%;
+    padding: 0 15px 100px 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }

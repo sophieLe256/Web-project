@@ -1,110 +1,101 @@
 .header {
-    height: 94px;
-    background-color: #fff;
+  height: 94px;
+  width: 100%;
+  background-color: #fff;
 }
 .image-left {
-    height: 100%;
+  height: 100%;
 }
 .image-right {
-    height: 40px;
+  height: 40px;
 }
 
 .right, .left {
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex: 1;
-    align-items: center;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  align-items: center;
 }
 
 .hover-decor {
-    position: relative;
+  position: relative;
 }
 
 .image-container {
-    position: relative;
-    cursor: pointer;
-    display: inline-block; 
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .hover-decor .message{
-    position: absolute;
-    bottom: -35px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #FDF7F2; 
-    padding: 5px 5px 10px 5px; 
-    border: 1px solid #ccc; 
-    border-radius: 20px; 
-    display: none;
-    width:75px;
-    text-align: center;
-    font-size:12px; 
-    color:black;
-    z-index:10;
-  }
-  .hover-decor .search{
-    position: absolute;
-    bottom: -35px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #FDF7F2; 
-    padding: 5px 5px 10px 5px; 
-    border: 1px solid #ccc; 
-    border-radius: 20px; 
-    display: flex;
-    width:130px;
-    text-align: center;
-    font-size:12px; 
-    color:black;
-    z-index:10;
-  }
-  
-  .hover-decor .shopping{
-    position: absolute;
-    bottom: -35px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #FDF7F2; 
-    padding: 5px 5px 10px 5px; 
-    border: 1px solid #ccc; 
-    border-radius: 20px; 
-    display: flex;
-    width:110px;
-    text-align: center;
-    font-size:12px; 
-    color:black;
-    z-index:10;
-  }
-  .hover-decor .login{
-    position: absolute;
-    bottom: -35px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #FDF7F2; 
-    padding: 5px 5px 10px 5px; 
-    border: 1px solid #ccc; 
-    border-radius: 20px; 
-    display: flex;
-    width:85px;
-    text-align: center;
-    font-size:12px; 
-    color:black;
-    z-index:10;
+  position: relative;
+  cursor: pointer;
+  display: inline-block; 
+  flex-direction: column;
+  align-items: center;
+}
 
-  }
-  .image-container:hover .message {
-    display: block;
-  }
-  .image-container:hover .login {
-    display: block;
-  }
-  .image-container:hover .shopping {
-    display: block;
-  }
-  .image-container:hover .search {
-    display: block;
-  }
+.hover-decor .message{
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #FDF7F2; 
+  padding: 5px 5px 10px 5px; 
+  border: 1px solid #ccc; 
+  border-radius: 20px; 
+  display: none;
+  width:67px;
+  text-align: center;
+  font-size:12px; 
+  color:black;
+  z-index:10;
+}
+.hover-decor .search{
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #FDF7F2; 
+  padding: 5px 5px 10px 5px; 
+  border: 1px solid #ccc; 
+  border-radius: 20px; 
+  display: flex;
+  width:130px;
+  text-align: center;
+  font-size:12px; 
+  color:black;
+  z-index:10;
+}
 
+.hover-decor .shopping{
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #FDF7F2; 
+  padding: 5px 5px 10px 5px; 
+  border: 1px solid #ccc; 
+  border-radius: 20px; 
+  display: flex;
+  width:96px;
+  text-align: center;
+  font-size:12px; 
+  color:black;
+  z-index:10;
+}
+.hover-decor .login{
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #FDF7F2; 
+  padding: 5px 5px 10px 5px; 
+  border: 1px solid #ccc; 
+  border-radius: 20px; 
+  display: flex;
+  width:74px;
+  text-align: center;
+  font-size:12px; 
+  color:black;
+  z-index:10;
+
+}
+.image-container:hover .message {
+  display: block;
+}

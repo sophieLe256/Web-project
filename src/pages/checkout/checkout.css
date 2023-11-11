@@ -1,156 +1,170 @@
 .checkout-container {
-    max-width: 1170px;
-    margin: 0 auto;
-    padding: 100px 20px 100px 20px;
-    text-align: center;
-  }
-  
-  .checkout-content {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  h1{
-    font-weight: bold;
-    margin: 0;
-    line-height: 1em;
-    color:black;
-    cursor: pointer;
-    font-size:30px;
-    padding-bottom:15px;
-  }
-
-  h2{
-    font-weight: bold;
-    font-size:20px;
-  }
-  .text_fill{
-    border-radius: 5px ;
-    margin-bottom: 10px;
-    font-size: 12px;
-    height:40px;
-    padding-left: 10px;
-    padding: 5px;
-    width: 100%;
-    border: 1px solid #ddd;
-  }
-  .order-summary {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-    border:none;
-  }
-  
-  .shipping-form {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-    background-color: #fdf7f2;
-    border-radius: 20px;
-  }
-  
-  .check-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    border:none;
-    border-radius: 25%;
-  }
-  input[type="radio"] {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-  }
-
-  button {
-    background-color: #FDF7F2;
-    color: black;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-  }
-  .container {
-    display: flex;
-    gap: 10px; 
-    padding-left: 0%;
-    padding-right: 0%;
-  }
-  .place_order{
-    padding: 8px 30px 8px 30px;
-    border-radius: 45px;
-    background-color: #fbe7d1;
-    border: 3px solid #f4b7ba;
-    color: #616087;
-    cursor: pointer;
-    margin-left:330px
-  }
-  .cart{
-    margin-left:10px;
-    color:blue;
-    margin-top: 20px;
-    font-weight: bold;
-  }
-
-
-  .custom-radio {
-    position: relative;
-    cursor: pointer;
-  }
-  
-  .custom-radio img {
-    width: 80px;
-    height: 50px;
-    margin-right: 50px;
-  }
-  .check-item-img img {
-    width:100px;
-    height: 100px;
-    border-radius: 23px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-  }
-  .check-item-info a {
-    margin-left:50px;
-    font-size: 10px;
-  }
-  
-  .check-item--title a {
-    color: var(--menu-color);
-  }
-.gap{
-  height:20px;
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 100px 20px 100px 20px;
+  text-align: center;
 }
-.quantity-circle {
+
+.checkout-container .checkout-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkout-container h1 {
+  font-weight: bold;
+  margin: 0;
+  line-height: 1em;
+  color: black;
+  cursor: pointer;
+  font-size: 30px;
+  padding-bottom: 15px;
+}
+
+.checkout-container h2 {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.checkout-container .text_fill {
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  height: 40px;
+  padding-left: 10px;
+  padding: 5px;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+.checkout-container .order-summary {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+  border: none;
+}
+
+.checkout-container .shipping-form {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  height: 100%;
+  text-align: left;
+  background-color: #fdf7f2;
+  border-radius: 20px;
+}
+
+.checkout-container .check-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: none;
+  border-radius: 25%;
+}
+
+.checkout-container input[type="radio"] {
   position: absolute;
-  background-color: #696969; /* You can change the background color as needed */
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkout-container button {
+  background-color: #FDF7F2;
+  color: black;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.checkout-container .container {
+  display: flex;
+  gap: 10px;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+
+.checkout-container .place_order {
+  padding: 8px 30px 8px 30px;
+  border-radius: 45px;
+  background-color: #fbe7d1;
+  border: 3px solid #f4b7ba;
+  color: #616087;
+  cursor: pointer;
+  margin-left: 330px
+}
+
+.checkout-container .cart {
+  margin-left: 10px;
+  color: blue;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+
+.checkout-container .custom-radio {
+  position: relative;
+  cursor: pointer;
+}
+
+.checkout-container .custom-radio img {
+  width: 80px;
+  height: 50px;
+  margin-right: 50px;
+}
+
+.checkout-container .check-item-img img {
+  width: 100px;
+  height: 100px;
+  border-radius: 23px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.checkout-container .check-item-info a {
+  margin-left: 50px;
+  font-size: 10px;
+}
+
+.checkout-container .check-item--title a {
+  color: var(--menu-color);
+}
+
+.checkout-container .gap {
+  height: 20px;
+}
+
+.checkout-container .quantity-circle {
+  position: absolute;
+  background-color: #696969;
+  /* You can change the background color as needed */
   color: #fff;
   border-radius: 50%;
   padding: 4px;
   font-size: 12px;
-  height:20px;
-  width:20px;
-  text-align:center;
+  height: 20px;
+  width: 20px;
+  text-align: center;
   line-height: 14px;
 }
-p{
+
+.checkout-container p {
   font-size: 12px;
 }
-.check-table-cart-container {
+
+.checkout-container .check-table-cart-container {
   background-color: #f0f0f0;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.check-table-cart {
+.checkout-container .check-table-cart {
   width: 100%;
   border-collapse: collapse;
 }
 
-.check-table-cart th,
-.check-table-cart td {
+.checkout-container .check-table-cart th,
+.checkout-container .check-table-cart td {
   padding: 10px;
   text-align: left;
 }

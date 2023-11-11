@@ -1,28 +1,41 @@
 import React from "react";
 import "./products.css";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
-import { DUMMY_DATA } from "../dummyData/dummyData";
+import { DUMMY_DATA } from "../../dummyData/dummyData";
 
 export const Products = () => {
+  const productsPerRow = 3;
+
+  const chunkArray = (array, size) => {
+    return array.reduce((chunks, item, index) => {
+      if (index % size === 0) {
+        chunks.push([item]);
+      } else {
+        chunks[chunks.length - 1].push(item);
+      }
+      return chunks;
+    }, []);
+  };
+
+  const chunkedData = chunkArray(DUMMY_DATA, productsPerRow);
+
   return (
     <>
-      <Container className="mt-5 border-0">
-        <Row>
-          {DUMMY_DATA.slice(0, 3).map((p, i) => {
-            return <ProductItem key={i} data={p} />;
-          })}
-        </Row>
-        <Row>
-          {DUMMY_DATA.slice(3, 6).map((p, i) => {
-            return <ProductItem key={i} data={p} />;
-          })}
-        </Row>
-      </Container>
+      <div className="col-xl-10 col-lg-9 col-md-12 col-12 content-collection products-container">
+        {chunkedData.map((row, rowIndex) => (
+          <Row key={rowIndex}>
+            {row.map((product) => (
+              <ProductItem key={product.id} data={product} />
+            ))}
+          </Row>
+        ))}
+      </div>
     </>
   );
 };
+
 
 const ProductItem = ({ data }) => {
   return (

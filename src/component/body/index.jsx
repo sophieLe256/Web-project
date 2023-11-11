@@ -3,58 +3,35 @@ import "./body.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { DUMMY_DATA } from "../../dummyData/dummyData";
 
+export const Body = () => {
+  // Define the number of products per row
+  const productsPerRow = 3;
 
-export const Body = () =>{
-const DUMMY_DATA = [
-    {
-      image: "product-1.webp",
-      name: "RABBIT POCKET SHIRT",
-      price: "420 000 VND",
-    },
-    {
-      image: "product-2.webp",
-      name: "CREAM CARROT RABBIT SHORTS",
-      price: "450 000 VND",
-    },
-    {
-      image: "product-3.webp",
-      name: "BLACK CARROT RABBIT SHORTS",
-      price: "450 000 VND",
-    },
-    {
-      image: "product-4.webp",
-      name: "CREAM STRIPE RABBIT POLO",
-      price: "450 000 VND",
-    },
-    {
-      image: "product-5.webp",
-      name: "RABBIT IN THE BOX TEE",
-      price: "400 000 VND",
-    },
-    {
-      image: "product-6.jpg",
-      name: "HIDDEN RABBIT BACKPACK",
-      price: "700 000 VND",
-    },
-  ];
-  // const products = [
-  //   {
-  //     id: 1,
-  //     image: "tee-1.webp",
-  //     name: "B-RABOT TEE",
-  //     price: 25.00,
-  //   },
-  //   {
-  //     id: 2,
-  //     image:"tee-2.webp",
-  //     name: "B-RABOT TEE",
-  //     price: 25.00,
-  //   },
-  // ];
+  // Function to chunk the array into smaller arrays
+  const chunkArray = (array, size) => {
+    return array.reduce((chunks, item, index) => {
+      if (index % size === 0) {
+        chunks.push([item]);
+      } else {
+        chunks[chunks.length - 1].push(item);
+      }
+      return chunks;
+    }, []);
+  };
+
+  // Reverse the order of the DUMMY_DATA array
+  const reversedData = DUMMY_DATA.slice().reverse();
+
+  // Chunk the reversed array into smaller arrays based on productsPerRow
+  const chunkedData = chunkArray(reversedData, productsPerRow);
+
+  // Limit to 2 rows
+  const limitedData = chunkedData.slice(0, 2);
 
   return <>
-     
+
     <div className="body d-flex">
       <div className="header-menu">
         <div className="overlay-box">
@@ -93,75 +70,75 @@ const DUMMY_DATA = [
             </div>
           </div>
           <div class="col-12 col-sm-6 col-lg-6 col-xl-6">
-              <div class="banner">
-                <img
-                  className="aspect-ratio"
-                  src="style-7.webp"
-                  alt="WebP rules."
-                ></img>
+            <div class="banner">
+              <img
+                className="aspect-ratio"
+                src="style-7.webp"
+                alt="WebP rules."
+              ></img>
             </div>
           </div>
           <div class="col-12 col-sm-6 col-lg-6 col-xl-6">
-              <div class="banner">
-                <img
-                  className="aspect-ratio"
-                  src="style-8.webp"
-                  alt="WebP rules."
-                ></img>
+            <div class="banner">
+              <img
+                className="aspect-ratio"
+                src="style-8.webp"
+                alt="WebP rules."
+              ></img>
             </div>
           </div>
           <div class="col-12 col-sm-6 col-lg-6 col-xl-6">
-              <div class="banner">
-                <img
-                  className="aspect-ratio"
-                  src="style-9.webp"
-                  alt="WebP rules."
-                ></img>
+            <div class="banner">
+              <img
+                className="aspect-ratio"
+                src="style-9.webp"
+                alt="WebP rules."
+              ></img>
             </div>
           </div>
-        
-        {/* Best-Selling Products */}
-        <div className="title-selling">
-          <p><Link to="./style">BEST-SELLING ITEMS</Link></p>
-        </div>
-        <div className="collections">
-          <div className="container">
-            <div className="list-items">
-              <div className="image-container">
-                <img
-                  className="aspect-ratio"
-                  src="tee-1.webp"
-                  alt="WebP rules."
-                ></img>
-                <h5 className="name">B-RABOT TEE</h5>
-                <h6 className="desc">$25.00</h6>
-              </div>
-              <div className="image-container">
-                <img
-                  className="aspect-ratio"
-                  src="tee-2.webp"
-                  alt="WebP rules."
-                ></img>
-                <h5 className="name">B-RABOT TEE</h5>
-                <h6 className="desc">$25.00</h6>
-              </div>
-              <div className="image-container">
-                <img
-                  className="aspect-ratio"
-                  src="tee-3.webp"
-                  alt="WebP rules."
-                ></img>
-                <h5 className="name">B-RABOT TEE</h5>
-                <h6 className="desc">$25.00</h6>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Banner */}
-        <div className="scroll">
-          <div className="container">
-            <div className="list-banner w-85">
+          {/* Best-Selling Products */}
+          <div className="title-selling">
+            <p><Link to="./style">BEST-SELLING ITEMS</Link></p>
+          </div>
+          <div className="collections">
+            <div className="container">
+              <div className="list-items">
+                <div className="image-container">
+                  <img
+                    className="aspect-ratio"
+                    src="tee-1.webp"
+                    alt="WebP rules."
+                  ></img>
+                  <h5 className="name">B-RABOT TEE</h5>
+                  <h6 className="desc">$25.00</h6>
+                </div>
+                <div className="image-container">
+                  <img
+                    className="aspect-ratio"
+                    src="tee-2.webp"
+                    alt="WebP rules."
+                  ></img>
+                  <h5 className="name">B-RABOT TEE</h5>
+                  <h6 className="desc">$25.00</h6>
+                </div>
+                <div className="image-container">
+                  <img
+                    className="aspect-ratio"
+                    src="tee-3.webp"
+                    alt="WebP rules."
+                  ></img>
+                  <h5 className="name">B-RABOT TEE</h5>
+                  <h6 className="desc">$25.00</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Banner */}
+          <div className="scroll">
+            <div className="container">
+              <div className="list-banner w-85">
                 <div className="scroll-banner-left">
                   <div className="banner">
                     <img
@@ -180,29 +157,27 @@ const DUMMY_DATA = [
                     ></img>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* NEW ARRIVALS */}
-        <div className="title-arrivals">
-          <p><Link to="./style">NEW ARRIVALS</Link></p>
+          {/* NEW ARRIVALS */}
+          <div className="title-arrivals">
+            <p><Link to="./style">NEW ARRIVALS</Link></p>
+          </div>
         </div>
       </div>
-    </div>
 
-      <Container className="mt-5 border-0">
-        <Row>
-          {DUMMY_DATA.slice(0, 3).map((p, i) => {
-            return <ProductItem key={i} data={p} />;
-          })}
-        </Row>
-        <Row>
-          {DUMMY_DATA.slice(3, 6).map((p, i) => {
-            return <ProductItem key={i} data={p} />;
-          })}
-        </Row>
+      <Container className="border-0 product-new-arival">
+        {limitedData.map((row, rowIndex) => (
+          <Row key={rowIndex}>
+            {row.map((product) => (
+              <ProductItem key={product.id} data={product} />
+            ))}
+          </Row>
+        ))}
       </Container>
+
     </div>
   </>
 
@@ -212,14 +187,18 @@ const DUMMY_DATA = [
 const ProductItem = ({ data }) => {
   return (
     <Col className="d-flex product-item">
-      <img
-        role="button"
-        className="w-100"
-        src={data.image}
-        alt="WebP rules."
-      ></img>
+      <Link to={`/products-details/${data.id}`}>
+        <img
+          role="button"
+          className="w-100"
+          src={data.image}
+          alt="WebP rules."
+        ></img>
+      </Link>
+
       <div className="body-name body-text">{data.name}</div>
       <div className="body-price body-text">{data.price}</div>
     </Col>
   );
 };
+

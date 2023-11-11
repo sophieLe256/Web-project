@@ -16,7 +16,7 @@ export const Header = () => {
         <img
           role="button"
           className="image-left"
-          src="header_left.webp"
+          src="banner.png"
           alt="WebP rules."
         ></img>
         <img
