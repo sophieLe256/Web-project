@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./products-details.css";
 import { useParams } from "react-router-dom";
 import { DUMMY_DATA } from "../../dummyData/dummyData";
@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 
 export const ProductsDetails = () => {
+  const [selectedSize, setSelectedSize] = useState("XS");
+
   let { productId } = useParams();
   const selectedProduct = DUMMY_DATA.find(
     (product) => product.id.toString() === productId
@@ -14,6 +16,41 @@ export const ProductsDetails = () => {
   if (!selectedProduct) {
     return <div>Product not found</div>;
   }
+
+  const handleSizeChange = (size) => {
+    setSelectedSize(size);
+    localStorage.setItem("selectedSize", size);
+  };
+
+  const handleAddToCart = (e) => {
+    e.preventDefault(); // Prevent the default behavior of the anchor tag
+
+    // Your existing logic for adding to the cart
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const existingProduct = existingCart.find((item) => item.productId === selectedProduct.id);
+
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+    } else {
+      existingCart.push({
+        productId: selectedProduct.id,
+        quantity: 1,
+        id: selectedProduct.id,
+        image: selectedProduct.image,
+        name: selectedProduct.name,
+        price: selectedProduct.price,
+        categories: selectedProduct.categories,
+        size: selectedSize,
+        features: selectedProduct.features,
+      });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+
+    window.dispatchEvent(new Event("cartUpdated"));
+  };
+
 
   return (
     <>
@@ -25,7 +62,7 @@ export const ProductsDetails = () => {
               <h1 class="font-weight-bold">{selectedProduct.name}</h1>
 
               <div class="product-price-wrap">
-                <span class="product-price font-weight-bold">{selectedProduct.price}</span>
+                <span class="product-price font-weight-bold">${selectedProduct.price}</span>
               </div>
 
               <div class="product-desc">
@@ -69,17 +106,23 @@ export const ProductsDetails = () => {
                   >
                     size:
                   </span>
-                  <div class="option-values">
-                    {selectedProduct.size.map((size) => (
-                      <span
-                        key={size}
-                        data-option-value={size.toLowerCase()}
-                        className={size === "XS" ? "active" : ""}
-                      >
-                        {size}
-                      </span>
-                    ))}
+                  <div className="product-options">
+                    <div className="option-values">
+                      {selectedProduct.size.map((size) => (
+                        <label key={size} className={`size-label ${size === selectedSize ? 'active' : ''}`}>
+                          <input
+                            type="radio"
+                            name="size"
+                            value={size.toLowerCase()}
+                            checked={size === selectedSize}
+                            onChange={() => handleSizeChange(size)}
+                          />
+                          {size}
+                        </label>
+                      ))}
+                    </div>
                   </div>
+
                 </div>
               </div>
               <div className="products-policy">
@@ -102,8 +145,8 @@ export const ProductsDetails = () => {
 
                 <a
                   href="#"
-                  class="product-add-cart text-uppercase font-weight-bold "
-                  data-prid="1050687980"
+                  class="product-add-cart text-uppercase font-weight-bold"
+                  onClick={(e) => handleAddToCart(e)}
                 >
                   ADD TO CART{" "}
                   <img
@@ -115,6 +158,7 @@ export const ProductsDetails = () => {
                     }}
                   />
                 </a>
+
 
                 <div class="bh-logo mt-4">
                   <img

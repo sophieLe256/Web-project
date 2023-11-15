@@ -98,14 +98,6 @@
     color: var(--text-color);
 }
 
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -20px;
-    margin-left: -20px;
-}
-
-
 .aspect-ratio {
     position: relative;
     margin: auto;
@@ -208,6 +200,7 @@
 .product-new-arival {
     margin-bottom: 6rem;
 }
+
 
 @media (min-width: 992px) {
     .list-banner .scroll-banner-left {

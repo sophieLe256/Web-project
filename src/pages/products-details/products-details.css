@@ -1,17 +1,16 @@
-
-.product-info{
+.product-info {
     display: flex;
     justify-content: space-evenly;
     margin-top: 50px;
-    
+
 }
 
-.product-info img{
+.product-info img {
     width: 450px;
     height: 450px;
 }
 
-.add-cart{
+.add-cart {
     width: 5px;
     height: 5px;
 }
@@ -34,11 +33,12 @@
     font-size: 20px;
 }
 
-.option-values span{
+.option-values span {
     padding-right: 10px;
 
 }
-.product-add-cart{
+
+.product-add-cart {
     color: var(--menu-color);
     display: inline-block;
     border: 3px solid var(--text-color);
@@ -58,19 +58,25 @@
 .products-policy {
     display: flex;
     flex-direction: column;
-  }
-  
-  .products-policy a,
-  .products-policy .policy_pro {
+}
+
+.products-policy a,
+.products-policy .policy_pro {
     margin-bottom: 10px;
-  }
-  
-  .products-policy .bh-logo {
+}
+
+.products-policy .bh-logo {
     margin-top: 20px;
-  }
+}
 
 
-
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
 
 .bluecore-histogram-content .bluecore-histogram-title {
     font-size: 14px;
@@ -214,4 +220,33 @@ ul {
     background-position: 90px center;
     background-size: 17px;
     outline: 0;
+}
+
+.product-options .option-values > label {
+    cursor: pointer;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    margin: 0 0 5px 5px;
+    text-align: center;
+    padding: 0 5px;
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+    min-width: 28px;
+    max-height: 28px;
+    line-height: 28px;
+}
+
+.product-options .option-values > input[type="radio"] {
+    display: none;
+}
+
+.product-options .option-values > label:hover {
+    border-color: #616087;
+}
+
+.product-options .option-values > input[type="radio"]:checked + label {
+    border-color: #616087;
+    background-color: #f1f1f1; 
 }
