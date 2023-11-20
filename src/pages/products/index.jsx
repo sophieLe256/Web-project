@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import "./products.css";
 import { Col, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DUMMY_DATA } from "../../dummyData/dummyData";
 
 export const Products = () => {
-  const productsPerRow = 3;
+  const productsPerPage = 12;
+  const maxVisibleButtons = 3;
+  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
+
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const paginatedData = DUMMY_DATA.slice(startIndex, endIndex);
+
+  const totalPages = Math.ceil(DUMMY_DATA.length / productsPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    navigate(`/products?page=${page}`);
+    
+    // Scroll to the top of the page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const chunkArray = (array, size) => {
     return array.reduce((chunks, item, index) => {
@@ -19,7 +36,19 @@ export const Products = () => {
     }, []);
   };
 
-  const chunkedData = chunkArray(DUMMY_DATA, productsPerRow);
+  const chunkedData = chunkArray(paginatedData, 3);
+
+  const visiblePageNumbers = (() => {
+    const halfMaxButtons = Math.floor(maxVisibleButtons / 2);
+    let startPage = Math.max(1, currentPage - halfMaxButtons);
+    let endPage = Math.min(totalPages, startPage + maxVisibleButtons - 1);
+
+    if (endPage - startPage + 1 < maxVisibleButtons) {
+      startPage = Math.max(1, endPage - maxVisibleButtons + 1);
+    }
+
+    return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
+  })();
 
   return (
     <>
@@ -31,11 +60,22 @@ export const Products = () => {
             ))}
           </Row>
         ))}
+
+        <div className="pagination">
+          {visiblePageNumbers.map((pageNumber) => (
+            <button
+              key={pageNumber}
+              onClick={() => handlePageChange(pageNumber)}
+              className={currentPage === pageNumber ? "active" : ""}
+            >
+              {pageNumber}
+            </button>
+          ))}
+        </div>
       </div>
     </>
   );
 };
-
 
 const ProductItem = ({ data }) => {
   return (
@@ -50,8 +90,7 @@ const ProductItem = ({ data }) => {
       </Link>
 
       <div className="body-name body-text">{data.name}</div>
-      <div className="body-price body-text">{data.price}</div>
+      <div className="body-price body-text">${data.price}</div>
     </Col>
   );
 };
-

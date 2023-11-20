@@ -138,7 +138,7 @@ export const Body = () => {
           {/* Banner */}
           <div className="scroll">
             <div className="container">
-              <div className="list-banner w-85">
+              <div className="list-banner w-80">
                 <div className="scroll-banner-left">
                   <div className="banner">
                     <img

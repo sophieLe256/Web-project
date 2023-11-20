@@ -8,10 +8,10 @@ import { Styles } from "./pages/styles";
 import { ProductsDetails } from "./pages/products-details";
 import { ShoppingCart } from "./pages/shopping-cart";
 import { CheckOut } from "./pages/checkout";
-// import { Tshirts } from "./pages/t-shirts";
-// import { Jackets } from "./pages/jackets";
-// import { Pants } from "./pages/pants";
-// import { Accessories } from "./pages/accessories";
+import { Tshirts } from "./pages/t-shirts";
+import { Jackets } from "./pages/jackets";
+import { Pants } from "./pages/pants";
+import { Accessories } from "./pages/accessories";
 // import { OutletSale } from "./pages/outlet-sale";
 import { Description } from "./component/description";
 import { CommonLayout } from "./layouts/CommonLayout";
@@ -60,6 +60,50 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Products />,
+          },
+
+        ],
+      },
+      {
+        path: "t-shirts",
+        element: <ProductLayout />,
+        children: [
+          {
+            index: true,
+            element: <Tshirts />,
+          },
+
+        ],
+      },
+      {
+        path: "jackets",
+        element: <ProductLayout />,
+        children: [
+          {
+            index: true,
+            element: <Jackets />,
+          },
+
+        ],
+      },
+      {
+        path: "pants",
+        element: <ProductLayout />,
+        children: [
+          {
+            index: true,
+            element: <Pants />,
+          },
+
+        ],
+      },
+      {
+        path: "accessories",
+        element: <ProductLayout />,
+        children: [
+          {
+            index: true,
+            element: <Accessories />,
           },
 
         ],

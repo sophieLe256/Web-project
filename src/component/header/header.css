@@ -101,3 +101,17 @@
 .image-container:hover .message {
   display: block;
 }
+
+.header .count-holder {
+  position: absolute;
+  top: 20px;
+  height: 18px;
+  line-height: 18px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  overflow: hidden;
+  color: #edb8ad;
+}

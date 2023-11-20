@@ -168,3 +168,14 @@
   padding: 10px;
   text-align: left;
 }
+
+.checkout-container .total-title p {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.checkout-container .total-price p {
+  font-size: 20px;
+  padding-left: 10px;
+}
