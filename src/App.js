@@ -13,11 +13,17 @@ import { Jackets } from "./pages/jackets";
 import { Pants } from "./pages/pants";
 import { Accessories } from "./pages/accessories";
 // import { OutletSale } from "./pages/outlet-sale";
+import { OrderHistory } from "./pages/order-history";
+import { OrderDetail } from "./pages/order-details";
 import { Description } from "./component/description";
 import { CommonLayout } from "./layouts/CommonLayout";
 import { Body } from "./component/body";
 import { ProductLayout } from "./layouts/ProductLayout";
 import { MainLayout } from "./layouts/MainLayout";
+import { AdminDashboard } from './admin/adminDashboard';
+import { AdminProduct } from './admin/adminProduct/index';
+import { AdminUpdateProduct } from './admin/adminProduct/adminUpdateProduct';
+import { AdminLogin } from './admin/adminLogin';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -121,11 +127,35 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "order-history",
+        element: <OrderHistory />,
+      },
+      {
+        path: "order-details/:orderId",
+        element: <OrderDetail />,
+      },
     ],
   },
   {
     path: "checkout",
     element: <CheckOut />,
+  },
+  {
+    path: "adminLogin",
+    element: <AdminLogin />,
+  },
+  {
+    path: "adminDashboard",
+    element: <AdminDashboard />,
+  },
+  {
+    path: "adminProduct",
+    element: <AdminProduct />,
+  },
+  {
+    path: "adminUpdateProduct/:productId",
+    element: <AdminUpdateProduct />,
   },
 ]
   },

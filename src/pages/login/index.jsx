@@ -78,7 +78,7 @@ export const Login = () => {
         <Container>
           <div className="wrapbox-content-account">
             <div className="header-login-page"><h1>LOG IN</h1></div>
-            <div id="login">
+            <div id="customer_login">
               <Form className="login-form" id="login-form" onSubmit={handleSubmit}>
                 <p className="errors" style={{ display: "none" }}>
                   <span className="text-error"></span>

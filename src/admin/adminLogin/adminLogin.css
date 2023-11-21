@@ -1,0 +1,92 @@
+.customers-login-rabbit-en {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    margin: 0;
+    padding: 0;
+}
+
+.layout-account {
+    width: 100%;
+}
+
+.wrapbox-content-account {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+.wrapbox-content-account a {
+    color: #888;
+}
+
+#admin_login .customer_login {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.header-login-page {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header-login-page h1 {
+    font-size: 25px;
+}
+
+#admin_login .login-form {
+    width: 100%;
+    margin: 0 auto;
+}
+
+#admin_login .login-form .clearfix {
+    margin-bottom: 20px;
+}
+
+#admin_login .login-form .icon-field {
+    display: none;
+}
+
+#admin_login .login-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    background-color: #ededed;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+#admin_login .login-form input:focus {
+    border: 1px solid #ededed;
+    background-color: white;
+}
+
+#admin_login .login-form .button {
+    width: 100%;
+    padding: 8px 30px 8px 30px;
+    border-radius: 45px;
+    background-color: #fbe7d1;
+    border: 3px solid #f4b7ba;
+    color: #616087;
+    cursor: pointer;
+}
+
+#admin_login .login-form .sitebox-recaptcha {
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: #888;
+}
+
+#admin_login .login-form .custommer_account_action {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#admin_login .login-form .req_pass {
+    font-size: 12px;
+    color: #888;
+}

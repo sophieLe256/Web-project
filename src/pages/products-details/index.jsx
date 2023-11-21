@@ -23,13 +23,16 @@ export const ProductsDetails = () => {
   };
 
   const handleAddToCart = (e) => {
-    e.preventDefault(); // Prevent the default behavior of the anchor tag
-
+    e.preventDefault();
+  
     // Your existing logic for adding to the cart
     const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    const existingProduct = existingCart.find((item) => item.productId === selectedProduct.id);
-
+  
+    const existingProduct = existingCart.find(
+      (item) =>
+        item.productId === selectedProduct.id && item.size === selectedSize
+    );
+  
     if (existingProduct) {
       existingProduct.quantity += 1;
     } else {
@@ -45,12 +48,12 @@ export const ProductsDetails = () => {
         features: selectedProduct.features,
       });
     }
-
+  
     localStorage.setItem("cart", JSON.stringify(existingCart));
-
+  
     window.dispatchEvent(new Event("cartUpdated"));
   };
-
+  
 
   return (
     <>

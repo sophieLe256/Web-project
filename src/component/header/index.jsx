@@ -110,20 +110,28 @@ export const Header = () => {
         </div>
         {/* go to the log in page */}
         <div className="hover-decor">
-          <Link to="/auth/login">
-            <div className="image-container" onMouseEnter={() => setIsShow4(true)} onMouseLeave={() => setIsShow4(false)}>
-              <img
-                role="button"
-                className="image-right"
-                src="header-icon-4.webp"
-                alt="WebP rules."
-              ></img>
-              {isShow4 &&
-                <div className="login" > login page</div>
-              }
-            </div>
-          </Link>
+          <div className="image-container" onMouseEnter={() => setIsShow4(true)} onMouseLeave={() => setIsShow4(false)}>
+            <img
+              role="button"
+              className="image-right"
+              src="header-icon-4.webp"
+              alt="WebP rules."
+            ></img>
+            {isShow4 && (
+              <div className="login">
+                <ul>
+                  <li>
+                    <Link to="/auth/login">Account</Link>
+                  </li>
+                  <li>
+                    <Link to="/order-history">Order History</Link>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
+
       </div>
     </div>
   );

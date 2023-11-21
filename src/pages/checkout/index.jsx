@@ -1,29 +1,81 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./checkout.css";
-import { Link } from "react-router-dom";
-
-
+import { Link, useNavigate } from "react-router-dom";
 
 export const CheckOut = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0.0);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("credit");
+  const [orderPlaced, setOrderPlaced] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(storedCart);
 
-    // Calculate total price based on quantity
     const total = storedCart.reduce((acc, product) => acc + product.price * product.quantity, 0);
     setTotalPrice(total);
   }, []);
-
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("credit");
 
   const handlePaymentMethodChange = (event) => {
     setSelectedPaymentMethod(event.target.value);
   };
 
+  const handlePlaceOrder = () => {
+    const requiredFields = ['name', 'email', 'phone_number', 'address', 'city', 'zipcode', 'state', 'card_name', 'card_num', 'date', 'CVC'];
+  
+    for (const field of requiredFields) {
+      const fieldValue = document.getElementById(field).value.trim();
+      if (!fieldValue) {
+        alert(`Please fill in the ${field.replace('_', ' ')} field.`);
+        return; 
+      }
+    }
+  
+    // Save order to order history
+    const order = {
+      id: new Date().getTime(),
+      date: new Date(),
+      totalPrice: totalPrice,
+      paymentMethod: selectedPaymentMethod,
+      items: cartItems.map((product) => ({
+        id: product.id,
+        name: product.name,
+        image: product.image,
+        size: product.size,
+        quantity: product.quantity,
+        price: product.price,
+      })),
+      user: {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone_number: document.getElementById('phone_number').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        city: document.getElementById('city').value.trim(),
+        zipcode: document.getElementById('zipcode').value.trim(),
+        state: document.getElementById('state').value.trim(),
+      },
+      paymentDetails: {
+        card_name: document.getElementById('card_name').value.trim(),
+        card_num: document.getElementById('card_num').value.trim(),
+        date: document.getElementById('date').value.trim(),
+        CVC: document.getElementById('CVC').value.trim(),
+      },
+    };
+  
+    const orderHistory = JSON.parse(localStorage.getItem("orderHistory")) || [];
+    orderHistory.push(order);
+    localStorage.setItem("orderHistory", JSON.stringify(orderHistory));
+  
+    localStorage.removeItem("cart");
+  
+    setOrderPlaced(true);
+  
+    // Redirect to the order history page
+    navigate("/order-history");
+  };
+  
 
   return (
     <div className="checkout-container">
@@ -91,7 +143,7 @@ export const CheckOut = () => {
                 </div>
               )}
               <form className="check-form">
-                <input type="text" id="name" name="name" className="text_fill" placeholder="Name on the card" required />
+                <input type="text" id="card_name" name="card_name" className="text_fill" placeholder="Name on the card" required />
                 <input type="text" id="card_num" name="card_num" className="text_fill" placeholder="Card Number" required />
                 <input type="text" id="date" name="date" className="text_fill" placeholder="MM/YY" required />
                 <input type="text" id="CVC" name="CVC" className="text_fill" placeholder="CVC" required />
@@ -101,7 +153,9 @@ export const CheckOut = () => {
               <Link to="/shopping-cart">
                 <p className="cart">Cart</p>
               </Link>
-              <button type="submit" className="place_order">Place Order</button>
+              <button type="submit" className="place_order" onClick={handlePlaceOrder}>
+                Place Order
+              </button>
             </div>
           </form>
         </div>
@@ -123,6 +177,11 @@ export const CheckOut = () => {
                         <h3 className="check-item--title">
                           <a href={`/products-details/${product.id}`}>{product.name}</a>
                         </h3>
+                        <div className="item--variant">
+                          <span>
+                            <strong>SIZE</strong> {product.size}
+                          </span>
+                        </div>
                       </div>
                     </td>
 

@@ -81,23 +81,35 @@
   color:black;
   z-index:10;
 }
+
 .hover-decor .login{
   position: absolute;
-  bottom: -35px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #FDF7F2; 
   padding: 5px 5px 10px 5px; 
   border: 1px solid #ccc; 
-  border-radius: 20px; 
-  display: flex;
-  width:74px;
+  border-radius: 10px; 
+  width: 100px;
   text-align: center;
   font-size:12px; 
   color:black;
   z-index:10;
-
 }
+
+.login ul {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.login li {
+  padding: 4px 2px 6px 2px;
+}
+
+.login a {
+  color: black;
+}
+
 .image-container:hover .message {
   display: block;
 }

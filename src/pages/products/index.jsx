@@ -13,14 +13,17 @@ export const Products = () => {
 
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
-  const paginatedData = DUMMY_DATA.slice(startIndex, endIndex);
+  const paginatedData = DUMMY_DATA
+    .slice(0) // Create a copy of the original data array
+    .reverse() // Reverse the order of the copied array
+    .slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(DUMMY_DATA.length / productsPerPage);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
     navigate(`/products?page=${page}`);
-    
+
     // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
