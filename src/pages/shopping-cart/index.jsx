@@ -17,20 +17,26 @@ export const ShoppingCart = () => {
     setTotalPrice(total);
   }, []);
 
-  const handleRemoveItem = (productId, e) => {
+  const handleRemoveItem = (productId, size, e) => {
     e.preventDefault();
     const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const updatedCart = existingCart.filter((item) => item.productId !== productId);
+    const updatedCart = existingCart.filter(
+      (item) => item.productId !== productId || item.size !== size
+    );
 
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     setCartItems(updatedCart);
 
     // Calculate total price based on quantity
-    const total = updatedCart.reduce((acc, product) => acc + product.price * product.quantity, 0);
+    const total = updatedCart.reduce(
+      (acc, product) => acc + product.price * product.quantity,
+      0
+    );
     setTotalPrice(total);
 
     window.dispatchEvent(new Event("cartUpdated"));
   };
+
 
   const handleQuantityChange = (productId, newQuantity) => {
     const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -170,7 +176,12 @@ export const ShoppingCart = () => {
                                   <span>${(product.price * product.quantity).toFixed(2)}</span>
                                 </td>
                                 <td className="item-remove">
-                                  <a href="#" onClick={(e) => handleRemoveItem(product.productId, e)}>
+                                  <a
+                                    href="#"
+                                    onClick={(e) =>
+                                      handleRemoveItem(product.productId, product.size, e)
+                                    }
+                                  >
                                     <img src="//theme.hstatic.net/1000351433/1001138941/14/delete.png?v=243" />
                                   </a>
                                 </td>

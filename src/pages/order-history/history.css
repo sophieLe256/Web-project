@@ -1,0 +1,36 @@
+.order-history-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .banner {
+    color: #333;
+  }
+  
+  .order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .order-table th,
+  .order-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .order-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .order-table a {
+    text-decoration: none;
+    color: #3498db;
+  }
+  
+  .order-table a:hover {
+    text-decoration: underline;
+  }
+  

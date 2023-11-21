@@ -36,20 +36,20 @@
     font-size: 25px;
 }
 
-.login-form {
+#customer_login .login-form {
     width: 100%;
     margin: 0 auto;
 }
 
-.login-form .clearfix {
+#customer_login .login-form .clearfix {
     margin-bottom: 20px;
 }
 
-.login-form .icon-field {
+#customer_login .login-form .icon-field {
     display: none;
 }
 
-.login-form input {
+#customer_login .login-form input {
     width: 100%;
     padding: 10px;
     border: 1px solid transparent;
@@ -59,12 +59,12 @@
     transition: background-color 0.3s;
 }
 
-.login-form input:focus {
+#customer_login .login-form input:focus {
     border: 1px solid #ededed;
     background-color: white;
 }
 
-.login-form .button {
+#customer_login .login-form .button {
     width: 100%;
     padding: 8px 30px 8px 30px;
     border-radius: 45px;
@@ -74,19 +74,19 @@
     cursor: pointer;
 }
 
-.login-form .sitebox-recaptcha {
+#customer_login .login-form .sitebox-recaptcha {
     margin-bottom: 20px;
     font-size: 12px;
     color: #888;
 }
 
-.login-form .custommer_account_action {
+#customer_login .login-form .custommer_account_action {
     display: flex;
     justify-content: center;
     gap: 20px;
 }
 
-.login-form .req_pass {
+#customer_login .login-form .req_pass {
     font-size: 12px;
     color: #888;
 }
