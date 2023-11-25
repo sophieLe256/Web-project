@@ -162,7 +162,7 @@ INSERT INTO categories(categoriesID, type) VALUES
 (3,"Jackets");
 `;
 
-    const insertQuery = "INSERT INTO product(productID, versionDate, name, features, image, size, price, status, categoriesID) VALUES ";
+    let insertQuery = "INSERT INTO product(productID, versionDate, name, features, image, size, price, status, categoriesID) VALUES ";
     const DUMMY_DATA = [
         {
             id: 1,

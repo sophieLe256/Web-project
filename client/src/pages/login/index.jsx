@@ -5,8 +5,8 @@ import {
   Form,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import authService from "../../api/auth.service";
 import "./login.css";
+import ClientAPI from "../../api/clientAPI";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -14,52 +14,32 @@ export const Login = () => {
   const [user, setUser] = useState({
     Email: "",
     Password: "",
-  });
-  /*
-    const [toast, setToast] = useState({
-      show: false,
-      bg: "success",
-      message: "",
-    });*/
+  });  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      /*
-      if (!user.Email || !user.Password) {
-        return setToast({
-          bg: "info",
-          message: "Please enter your email, password!",
-          show: true,
-        });
-      }*/
-      const resp = await authService.login(user);
-      localStorage.setItem("user_info", JSON.stringify(resp.data));
-      /*
-      setToast({
-        bg: "success",
-        message: "Login success. Redirect to home page...",
-        show: true,
-      });*/
-      const timeout = setTimeout(() => {
-        navigate("/");
-        clearTimeout(timeout);
-      }, 500);
-    } catch (error) {
-      /*
-      if (error && error.response?.status === 401) {
+    try {    
+      const respond = await ClientAPI.post("login",user);
+      console.log("From Login.js: ",respond);
+      if(Cookies.get("userID") !=null){
         setToast({
-          bg: "warning",
-          message: "Email or password is incorrect...",
+          bg: "success",
+          message: "Login success. Redirect to home page...",
           show: true,
         });
-      } else {
+        const timeout = setTimeout(() => {
+          navigate("/");
+          clearTimeout(timeout);
+        }, 500);
+      }
+      else{
         setToast({
-          bg: "danger",
-          message: "Something went wrong!",
+          bg: "Fail",
+          message: "Login fail.",
           show: true,
         });
-      }*/
+      }
+    } catch (error) {      
       console.log(error);
     }
   };

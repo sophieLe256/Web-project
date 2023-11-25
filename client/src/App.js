@@ -80,40 +80,7 @@ const router = createBrowserRouter([
           },
 
         ],
-      },
-      {
-        path: "jackets",
-        element: <ProductLayout />,
-        children: [
-          {
-            index: true,
-            element: <Jackets />,
-          },
-
-        ],
-      },
-      {
-        path: "pants",
-        element: <ProductLayout />,
-        children: [
-          {
-            index: true,
-            element: <Pants />,
-          },
-
-        ],
-      },
-      {
-        path: "accessories",
-        element: <ProductLayout />,
-        children: [
-          {
-            index: true,
-            element: <Accessories />,
-          },
-
-        ],
-      },
+      },     
       {
         path: "/auth",
         children: [

@@ -37,13 +37,12 @@ export const Body = () => {
         <div className="overlay-box">
           {/* Menu */}
           <ul className="menu-list">
-            <li><Link to="/best-seller">Best Seller</Link></li>
+            <li><Link to="/styles">Best Seller</Link></li>
             <li><Link to="/products">Products</Link></li>
             <li><Link to="/t-shirts">T-Shirts</Link></li>
             <li><Link to="/jackets">Jackets</Link></li>
             <li><Link to="/pants">Pants</Link></li>
             <li><Link to="/accessories">Accessories</Link></li>
-            <li><Link to="/outlet-sale">Outlet Sale</Link></li>
           </ul>
         </div>
         <img
@@ -99,7 +98,7 @@ export const Body = () => {
 
           {/* Best-Selling Products */}
           <div className="title-selling">
-            <p><Link to="./style">BEST-SELLING ITEMS</Link></p>
+            <p><Link to="./styles">BEST-SELLING ITEMS</Link></p>
           </div>
           <div className="collections">
             <div className="container">
@@ -163,7 +162,7 @@ export const Body = () => {
 
           {/* NEW ARRIVALS */}
           <div className="title-arrivals">
-            <p><Link to="./style">NEW ARRIVALS</Link></p>
+            <p><Link to="./styles">NEW ARRIVALS</Link></p>
           </div>
         </div>
       </div>

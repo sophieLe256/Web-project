@@ -151,6 +151,7 @@ export default class Order {
         });
     }
     static updateCartItem(req, res) { 
+        // need update quantity = 0 => delete        
         const entryData = req.data.entry;
         db.query("SELECT * FROM orderItem WHERE orderItemID = ?", [entryData.orderItemID], (err, data) => {
             if (err) return res.json(err);
@@ -191,8 +192,8 @@ export default class Order {
         const currentDate = new Date();  
         await db.beginTransaction();        
         try {
-            const contactID = "";
-            const cardID = "";   
+            let contactID = "";
+            let cardID = "";   
             // add contact 
             const findContactQuery = "SELECT * FROM contact WHERE address = ? AND city = ? AND zipcode = ? AND state = ? AND phone = ? AND userID = ?";
             const value_contact = [
@@ -263,7 +264,7 @@ export default class Order {
                 if (err) throw new Error(err);
             });
             // update order
-            const totalPrice = 0;
+            let totalPrice = 0;
             await db.query("SELECT orderID, SUM(quantity * price) AS totalPrice FROM orderItem LEFT NATURAL JOIN product WHERE orderID = ? GROUP BY orderID ", [entryData.orderID], async (err, data) => {
                 if (err) throw new Error(err);
                 totalPrice = data[0].totalPrice;
@@ -319,7 +320,7 @@ export default class Order {
         */
         const entryData = req.data.entry;
         if (entryData.orderID == null) return res.status(401).json("Order not found");
-        const orderPack ={
+        let orderPack ={
             order: {},
             items: {},
             card: {},

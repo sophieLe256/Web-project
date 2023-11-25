@@ -1,39 +1,29 @@
 {/*
-Using Table: 
-UserToken(userID,tokenKey,createdDate,status)
+
 Mission encrypted/decrypted data
 Package Struct:
 req_encrypted.body = {
     key: partOfKey,
-    data: encryptedData
-}
-decryptedData ={
-    userID: userID,
-    action: action,
-    entry: data
+    data: encryptedData ={
+        userID: userID,
+        action: action,
+        entry: data
+    }
 }
 Behavior:
-use partOfkey to find full key in table
-then compare userID is correct or not, 
-if correct return decryptedData else return null
+use tokenS key
 */}
+import Cookies from 'js-cookie';
 
 export default class MySecurity {
-    static getUserToken(key){
+    static getUserToken(){
         {/* connect the databse at server, client use cookie or location storage*/}
-        if(key == null) return null;
-        if(key == "newAccount") return "createNewAccount";
-        const q = "SELECT * FROM UserToken WHERE tokenKey LIKE '?%'"
-        db.query(q, [key], async (err, data) => {
-            if (err) return null;
-            if (data.length) return null;
-
-            // got the record, return it
-            return data[0];
-        });
+        const accessToken = Cookies.get('access_token');
+        if (accessToken == null) return "createNewAccount";        
+        return accessToken;        
     }
-    static encryptedData(secretKey, jsonData){        
-        if (secretKey == null) return null;
+    static encryptedData(jsonData){        
+        secretKey = getUserToken();
         // Create a JSON Web Key (JWK) from the secret key
         const jwk = JWK.asKey({ k: secretKey, alg: 'dir' });
 
@@ -47,28 +37,30 @@ export default class MySecurity {
             .catch((error) => console.error('Encryption Error:', error));
         return null;
     }
-    static encryptedPackage(partOfKey,userID,action,data) {
-        const serectData = getUserToken(partOfKey);
-        if(serectData==null) return null;
-        if(serectData.userID!=userID) return null;
+    static encryptedPackage(action, data, selectedImage) {
+        partOfKey = "createNewAccount"
+        secretKey = getUserToken();
+        if (secretKey != "createNewAccount")
+            partOfKey = secretKey.substring(0, Math.floor(Math.random() * (20 - 10 + 1) + 10));
+        
         jsonData = {
-            userID: userID,
+            userID: Cookies.get("userID"),
             action: action,
             entry: data
         };
-        const encrytedD = encryptedData(serectData.tokenKey, jsonData);
-        if(encrytedD == null) return null;        
-        ouput = {
-            key: partOfKey,
-            data: encrytedD
+        const encrytedD = encryptedData(jsonData);
+        const formData = new FormData();
+        if (selectedImage) {
+            formData.append('image',selectedImage);
         }
-        return ouput;
+        formData.append('key', partOfKey);
+        formData.append('data', encrytedD);
+        return formData;
     }
-    static decryptedData(secretKey, jsonData) {       
-        if (secretKey == null) return null;
+    static decryptedData(jsonData) {    
+        secretKey = getUserToken();   
         // try Decrypt the encrypted data using JWE
         const jwk = JWK.asKey({ k: secretKey, alg: 'dir' });
-
         JWE.createDecrypt(jwk)
             .decrypt(jsonData, 'utf8')
             .then((result) => {
@@ -77,16 +69,5 @@ export default class MySecurity {
             })
             .catch((error) => console.error('Decryption Error:', error));
         return null;
-    }
-    static decryptedPackage(input) {
-        const serectData = getUserToken(input.body.key);
-        if (serectData == null) return null;   
-        
-        const decryptedD = decryptedData(serectData.tokenKey, input.body.data);
-        if(decryptedD == null) return null;
-
-        if (decryptedD.userID != serectData.userID) return null;
-        input.body.data = decryptedD;
-        return input;
-    }
+    }   
 }

@@ -22,7 +22,8 @@ export default class MySecurity {
     static getUserToken(key){
         {/* connect the databse at server, client use cookie or location storage*/}
         if(key == null) return null;
-        if(key == "newAccount") return "createNewAccount";
+        if (key == "newAccount") return {
+            tokenKey:"createNewAccount"};
         const q = "SELECT * FROM UserToken WHERE tokenKey LIKE '?%'"
         db.query(q, [key], async (err, data) => {
             if (err) return null;
@@ -51,14 +52,14 @@ export default class MySecurity {
         const serectData = getUserToken(partOfKey);
         if(serectData==null) return null;
         if(serectData.userID!=userID) return null;
-        jsonData = {
+        let jsonData = {
             userID: userID,
             action: action,
             entry: data
         };
         const encrytedD = encryptedData(serectData.tokenKey, jsonData);
         if(encrytedD == null) return null;        
-        ouput = {
+        let ouput = {
             key: partOfKey,
             data: encrytedD
         }
@@ -72,7 +73,7 @@ export default class MySecurity {
         JWE.createDecrypt(jwk)
             .decrypt(jsonData, 'utf8')
             .then((result) => {
-                const decryptedData = JSON.parse(result.payload.toString('utf8'));             
+                let decryptedData = JSON.parse(result.payload.toString('utf8'));             
                 return decryptedData;
             })
             .catch((error) => console.error('Decryption Error:', error));
@@ -82,10 +83,10 @@ export default class MySecurity {
         const serectData = getUserToken(input.body.key);
         if (serectData == null) return null;   
         
-        const decryptedD = decryptedData(serectData.tokenKey, input.body.data);
+        let decryptedD = decryptedData(serectData.tokenKey, input.body.data);
         if(decryptedD == null) return null;
-
-        if (decryptedD.userID != serectData.userID) return null;
+        if (serectData.tokenKey !="createNewAccount")
+            if (decryptedD.userID != serectData.userID) return null;
         input.body.data = decryptedD;
         return input;
     }

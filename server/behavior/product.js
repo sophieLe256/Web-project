@@ -195,8 +195,8 @@ export default class Product {
     }
     static getProduct(req, res) {
         const entryData = req.data.entry;
-        const limit = 9 ;
-        const page =1;
+        let limit = 9 ;
+        let page =1;
         if (entryData.limit != null) 
             limit = parseInt(entryData.limit);
         if (entryData.page != null)
@@ -206,7 +206,7 @@ export default class Product {
             // count total item
             db.query("SELECT COUNT(*) FROM product LEFT NATURAL JOIN categories WHERE status = 1", (err, data) => {
                 if (err) return res.status(500).json(err);
-                const totalPage = parseInt(data[0])/limit;
+                let totalPage = parseInt(data[0])/limit;
                 if(page>totalPage) page = totalPage;
                 // all things
                 db.query("SELECT * FROM product LEFT NATURAL JOIN categories WHERE status = 1 LIMIT ? OFFSET ?", [limit, (page - 1) * limit], (err, data) => {
@@ -225,7 +225,7 @@ export default class Product {
             // count total item
             db.query("SELECT COUNT(*) FROM product LEFT NATURAL JOIN categories WHERE status = 1 AND categoriesID = ?", [entryData.categoriesID], (err, data) => {
                 if (err) return res.status(500).json(err);
-                const totalPage = parseInt(data[0]) / limit;
+                let totalPage = parseInt(data[0]) / limit;
                 if (page > totalPage) page = totalPage;
                 // all things
                 db.query("SELECT * FROM product LEFT NATURAL JOIN categories WHERE status = 1 AND categoriesID = ? LIMIT ? OFFSET ?", [entryData.categoriesID, limit, (page - 1) * limit], (err, data) => {

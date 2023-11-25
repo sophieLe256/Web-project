@@ -2,101 +2,62 @@ import React, { useState, useEffect } from "react";
 import "./shopping-cart.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
+import { endPoint } from "../../api/clientAPI";
 
 
 export const ShoppingCart = () => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0.0);
-
-  useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(storedCart);
-
-    // Calculate total price based on quantity
-    const total = storedCart.reduce((acc, product) => acc + product.price * product.quantity, 0);
-    setTotalPrice(total);
-  }, []);
-
-  const handleRemoveItem = (productId, size, e) => {
+  const [refresh, setRefresh] = useState(0.0);
+  useEffect(async () => {
+    try {
+      const data = { nothing: "nothing" };
+      const respond = await ClientAPI.post("getCartItem", data);
+      console.log("From ShoppingCart.jsx: ", respond);
+      setCartItems(MySecurity.decryptedData(respond));
+      // Calculate total price based on quantity
+      const total = cartItems.reduce((acc, product) => acc + product.price * product.quantity, 0);
+      setTotalPrice(total);
+    }
+    catch (err) {
+      console.log("From ShoppingCart.jsx: ", err);
+    }
+  }, [refresh]);
+  
+  // update item in shooping cart
+  const orderItemChange = async (orderItemID, quantity, caller) => {
+    try {
+      const data = {
+        orderItemID: orderItemID,
+        quantity: quantity
+      };
+      const respond = await ClientAPI.post("updateCartItem", data);
+      console.log(`From ${caller}.jsx: `, respond);
+      window.dispatchEvent(new Event("cartUpdated"));
+      setRefresh(Math.random());
+    }
+    catch (err) {
+      console.log(`From ${caller}.jsx: `, err);
+    }
+  }
+  const handleRemoveItem = async (orderItemID) => {
     e.preventDefault();
-    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const updatedCart = existingCart.filter(
-      (item) => item.productId !== productId || item.size !== size
-    );
-
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    setCartItems(updatedCart);
-
-    // Calculate total price based on quantity
-    const total = updatedCart.reduce(
-      (acc, product) => acc + product.price * product.quantity,
-      0
-    );
-    setTotalPrice(total);
-
-    window.dispatchEvent(new Event("cartUpdated"));
+    orderItemChange(orderItemID, 0, "ShoppingCart_Remove");
   };
 
-
-  const handleQuantityChange = (productId, newQuantity) => {
-    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const updatedCart = existingCart.map((item) => {
-      if (item.productId === productId) {
-        item.quantity = newQuantity;
-      }
-      return item;
-    });
-
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    setCartItems(updatedCart);
-
-    // Calculate total price based on quantity
-    const total = updatedCart.reduce((acc, product) => acc + product.price * product.quantity, 0);
-    setTotalPrice(total);
-
-    window.dispatchEvent(new Event("cartUpdated"));
+  const handleQuantityChange = async (orderItemID, quantity) => {
+    e.preventDefault();
+    orderItemChange(orderItemID, quantity, "ShoppingCart_Change");    
   };
 
-  const handleIncrease = (productId) => {
-    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const updatedCart = existingCart.map((item) => {
-      if (item.productId === productId) {
-        if (item.quantity < 10) {
-          item.quantity += 1;
-        }
-      }
-      return item;
-    });
+  const handleIncrease = (orderItemID, quantity) => {
+    e.preventDefault();
+    orderItemChange(orderItemID, quantity, "ShoppingCart_Increase");   
 
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    setCartItems(updatedCart);
-
-    // Calculate total price based on quantity
-    const total = updatedCart.reduce((acc, product) => acc + product.price * product.quantity, 0);
-    setTotalPrice(total);
-
-    window.dispatchEvent(new Event("cartUpdated"));
   };
-
-  const handleDecrease = (productId) => {
-    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const updatedCart = existingCart.map((item) => {
-      if (item.productId === productId) {
-        if (item.quantity > 1) {
-          item.quantity -= 1;
-        }
-      }
-      return item;
-    });
-
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    setCartItems(updatedCart);
-
-    // Calculate total price based on quantity
-    const total = updatedCart.reduce((acc, product) => acc + product.price * product.quantity, 0);
-    setTotalPrice(total);
-
-    window.dispatchEvent(new Event("cartUpdated"));
+  const handleDecrease = (orderItemID, quantity) => {
+    e.preventDefault();
+    orderItemChange(orderItemID, quantity, "ShoppingCart_Increase");  
   };
 
   return (
@@ -127,17 +88,17 @@ export const ShoppingCart = () => {
                               <tr className="product-quantity" key={index}>
                                 <td className="media-title">
                                   <div className="item-img">
-                                    <a title={product.name} href={product.productLink}>
-                                      <img src={product.image} alt={product.name} />
+                                    <a title={product.name} href={"/product/"+product.productId}>
+                                      <img src={endPoint+product.image} alt={product.name} />
                                     </a>
                                   </div>
                                   <div className="item-info">
                                     <h3 className="item--title">
-                                      <a href={product.productLink}>{product.name}</a>
+                                      <a href={"/product/" + product.productId}>{product.name}</a>
                                     </h3>
                                     <div className="item--variant">
                                       <span>
-                                        <strong>SIZE</strong> {product.size}
+                                        <strong>SIZE</strong> {product.selectedSize}
                                       </span>
                                       <br />
                                     </div>
@@ -149,7 +110,7 @@ export const ShoppingCart = () => {
                                       <button
                                         type="button"
                                         className="qty-btn plus"
-                                        onClick={() => handleIncrease(product.productId)}
+                                        onClick={() => handleIncrease(product.orderItemID, (product.quantity + 1 > 10 ? 10 : product.quantity+1))}
                                       >
                                         +
                                       </button>
@@ -160,12 +121,12 @@ export const ShoppingCart = () => {
                                         max="10"
                                         value={product.quantity}
                                         className="tc line-item-qty item-quantity"
-                                        onChange={(e) => handleQuantityChange(product.productId, parseInt(e.target.value, 10))}
+                                        onChange={(e) => handleQuantityChange(product.orderItemID, (parseInt(e.target.value, 10) === NaN ? product.quantity : parseInt(e.target.value, 10)))}
                                       />
                                       <button
                                         type="button"
                                         className="minus qty-btn stop"
-                                        onClick={() => handleDecrease(product.productId)}
+                                        onClick={() => handleDecrease(product.orderItemID, (product.quantity - 1 < 1 ? 1 : product.quantity-1))}
                                       >
                                         -
                                       </button>
@@ -178,9 +139,7 @@ export const ShoppingCart = () => {
                                 <td className="item-remove">
                                   <a
                                     href="#"
-                                    onClick={(e) =>
-                                      handleRemoveItem(product.productId, product.size, e)
-                                    }
+                                    onClick={() => handleRemoveItem(product.orderItemID, 0)}
                                   >
                                     <img src="//theme.hstatic.net/1000351433/1001138941/14/delete.png?v=243" />
                                   </a>
@@ -201,14 +160,13 @@ export const ShoppingCart = () => {
                             <Link to="/checkout">
                               <a
                                 id="btnCart-checkout"
-                                className="checkout-btn"
-                                href="#"
+                                className="checkout-btn"                               
                               >
                                 CHECK OUT
                               </a>
                             </Link>
                           </div>
-                          <a className="button" href="/?view=rabbit.vn">
+                          <a className="button" href="/product?page=1">
                             CONTINUE SHOPPING
                           </a>
                         </div>

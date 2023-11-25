@@ -91,7 +91,14 @@ export default class Authentication {
                 // put to client cookie ???
                 res.cookie("access_token", tokenS, {
                     httpOnly: true
-                }).status(200).json(other);
+                });
+                res.cookie("userID", data[0].id, {
+                    httpOnly: true
+                });
+                res.cookie("isAdmin", data[0].isAdmin, {
+                    httpOnly: true
+                });
+                res.status(200).json(other);
             });                        
         });
     }

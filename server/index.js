@@ -53,7 +53,7 @@ res.sendout ={
 */}
 // Switcher
 app.post("/dummydata", upload.single('file'), (req_encode, res) => {
-    const req = MySecurity.decryptedPackage(req_encode);
+    let req = MySecurity.decryptedPackage(req_encode);
     if (req == null) return res.status(400).json("Bad Request");    
     switch (req.body.data.entry.action) {
         // authentication
@@ -128,7 +128,7 @@ app.post("/dummydata", upload.single('file'), (req_encode, res) => {
     }
 })
 // send picture out
-app.get('/images/:imageName', (req, res) => {
+app.get('/dummydata/:imageName', (req, res) => {
     const imageName = req.params.imageName;
     const imageData = getImageData(imageName);
 

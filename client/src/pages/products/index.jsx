@@ -2,49 +2,56 @@ import React, { useState } from "react";
 import "./products.css";
 import { Col, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link, useNavigate } from "react-router-dom";
-import { DUMMY_DATA } from "../../dummyData/dummyData";
+import { Link } from "react-router-dom";
+import MySecurity from "../../api/mySecurity";
+import { ClientAPI, endPoint } from "../../api/clientAPI";
 
 export const Products = () => {
   const productsPerPage = 12;
   const maxVisibleButtons = 3;
-  const [currentPage, setCurrentPage] = useState(1);
-  const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(searchParams.get('page') ? 1 : searchParams.get('page'));
+  const [categoryID, setCategoryID] = useState(null);
+  const [chunkedData, setChunkedData] = useState(null);
+  
 
-  const startIndex = (currentPage - 1) * productsPerPage;
-  const endIndex = startIndex + productsPerPage;
-  const paginatedData = DUMMY_DATA
-    .slice(0) // Create a copy of the original data array
-    .reverse() // Reverse the order of the copied array
-    .slice(startIndex, endIndex);
+  const location = useLocation();
 
-  const totalPages = Math.ceil(DUMMY_DATA.length / productsPerPage);
+  useEffect(async () => {
+    const searchParams = new URLSearchParams(location.search);
+    setCategoryID(searchParams.get('cat'));    
+    // let fetch data
+    try {
+      const data = {
+        page: currentPage,
+        limit: productsPerPage,
+        categoriesID: categoryID
+      };
+      const respond = await ClientAPI.post("getProduct", data);
+      console.log("From Product.jsx: ",respond);
+      setChunkedData(MySecurity.decryptedData(respond));
+      if(chunkedData.page != currentPage)
+        setCurrentPage = chunkedData.page;
+    }
+    catch (err){
+      console.log("From Product.jsx: ", err);
+    }  
 
+  }, [location.search,currentPage]);
+  
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    navigate(`/products?page=${page}`);
-
+    if (categoryID)
+      history.push(`/products?page=${page}`);
+    else
+      history.push(`/products?cat=${categoryID}&page=${page}`);
     // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const chunkArray = (array, size) => {
-    return array.reduce((chunks, item, index) => {
-      if (index % size === 0) {
-        chunks.push([item]);
-      } else {
-        chunks[chunks.length - 1].push(item);
-      }
-      return chunks;
-    }, []);
-  };
-
-  const chunkedData = chunkArray(paginatedData, 3);
-
   const visiblePageNumbers = (() => {
     const halfMaxButtons = Math.floor(maxVisibleButtons / 2);
     let startPage = Math.max(1, currentPage - halfMaxButtons);
-    let endPage = Math.min(totalPages, startPage + maxVisibleButtons - 1);
+    let endPage = Math.min(chunkedData.totalPage, startPage + maxVisibleButtons - 1);
 
     if (endPage - startPage + 1 < maxVisibleButtons) {
       startPage = Math.max(1, endPage - maxVisibleButtons + 1);
@@ -52,6 +59,7 @@ export const Products = () => {
 
     return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
   })();
+
 
   return (
     <>
@@ -87,7 +95,7 @@ const ProductItem = ({ data }) => {
         <img
           role="button"
           className="w-100"
-          src={data.image}
+          src={endPoint+data.image}
           alt="WebP rules."
         ></img>
       </Link>

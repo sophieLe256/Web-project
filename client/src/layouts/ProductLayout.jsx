@@ -1,67 +1,52 @@
 //ul li link
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Products } from "../pages/products/index";
-import { Tshirts } from "../pages/t-shirts/index";
-import { Jackets } from "../pages/jackets/index";
-import { Pants } from "../pages/pants/index";
-import { Accessories } from "../pages/accessories/index";
 import "./ProductLayout.css";
 import { ProductsDetails } from "../pages/products-details";
 
 export const ProductLayout = () => {
-  const location = useLocation();
+  const [categoriesData, setCategoriesData] = useState(null);
+
+  useEffect(async () => {
+    // let fetch data
+    try {
+      const data = {nothing:"nothing"};
+      const respond = await ClientAPI.post("getCategories", data);
+      console.log("From ProductLayout.jsx: ", respond);
+      setCategoriesData(MySecurity.decryptedData(respond));
+    }
+    catch (err) {
+      console.log("From ProductLayout.jsx: ", err);
+    }
+
+  }, [categoriesData]);
 
   return (
     <>
       <div className="menu-products-container">
-
         <div className="menu-products-nav">
           <ul className="menu-products-list">
             <li>
-              <Link to="/best-seller">Best Seller</Link>
+              <Link to="/Styles">Best Sell</Link>
             </li>
             <li>
-              <Link to="/products">Products</Link>
+              <Link to="/products?page=1">Products</Link>
             </li>
-            <li>
-              <Link to="/t-shirts">T-Shirts</Link>
-            </li>
-            <li>
-              <Link to="/jackets">Jackets</Link>
-            </li>
-            <li>
-              <Link to="/pants">Pants</Link>
-            </li>
-            <li>
-              <Link to="/accessories">Accessories</Link>
-            </li>
-            <li>
-              <Link to="/outlet-sale">Outlet Sale</Link>
-            </li>
+            {
+              categoriesData.map((row) => (
+                <li>
+                  <Link to={`/products?cat=${row.categoriesID}&page=1`}>{row.type}</Link>
+                </li>
+              ))
+            }
           </ul>
         </div>
-        {location.pathname === "/t-shirts" ? (
-          <Tshirts>
-            <ProductsDetails />
-          </Tshirts>
-        ) : location.pathname === "/jackets" ? (
-          <Jackets>
-            <ProductsDetails />
-          </Jackets>
-        ) : location.pathname === "/pants" ? (
-          <Pants>
-            <ProductsDetails />
-          </Pants>
-        ) : location.pathname === "/accessories" ? (
-          <Accessories>
-            <ProductsDetails />
-          </Accessories>
-        ) : (
-          <Products>
-            <ProductsDetails />
-          </Products>
-        )}
+
+        <Products>
+          <ProductsDetails />
+        </Products>
+
       </div>
     </>
   );
