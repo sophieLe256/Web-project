@@ -2,34 +2,28 @@ import React, { useState, useEffect } from "react";
 import "./header.css";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Cookies from 'js-cookie';
 
 export const Header = () => {
   const [isShow1, setIsShow1] = useState(false);
   const [isShow3, setIsShow3] = useState(false);
   const [isShow2, setIsShow2] = useState(false);
-  const [isShow4, setIsShow4] = useState(false);
   const [cartTotal, setCartTotal] = useState(0);
 
-  useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const totalProducts = storedCart.reduce(
-      (acc, product) => acc + product.quantity,
-      0
-    );
-    setCartTotal(totalProducts);
-
-    // Listen for the "cartUpdated" event and update the cart total
-    const handleCartUpdate = () => {
-      const updatedCart = JSON.parse(localStorage.getItem("cart")) || [];
-      const updatedTotal = updatedCart.reduce(
-        (acc, product) => acc + product.quantity,
-        0
-      );
+  const handleCartUpdate = async () => {
+    try {
+      const data = { nothing: "nothing" };
+      const respond = await ClientAPI.post("getNumberCartItem", data);
+      console.log("From HeaderGetCart.jsx: ", respond);
       setCartTotal(updatedTotal);
-    };
+    }
+    catch (err) {
+      console.log("From HeaderGetCart.jsx: ", err);
+    }
+  };
 
+  useEffect(() => {   
     window.addEventListener("cartUpdated", handleCartUpdate);
-
     return () => {
       window.removeEventListener("cartUpdated", handleCartUpdate);
     };
@@ -117,18 +111,32 @@ export const Header = () => {
               src="header-icon-4.webp"
               alt="WebP rules."
             ></img>
-            {isShow4 && (
+            {Cookies.get("userID")!==null?(
               <div className="login">
                 <ul>
                   <li>
-                    <Link to="/auth/login">Account</Link>
-                  </li>
+                    <Link to="/auth/login">Login</Link>
+                  </li>                               
+                </ul>
+              </div>
+            ):(
+              <div className="login">
+                <ul>
+                    {Cookies.get("isAdmin")===1 && (
+                      <li>
+                        <Link to="/adminDashboard">Account</Link>
+                      </li>
+                    )}                  
                   <li>
                     <Link to="/order-history">Order History</Link>
                   </li>
+                    <li>
+                      <Link to="/auth/logout">Logout</Link>
+                    </li>
                 </ul>
               </div>
             )}
+            
           </div>
         </div>
 

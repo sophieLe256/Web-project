@@ -73,6 +73,9 @@ app.post("/dummydata", upload.single('file'), (req_encode, res) => {
         case "getProductDetail":
             Product.getProductDetail(req.body, res);
             break;
+        case "getNewestProduct":
+            Product.getNewestProduct(req.body, res);
+            break;           
         case "addProduct":
             // handle upload file
             if(req.file !=null)
@@ -99,6 +102,9 @@ app.post("/dummydata", upload.single('file'), (req_encode, res) => {
         // order
         case "addCart":
             Order.addCart(req.body, res);
+            break;
+        case "getNumberCartItem":
+            Order.getNumberCartItem(req.body, res);
             break;
         case "getCartItem":
             Order.getCartItem(req.body, res);

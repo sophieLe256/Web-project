@@ -5,10 +5,18 @@ import "./history.css";
 export const OrderHistory = () => {
   const [orderHistory, setOrderHistory] = useState([]);
 
-  useEffect(() => {
-    // Fetch order history from localStorage or API
-    const storedOrderHistory = JSON.parse(localStorage.getItem("orderHistory")) || [];
-    setOrderHistory(storedOrderHistory);
+  useEffect(async () => {
+    // let fetch data
+    try {
+      const data = { nothing: "nothing" };
+      const respond = await ClientAPI.post("getOrderHistory", data);
+      console.log("From OrderHistory.jsx: ", respond);
+      setOrderHistory(MySecurity.decryptedData(respond));
+    }
+    catch (err) {
+      console.log("From OrderHistory.jsx: ", err);
+    }
+
   }, []);
 
   return (
@@ -30,12 +38,12 @@ export const OrderHistory = () => {
           <tbody>
             {orderHistory.map((order, index) => (
               <tr key={index} className="order-item">
-                <td>{order.id}</td>
-                <td>{new Date(order.date).toLocaleDateString()}</td>
+                <td>{order.orderID}</td>
+                <td>{new Date(order.transactionDate).toLocaleDateString()}</td>
                 <td>${order.totalPrice.toFixed(2)}</td>
-                <td>{order.paymentMethod}</td>
+                <td>{order.type}</td>
                 <td>
-                  <Link to={`/order-details/${order.id}`}>View Details</Link>
+                  <Link to={`/order-details/${order.orderID}`}>View Details</Link>
                 </td>
               </tr>
             ))}

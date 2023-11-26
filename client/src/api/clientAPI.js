@@ -3,7 +3,7 @@ import MySecurity from "./mySecurity";
 export const endPoint = "http://127.0.0.1:3000/dummydata/";
 
 export default class ClientAPI{ 
-    static async post(action,data,selectedImage){
+    static async post(action,data,selectedImage =null){
         const formData = new FormData();
         switch(action){
             case "login":                
@@ -11,13 +11,15 @@ export default class ClientAPI{
             case "logout":               
             // product
             case "getProduct":                
-            case "getProductDetail":  
+            case "getProductDetail": 
+            case "getNewestProduct": 
             case "removeProduct":
             case "getCategories":
             case "addProduct":
             case "updateProduct":
             // order
-            case "addCart":               
+            case "addCart":     
+            case "getNumberCartItem":          
             case "getCartItem":
             case "updateCartItem":
             case "checkOutCart":

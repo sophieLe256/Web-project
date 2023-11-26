@@ -5,17 +5,30 @@ import Navbar from '../adminLayout/NavBar';
 import "./adminProduct.css";
 import { DUMMY_DATA } from "../../dummyData/dummyData";
 import { Link, useNavigate } from "react-router-dom";
+import { endPoint } from '../../api/clientAPI';
 
 export const AdminUpdateProduct = () => {
-    const { productId } = useParams();
-    const [types, setTypes] = useState('');
-    const [nameProduct, setNameProduct] = useState('');
-    const [price, setPrice] = useState('');
     const [image, setImage] = useState('');
+    const { productId } = useParams();    
+    
     const [selectedSizes, setSelectedSizes] = useState([]);
-    const [selectedColors, setSelectedColors] = useState([]);
-    const [description, setDescription] = useState('');
+    const [inputValues, setInputValues] = useState({});
+    const [categoriesData, setCategoriesData] = useState(null);
+
     const navigate = useNavigate();
+
+    // Get Categoris list
+    useEffect(async () => {
+        try {
+            const data = { nothing: "nothing" };
+            const respond = await ClientAPI.post("getCategories", data);
+            console.log("From AdminProductCategories.jsx: ", respond);
+            setCategoriesData(MySecurity.decryptedData(respond));
+        }
+        catch (err) {
+            console.log("From AdminProductCategories.jsx: ", err);
+        }
+    }, []);
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -25,12 +38,20 @@ export const AdminUpdateProduct = () => {
 
     const handleSizeChange = (event) => {
         const { id, checked } = event.target;
-
         if (checked) {
             setSelectedSizes((prevSizes) => [...prevSizes, id]);
         } else {
             setSelectedSizes((prevSizes) => prevSizes.filter((size) => size !== id));
         }
+        
+    };
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setInputValues((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
     };
 
     const handleCancelEdit = (event) => {
@@ -39,26 +60,55 @@ export const AdminUpdateProduct = () => {
         navigate("/adminProduct");
     };
 
-    const handleEditProduct = (event) => {
+    // update product
+    const handleEditProduct = async (event) => {
         event.preventDefault();
-        // Add logic to edit the product
-        // ...
+        
+        try {
+            let data = inputValues;
+            data = {
+                ...prevValues,
+                size: selectedSizes.join(",").toString(),
+            }
+            const respond = await ClientAPI.post("updateProduct", data, image);
+            console.log("From AdminUpdateProductLayout.jsx: ", respond);
+            setToast({
+                bg: "success",
+                message: "Edit Product success.",
+                show: true,
+            });
+            navigate("/adminProduct");
+        }
+        catch (err) {
+            console.log("From AdminUpdateProductLayout.jsx: ", err);
+        }
     };
 
-    useEffect(() => {
+    // get inital product detail
+    useEffect(async () => {
         // Add logic to fetch product details using productId and update state variables
-        const productDetails = DUMMY_DATA.find(item => item.id === parseInt(productId));
-        if (productDetails) {
-            setTypes(productDetails.categories);
-            setNameProduct(productDetails.name);
-            setPrice(productDetails.price);
-            setImage(productDetails.image);
-            setSelectedSizes(productDetails.size);
-            // Assuming color is available in the dummy data
-            setSelectedColors(productDetails.color);
-            setDescription(productDetails.description);
+        try {
+            const data = {
+                productID: productID,
+            };
+            const respond = await ClientAPI.post("getProductDetail_data", data);
+            console.log("From AdminGetEditProduct.jsx: ", respond);
+            let productData = MySecurity.decryptedData(respond);
+            setInputValues({
+                productID: productID,
+                name: productData.name,
+                features: productData.features,
+                image: productData.image,
+                categoriesID: productData.categoriesID,
+                size: productData.size,
+                price: productData.price
+            });
+            setSelectedSizes(productData.size.split(","));
         }
-    }, [productId]);
+        catch (err) {
+            console.log("From AdminGetEditProduct.jsx: ", err);
+        }  
+    }, []);
 
     return (
         <section id="content" className='adminPage'>
@@ -73,21 +123,22 @@ export const AdminUpdateProduct = () => {
 
                 <div className="updateProduct">
                     <form onSubmit={handleEditProduct} encType="multipart/form-data">
-                        <label htmlFor="types">Categories:</label>
-                        <select id="types" name="types" value={types} onChange={(e) => setTypes(e.target.value)}>
-                            <option value="T-shirts">T-shirts</option>
-                            <option value="Jackets">Jackets</option>
-                            <option value="Pants">Pants</option>
-                            <option value="Accessories">Accessories</option>
+                        <label htmlFor="categoriesID">Categories:</label>
+                        <select id="categoriesID" name="categoriesID" value={inputValues.categoriesID} onChange={handleInputChange}>
+                            {
+                                categoriesData.map((row) => (
+                                    <option value={row.categoriesID}>{row.type}</option>
+                                ))
+                            }
                         </select><br />
 
                         <label htmlFor="name">Name:</label>
-                        <input type="text" name="nameProduct" value={nameProduct} onChange={(e) => setNameProduct(e.target.value)} /><br />
+                        <input type="text" name="name" value={inputValues.name} onChange={handleInputChange} /><br />
 
                         <label htmlFor="price">Price:</label>
-                        <input type="text" name="price" value={price} onChange={(e) => setPrice(e.target.value)} /><br /><br />
+                        <input type="text" name="price" value={inputValues.price} onChange={handleInputChange} /><br /><br />
 
-                        <img src={image} alt="Product Image" width="200" /><br />
+                        <img src={endPoint + inputValues.image} alt="Product Image" width="200" /><br />
                         <label htmlFor="image">Image URL:</label><br />
                         <input type="file" name="image" onChange={handleImageChange} /><br /><br />
 
@@ -100,7 +151,6 @@ export const AdminUpdateProduct = () => {
                                         id={name}
                                         name="size[]"
                                         value={name}
-                                        //checked={selectedSizes.includes(name)}
                                         onChange={handleSizeChange}
                                     />
                                     <label htmlFor={name}>{name}</label>
@@ -108,8 +158,8 @@ export const AdminUpdateProduct = () => {
                             ))}
                         </div><br />
 
-                        <label htmlFor="description">Features:</label>
-                        <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)}></textarea><br />
+                        <label htmlFor="features">Features:</label>
+                        <textarea name="features" value={inputValues.features} onChange={handleInputChange}></textarea><br />
 
                         <button type="button" name="cancelEditProduct"  onClick={handleCancelEdit} style={{ marginRight: '10px' }} >Cancel</button>
                         <button type="submit" name="editProduct">Edit Item</button>

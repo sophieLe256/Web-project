@@ -3,14 +3,8 @@ import Sidebar from '../adminLayout/SideBar';
 import Navbar from '../adminLayout/NavBar';
 import "./adminDashboard.css";
 
-export const AdminDashboard = () => {
-    const [sidebarHidden, setSidebarHidden] = useState(false);
+export const AdminDashboard = () => {   
     const [darkMode, setDarkMode] = useState(false);
-
-    const handleToggleSidebar = () => {
-        setSidebarHidden(!sidebarHidden);
-    };
-
     const handleDarkModeChange = () => {
         setDarkMode(!darkMode);
         document.body.classList.toggle('dark');
@@ -18,8 +12,7 @@ export const AdminDashboard = () => {
     return (
         <section id="content" className='adminPage'>
             <Sidebar />
-            <Navbar
-                onToggleSidebar={handleToggleSidebar}
+            <Navbar               
                 onDarkModeChange={handleDarkModeChange}
             />
             <main>
@@ -65,8 +58,6 @@ export const AdminDashboard = () => {
                         </span>
                     </li>
                 </ul>
-
-
                 <div class="table-data">
                     <div class="order">
                         <div class="head">

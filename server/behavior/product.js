@@ -193,21 +193,32 @@ export default class Product {
             return res.status(200).json(encryptedData);
         });
     }
+    static getNewestProduct(req, res) {
+        const entryData = req.data.entry;
+        let limit = 9;
+        if (entryData.limit != null) {
+            limit = parseInt(entryData.limit);
+        }
+        db.query("SELECT * FROM product LEFT NATURAL JOIN categories WHERE status = 1 SORT BY DESC(versionDate) LIMIT ? ", [limit], (err, data) => {
+            if (err) return res.status(500).json(err);           
+            const encryptedData = MySecurity.encryptedData(MySecurity.getUserToken(req.partOfkey), data);
+            return res.status(200).json(encryptedData);
+        });
+    }
     static getProduct(req, res) {
         const entryData = req.data.entry;
-        let limit = 9 ;
-        let page =1;
-        if (entryData.limit != null) 
+        let limit = 9;
+        let page = 1;
+        if (entryData.limit != null)
             limit = parseInt(entryData.limit);
         if (entryData.page != null)
             page = parseInt(entryData.page);
-        if (entryData.categoriesID == null) 
-        {
+        if (entryData.categoriesID == null) {
             // count total item
             db.query("SELECT COUNT(*) FROM product LEFT NATURAL JOIN categories WHERE status = 1", (err, data) => {
                 if (err) return res.status(500).json(err);
-                let totalPage = parseInt(data[0])/limit;
-                if(page>totalPage) page = totalPage;
+                let totalPage = parseInt(data[0]) / limit;
+                if (page > totalPage) page = totalPage;
                 // all things
                 db.query("SELECT * FROM product LEFT NATURAL JOIN categories WHERE status = 1 LIMIT ? OFFSET ?", [limit, (page - 1) * limit], (err, data) => {
                     if (err) return res.status(500).json(err);
@@ -218,10 +229,10 @@ export default class Product {
                     }
                     const encryptedData = MySecurity.encryptedData(MySecurity.getUserToken(req.partOfkey), package);
                     return res.status(200).json(encryptedData);
-                });                
-            });            
+                });
+            });
         }
-        else{
+        else {
             // count total item
             db.query("SELECT COUNT(*) FROM product LEFT NATURAL JOIN categories WHERE status = 1 AND categoriesID = ?", [entryData.categoriesID], (err, data) => {
                 if (err) return res.status(500).json(err);
@@ -239,26 +250,26 @@ export default class Product {
                     return res.status(200).json(encryptedData);
                 });
             });
-        }       
+        }
     }
     static getProductDetail(req, res) {
-        const entryData = req.data.entry;        
+        const entryData = req.data.entry;
         if (entryData.productID == null) return res.status(400).json("Not found Product (no ID)");
-        if (entryData.versionDate == null){
+        if (entryData.versionDate == null) {
             // get up to date
             // get current active product
             db.query("SELECT * FROM product WHERE productID = ? AND status = 1", [entryData.productID], (err, data) => {
                 if (err) return res.status(500).json(err);
-                if (data.length) return res.status(401).json("Product Not found or removed");                
+                if (data.length) return res.status(401).json("Product Not found or removed");
                 const currentVersion = data[0].versionDate;
                 db.query("SELECT * FROM product LEFT NATURAL JOIN categories WHERE productID = ? AND versionDate = ?", [entryData.productID, currentVersion], (err, data) => {
-                    if (err) return res.status(500).json(err);                    
+                    if (err) return res.status(500).json(err);
                     const encryptedData = MySecurity.encryptedData(MySecurity.getUserToken(req.partOfkey), data);
                     return res.status(200).json(encryptedData);
                 });
             });
         }
-        else{
+        else {
             // get something in the past
             db.query("SELECT * FROM product LEFT NATURAL JOIN categories WHERE productID = ? AND versionDate = ?", [entryData.productID, entryData.versionDate], (err, data) => {
                 if (err) return res.status(500).json(err);
@@ -266,7 +277,7 @@ export default class Product {
                 return res.status(200).json(encryptedData);
             });
         }
-      
+
     }
 
 }

@@ -10,8 +10,6 @@ const Sidebar = ({ hidden }) => {
     { text: 'Dashboard', icon: 'bxs-dashboard', href: '/adminDashboard' },
     { text: 'Products', icon: 'bxs-shopping-bag-alt', href: '/adminProduct' },
     { text: 'Analytics', icon: 'bxs-doughnut-chart', href: '/analytics' },
-    { text: 'Message', icon: 'bxs-message-dots', href: '/message' },
-    { text: 'Team', icon: 'bxs-group', href: '/team' },
   ];
 
   const handleMenuItemClick = (index, route) => {
@@ -38,13 +36,7 @@ const Sidebar = ({ hidden }) => {
           </li>
         ))}
       </ul>
-      <ul className="side-menu">
-        <li>
-          <Link to="/settings">
-            <i className="bx bxs-cog"></i>
-            <span className="text">Settings</span>
-          </Link>
-        </li>
+      <ul className="side-menu">        
         <li>
           <Link to="/logout" className="logout">
             <i className="bx bxs-log-out-circle"></i>

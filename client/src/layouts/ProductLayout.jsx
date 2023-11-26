@@ -28,7 +28,7 @@ export const ProductLayout = () => {
         <div className="menu-products-nav">
           <ul className="menu-products-list">
             <li>
-              <Link to="/Styles">Best Sell</Link>
+              <Link to="/Styles">Best Seller</Link>
             </li>
             <li>
               <Link to="/products?page=1">Products</Link>

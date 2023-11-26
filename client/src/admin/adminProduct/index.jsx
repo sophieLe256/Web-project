@@ -2,19 +2,32 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../adminLayout/SideBar';
 import Navbar from '../adminLayout/NavBar';
 import "./adminProduct.css";
-import { DUMMY_DATA } from "../../dummyData/dummyData";
+import { endPoint } from '../../api/clientAPI';
 
 
 export const AdminProduct = () => {
-    const [image, setImage] = useState('');
-    const [selectedSizes, setSelectedSizes] = useState([]);
 
-    const itemsPerPage = 10;
+    const productsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
-    const [items, setItems] = useState(DUMMY_DATA);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [image, setImage] = useState(null);
+    const [selectedSizes, setSelectedSizes] = useState([]); 
 
-    const totalPages = Math.ceil(items.length / itemsPerPage);
+    const [categoriesData, setCategoriesData] = useState(null);
+    const [inputValues, setInputValues] = useState({});
+
+    // Get Categoris list
+    useEffect(async () => {       
+        try {
+            const data = { nothing: "nothing" };
+            const respond = await ClientAPI.post("getCategories", data);
+            console.log("From AdminProductCategories.jsx: ", respond);
+            setCategoriesData(MySecurity.decryptedData(respond));
+        }
+        catch (err) {
+            console.log("From AdminProductCategories.jsx: ", err);
+        }
+    }, []);
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -31,6 +44,14 @@ export const AdminProduct = () => {
             setSelectedSizes((prevSizes) => prevSizes.filter((size) => size !== id));
         }
     };
+    
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setInputValues((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    };
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -40,13 +61,52 @@ export const AdminProduct = () => {
         setIsModalOpen(false);
     };
 
-    const handleAddProduct = (event) => {
+    const handleAddProduct = async (event) => {
         event.preventDefault();
-        // Add logic to add a new product
-        // ...
+        // add new product
+        try {
+            let data = inputValues;
+            data = {
+                ...prevValues,
+                size: selectedSizes.join(",").toString(),
+                image: ""               
+            }
+            const respond = await ClientAPI.post("addProduct", data, image);
+            console.log("From AdminAddProductLayout.jsx: ", respond);    
+            setToast({
+                bg: "success",
+                message: "Add Product success.",
+                show: true,
+            });
+            setCurrentPage(productData.totalPage);
+        }
+        catch (err) {
+            console.log("From AdminAddProductLayout.jsx: ", err);
+        }
         closeModal();
     };
+    // remove product
+    const removeProduct = async (productID) =>{  
+        // remove product
+        try {            
+            data = {
+                productID: productID,
+            }
+            const respond = await ClientAPI.post("removeProduct", data, image);
+            console.log("From AdminRemoveProductLayout.jsx: ", respond);
+            setToast({
+                bg: "success",
+                message: "Remove Product success.",
+                show: true,
+            });
+            setCurrentPage(productData.totalPage);
+        }
+        catch (err) {
+            console.log("From AdminRemoveProductLayout.jsx: ", err);
+        }
+    }
 
+    // open add product pop-up
     useEffect(() => {
         const modalForm = document.getElementById("addModal");
 
@@ -63,9 +123,24 @@ export const AdminProduct = () => {
         setCurrentPage(newPage);
     };
 
-    const startIndex = (totalPages - currentPage) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedItems = items.slice(startIndex, endIndex);
+    // get product
+    const [productData, setProductData] = useState(null);
+    useEffect(async () => {              
+        try {
+            const data = {
+                page: currentPage,
+                limit: productsPerPage,             
+            };
+            const respond = await ClientAPI.post("getProduct", data);
+            console.log("From AdminProduct.jsx: ", respond);
+            setProductData(MySecurity.decryptedData(respond));
+            if (productData.page != currentPage)
+                setCurrentPage = productData.page;
+        }
+        catch (err) {
+            console.log("From AdminProduct.jsx: ", err);
+        }  
+    }, [currentPage]);
 
     return (
         <section id="content" className='adminPage'>
@@ -99,25 +174,25 @@ export const AdminProduct = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {paginatedItems.reverse().map((item) => (
-                            <tr key={item.id}>
+                        {productData.data.map((item) => (
+                            <tr key={item.productID}>
                                 <td>
-                                    <a href={`products-details/${item.id}`}>
-                                        <img src={item.image} alt="Product Image" />
+                                    <a href={`products-details/${item.productID}`}>
+                                        <img src={endPoint+item.image} alt="Product Image" />
                                     </a>
                                 </td>
                                 <td>{item.name}</td>
                                 <td>${item.price.toFixed(2)}</td>
-                                <td>{item.categories}</td>
-                                <td>{item.size.join(', ')}</td>
+                                <td>{item.type}</td>
+                                <td>{item.size}</td>
                                 <td>
                                     <div>
-                                        <a className="edit" role="button" href={`adminUpdateProduct/${item.id}`}>
+                                        <a className="edit" role="button" href={`adminUpdateProduct/${item.productID}`}>
                                             Edit
                                         </a>
                                     </div>
                                     <form method="post" action="">
-                                        <button className="delete" type="submit" name="deleteProduct" value={item.id}>
+                                        <button className="delete" name="deleteProduct" value={item.productID} onClick={removeProduct(item.productID)}>
                                             Delete
                                         </button>
                                     </form>
@@ -136,21 +211,22 @@ export const AdminProduct = () => {
                         <div id="popup-form" className="popup">
                             <h2 style={{ textAlign: 'center', color: '#3C91E6' }}>Add New Item</h2>
                             <form onSubmit={handleAddProduct} encType="multipart/form-data">
-                                <label htmlFor="types">Categories:</label>
-                                <select id="types" name="types">
-                                    <option value="T-shirts">T-shirts</option>
-                                    <option value="Jackets">Jackets</option>
-                                    <option value="Pants">Pants</option>
-                                    <option value="Accessories">Accessories</option>
+                                <label htmlFor="categoriesID">Categories:</label>
+                                <select id="categoriesID" name="categoriesID" onChange={handleInputChange}>
+                                    {
+                                        categoriesData.map((row)=>(
+                                            <option value={row.categoriesID}>{row.type}</option>
+                                        ))
+                                    }
                                 </select><br />
 
                                 <label htmlFor="name">Name:</label>
-                                <input type="text" id="name" name="nameProduct" /><br />
+                                <input type="text" id="name" name="name" onChange={handleInputChange} /><br />
 
                                 <label htmlFor="price">Price:</label>
-                                <input type="text" id="price" name="price" /><br /><br />
+                                <input type="text" id="price" name="price" onChange={handleInputChange} /><br /><br />
 
-                                <label htmlFor="image">Image URL:</label><br />
+                                <label htmlFor="image">Image:</label><br />
                                 <input type="file" name="image" onChange={handleImageChange} /><br /><br />
 
                                 <label htmlFor="size">Size:</label>
@@ -172,7 +248,7 @@ export const AdminProduct = () => {
                                 </div><br />
 
                                 <label htmlFor="features">Features:</label>
-                                <textarea id="description" name="description"></textarea><br />
+                                <textarea id="features" name="features" onChange={handleInputChange}></textarea><br />
 
                                 <button id="close-btn" type="button" onClick={closeModal}>
                                     Close
@@ -186,7 +262,7 @@ export const AdminProduct = () => {
                 )}
 
                 <div className="pagination">
-                    {Array.from({ length: totalPages }).map((_, index) => (
+                    {Array.from({ length: productData.totalPage }).map((_, index) => (
                         <button
                             key={index + 1}
                             onClick={() => handlePageChange(index + 1)}

@@ -16,7 +16,7 @@ export const ShoppingCart = () => {
       console.log("From ShoppingCart.jsx: ", respond);
       setCartItems(MySecurity.decryptedData(respond));
       // Calculate total price based on quantity
-      const total = cartItems.reduce((acc, product) => acc + product.price * product.quantity, 0);
+      const total = cartItems.items.reduce((acc, product) => acc + product.price * product.quantity, 0);
       setTotalPrice(total);
     }
     catch (err) {
@@ -28,6 +28,7 @@ export const ShoppingCart = () => {
   const orderItemChange = async (orderItemID, quantity, caller) => {
     try {
       const data = {
+        orderID: cartItems.orderID,
         orderItemID: orderItemID,
         quantity: quantity
       };
@@ -84,7 +85,7 @@ export const ShoppingCart = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {cartItems.map((product, index) => (
+                            {cartItems.items.map((product, index) => (
                               <tr className="product-quantity" key={index}>
                                 <td className="media-title">
                                   <div className="item-img">

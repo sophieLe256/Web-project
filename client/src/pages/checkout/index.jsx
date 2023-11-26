@@ -2,80 +2,63 @@ import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./checkout.css";
 import { Link, useNavigate } from "react-router-dom";
+import { endPoint } from "../../api/clientAPI";
 
 export const CheckOut = () => {
-  const [cartItems, setCartItems] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0.0);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("credit");
-  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [cartItems, setCartItems] = useState(null);
+  const [totalPrice, setTotalPrice] = useState(0.0); 
+  const [inputValues, setInputValues] = useState({ type: "credit" });
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(storedCart);
-
-    const total = storedCart.reduce((acc, product) => acc + product.price * product.quantity, 0);
-    setTotalPrice(total);
+  useEffect(async () => {
+    // get Cart Item and Total
+    try {
+      const data = { nothing: "nothing" };
+      const respond = await ClientAPI.post("getCartItem", data);
+      console.log("From Checkout_getCart.jsx: ", respond);
+      setCartItems(MySecurity.decryptedData(respond));
+      // Calculate total price based on quantity
+      const total = cartItems.reduce((acc, product) => acc + product.price * product.quantity, 0);
+      setTotalPrice(total);
+      if(cartItems.orderID===null || cartItems.items.length ===0)
+        navigate("/product?page=1"); //not found order.
+    }
+    catch (err) {
+      console.log("From Checkout_getCart.jsx: ", err);
+    }
   }, []);
-
-  const handlePaymentMethodChange = (event) => {
-    setSelectedPaymentMethod(event.target.value);
-  };
-
-  const handlePlaceOrder = () => {
-    const requiredFields = ['name', 'email', 'phone_number', 'address', 'city', 'zipcode', 'state', 'card_name', 'card_num', 'date', 'CVC'];
   
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;    
+    setInputValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+  
+  const handlePlaceOrder = async () => {
+    // check input data
+    const requiredFields = ['name', 'email', 'phone', 'address', 'city', 'zipcode', 'state', 'acc_name', 'acc_number', 'expireDate', 'cvc', 'type'];
+    let error = "Please fill in:\n";
     for (const field of requiredFields) {
-      const fieldValue = document.getElementById(field).value.trim();
+      const fieldValue = inputValues[field];     
       if (!fieldValue) {
-        alert(`Please fill in the ${field.replace('_', ' ')} field.`);
-        return; 
+        error = error + field + " ";
       }
     }
-  
-    // Save order to order history
-    const order = {
-      id: new Date().getTime(),
-      date: new Date(),
-      totalPrice: totalPrice,
-      paymentMethod: selectedPaymentMethod,
-      items: cartItems.map((product) => ({
-        id: product.id,
-        name: product.name,
-        image: product.image,
-        size: product.size,
-        quantity: product.quantity,
-        price: product.price,
-      })),
-      user: {
-        name: document.getElementById('name').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        phone_number: document.getElementById('phone_number').value.trim(),
-        address: document.getElementById('address').value.trim(),
-        city: document.getElementById('city').value.trim(),
-        zipcode: document.getElementById('zipcode').value.trim(),
-        state: document.getElementById('state').value.trim(),
-      },
-      paymentDetails: {
-        card_name: document.getElementById('card_name').value.trim(),
-        card_num: document.getElementById('card_num').value.trim(),
-        date: document.getElementById('date').value.trim(),
-        CVC: document.getElementById('CVC').value.trim(),
-      },
-    };
-  
-    const orderHistory = JSON.parse(localStorage.getItem("orderHistory")) || [];
-    orderHistory.push(order);
-    localStorage.setItem("orderHistory", JSON.stringify(orderHistory));
-  
-    localStorage.removeItem("cart");
-  
-    setOrderPlaced(true);
-  
-    // Redirect to the order history page
-    navigate("/order-history");
-  };
-  
+    if (error !== "Please fill in:\n")
+      return alert(error);
+    // data ready to send
+    try {      
+      const respond = await ClientAPI.post("checkOutCart", inputValues);
+      console.log("From CheckOutCart.jsx: ", respond);      
+      navigate(`/order-details/${cartItems.orderID}`);
+    }
+    catch (err) {
+      console.log("From CheckOutCart.jsx: ", err);
+    }  
+  };  
 
   return (
     <div className="checkout-container">
@@ -87,15 +70,15 @@ export const CheckOut = () => {
           <div></div>
           <h2>Delivery Information</h2>
           <form className="check-form">
-            <input type="text" id="name" className="text_fill" placeholder="Name" required />
+            <input type="text" id="name" name="name" className="text_fill" placeholder="Name" required onChange={handleInputChange} />
             <div className="container">
-              <input type="text" id="email" className="emai text_fill" placeholder="Email" required />
-              <input type="text" id="phone_number" className="phone_number text_fill" placeholder="Phone number" required />
+              <input type="text" id="email" name="email" className="emai text_fill" placeholder="Email" required onChange={handleInputChange} />
+              <input type="text" id="phone" name="phone" className="phone_number text_fill" placeholder="Phone number" required onChange={handleInputChange} />
             </div>
-            <input type="text" id="address" className="text_fill" placeholder="Address" required />
-            <input type="text" id="city" className="text_fill" placeholder="City" required />
-            <input type="text" id="zipcode" className="text_fill" placeholder="Zip Code" required />
-            <input type="text" id="state" className="text_fill" placeholder="State" required></input>
+            <input type="text" id="address" name="address" className="text_fill" placeholder="Address" required onChange={handleInputChange} />
+            <input type="text" id="city" name="city" className="text_fill" placeholder="City" required onChange={handleInputChange} />
+            <input type="text" id="zipcode" name="zipcode" className="text_fill" placeholder="Zip Code" required onChange={handleInputChange} />
+            <input type="text" id="state" name="state" className="text_fill" placeholder="State" required onChange={handleInputChange}/>
             <h2>Payment methods</h2>
             {/* handleing the payment type when choosing one of them */}
             <div className="payment_methods">
@@ -103,8 +86,9 @@ export const CheckOut = () => {
                 <input
                   type="radio"
                   value="credit"
-                  checked={selectedPaymentMethod === "credit"}
-                  onChange={handlePaymentMethodChange}
+                  name="type"
+                  checked={inputValues.type === "credit"}
+                  onChange={handleInputChange}
                 />
                 <span className="custom-radio">
                   <img
@@ -119,8 +103,9 @@ export const CheckOut = () => {
                 <input
                   type="radio"
                   value="debit"
-                  checked={selectedPaymentMethod === "debit"}
-                  onChange={handlePaymentMethodChange}
+                  name="type"
+                  checked={inputValues.type === "debit"}
+                  onChange={handleInputChange}
                 />
                 <span className="custom-radio">
                   <img
@@ -133,7 +118,7 @@ export const CheckOut = () => {
               </label>
 
               <div className="gap"></div>
-              {selectedPaymentMethod === "credit" ? (
+              {inputValues.type === "credit" ? (
                 <div className="credit-message">
                   <p>Enter your credit card information.</p>
                 </div>
@@ -143,10 +128,10 @@ export const CheckOut = () => {
                 </div>
               )}
               <form className="check-form">
-                <input type="text" id="card_name" name="card_name" className="text_fill" placeholder="Name on the card" required />
-                <input type="text" id="card_num" name="card_num" className="text_fill" placeholder="Card Number" required />
-                <input type="text" id="date" name="date" className="text_fill" placeholder="MM/YY" required />
-                <input type="text" id="CVC" name="CVC" className="text_fill" placeholder="CVC" required />
+                <input type="text" id="acc_name" name="acc_name" className="text_fill" placeholder="Name on the card" required onChange={handleInputChange} />
+                <input type="text" id="acc_number" name="acc_number" className="text_fill" placeholder="Card Number" required onChange={handleInputChange} />
+                <input type="text" id="expireDate" name="expireDate" className="text_fill" placeholder="MM/YY" required onChange={handleInputChange} />
+                <input type="text" id="cvc" name="cvc" className="text_fill" placeholder="CVC" required onChange={handleInputChange} />
               </form>
             </div>
             <div className="container payment">
@@ -170,7 +155,7 @@ export const CheckOut = () => {
                       <div className="check-item-img">
                         <a title={product.name} href={`/products-details/${product.id}`}>
                           <span className="quantity-circle">{product.quantity}</span>
-                          <img src={product.image} alt={product.name} />
+                          <img src={endPoint+product.image} alt={product.name} />
                         </a>
                       </div>
                       <div className="check-item-info">

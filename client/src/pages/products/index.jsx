@@ -8,10 +8,11 @@ import { ClientAPI, endPoint } from "../../api/clientAPI";
 
 export const Products = () => {
   const productsPerPage = 12;
+  const productsPerRow = 3;
   const maxVisibleButtons = 3;
   const [currentPage, setCurrentPage] = useState(searchParams.get('page') ? 1 : searchParams.get('page'));
   const [categoryID, setCategoryID] = useState(null);
-  const [chunkedData, setChunkedData] = useState(null);
+  const [productData, setProductData] = useState(null);
   
 
   const location = useLocation();
@@ -28,15 +29,15 @@ export const Products = () => {
       };
       const respond = await ClientAPI.post("getProduct", data);
       console.log("From Product.jsx: ",respond);
-      setChunkedData(MySecurity.decryptedData(respond));
-      if(chunkedData.page != currentPage)
-        setCurrentPage = chunkedData.page;
+      setProductData(MySecurity.decryptedData(respond));
+      if(productData.page != currentPage)
+        setCurrentPage = productData.page;
     }
     catch (err){
       console.log("From Product.jsx: ", err);
     }  
 
-  }, [location.search,currentPage]);
+  }, [location.search]);
   
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -51,7 +52,7 @@ export const Products = () => {
   const visiblePageNumbers = (() => {
     const halfMaxButtons = Math.floor(maxVisibleButtons / 2);
     let startPage = Math.max(1, currentPage - halfMaxButtons);
-    let endPage = Math.min(chunkedData.totalPage, startPage + maxVisibleButtons - 1);
+    let endPage = Math.min(productData.totalPage, startPage + maxVisibleButtons - 1);
 
     if (endPage - startPage + 1 < maxVisibleButtons) {
       startPage = Math.max(1, endPage - maxVisibleButtons + 1);
@@ -64,14 +65,16 @@ export const Products = () => {
   return (
     <>
       <div className="col-xl-10 col-lg-9 col-md-12 col-12 content-collection products-container">
-        {chunkedData.map((row, rowIndex) => (
-          <Row key={rowIndex}>
-            {row.map((product) => (
+        {
+        productData.data.map((item, index) => (
+          (index % productsPerRow === 0)?(
+            <Row key={index}>
+            {productData.data.slice(index,productsPerRow).map((product) => (
               <ProductItem key={product.id} data={product} />
-            ))}
-          </Row>
+              ))}
+            </Row>
+          ):({})          
         ))}
-
         <div className="pagination">
           {visiblePageNumbers.map((pageNumber) => (
             <button

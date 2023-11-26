@@ -32,11 +32,19 @@ const router = createBrowserRouter([
       {
     path: "",
     element: <CommonLayout />,
-    children: [
+    children: [      
       {
         index: true,
         path: "",
         element: <Body />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "login",
+        element: <Login />,
       },
       {
         path: "about-us",
@@ -69,31 +77,7 @@ const router = createBrowserRouter([
           },
 
         ],
-      },
-      {
-        path: "t-shirts",
-        element: <ProductLayout />,
-        children: [
-          {
-            index: true,
-            element: <Tshirts />,
-          },
-
-        ],
       },     
-      {
-        path: "/auth",
-        children: [
-          {
-            path: "register",
-            element: <Register />,
-          },
-          {
-            path: "login",
-            element: <Login />,
-          },
-        ],
-      },
       {
         path: "order-history",
         element: <OrderHistory />,
@@ -107,11 +91,7 @@ const router = createBrowserRouter([
   {
     path: "checkout",
     element: <CheckOut />,
-  },
-  {
-    path: "adminLogin",
-    element: <AdminLogin />,
-  },
+  },  
   {
     path: "adminDashboard",
     element: <AdminDashboard />,

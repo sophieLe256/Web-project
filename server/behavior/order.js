@@ -152,14 +152,30 @@ export default class Order {
     }
     static updateCartItem(req, res) { 
         // need update quantity = 0 => delete        
-        const entryData = req.data.entry;
+        const entryData = req.data.entry;        
         db.query("SELECT * FROM orderItem WHERE orderItemID = ?", [entryData.orderItemID], (err, data) => {
             if (err) return res.json(err);
-            if (data.length == 0 && entryData.quantity <= 0) return res.status(200).json("Removed");           
-            db.query("UPDATE orderItem SET quantity= ? WHERE orderItemID = ?", [entryData.quantity, entryData.orderItemID], (err, data) => {
-                if (err) return res.status(401).json(err);
-                return res.status(200).json("Add Cart Successful");
-            });
+            if (entryData.quantity <= 0){
+                // item need to be remove.
+                if (data.length == 0) return res.status(200).json("Removed"); 
+                db.query("DELETE FROM orderItem WHERE orderItemID = ?", [entryData.orderItemID], (err, data) => {
+                    if (err) return res.json(err);
+                    return res.status(200).json("Removed");
+                });
+            }
+            else{
+                // Is item in record
+                if (data.length == 0){                  
+                    return res.status(200).json("Not Found PRoduct in Cart?");
+                }
+                else{
+                    db.query("UPDATE orderItem SET quantity= ? WHERE orderItemID = ?", [entryData.quantity, entryData.orderItemID], (err, data) => {
+                        if (err) return res.status(401).json(err);
+                        return res.status(200).json("Update Cart Successful");
+                    });
+                }
+            }     
+            
         });
 
     }
@@ -169,16 +185,52 @@ export default class Order {
         order(orderID, transactionDate, totalPrice, note, cardID, userID, contactID, status)
         orderItem(orderItemID, orderID, productID, versionDate, selectedSize, quantity)
         */
+        let orderID =null;
+        db.query("SELECT orderID FROM order WHERE status = 0 and userID = ?", [req.data.userID], (err, data) => {
+            if (err) return res.status(401).json(err);
+            if(data.length) return;
+            orderID = data[0].orderID;           
+        });  
+        if(orderID === null){
+            // not thing in cart
+            return res.status(200).json(null);
+        }
         const getOrderItemQuery = 
-        "SELECT * FROM orderItem as I INNER JOIN (SELECT orderID FROM order WHERE status = 0 and userID = ?) as O on I.orderID = O.orderID INNER JOIN (SELECT * FROM product WHERE status = 1) AS P ON I.productID = P.productID"       
+        "SELECT * FROM orderItem as I INNER JOIN (SELECT * FROM product WHERE status = 1) AS P ON I.productID = P.productID"       
         db.query(getOrderItemQuery, [req.data.userID], (err, data) => {
             if (err) return res.status(401).json(err);
+            let package ={
+                orderID: orderID,
+                items: data
+            }
             // let return it in protected package
-            const encryptedData = MySecurity.encryptedData(MySecurity.getUserToken(req.key), data);
+            const encryptedData = MySecurity.encryptedData(MySecurity.getUserToken(req.key), package);
             return res.status(200).json(encryptedData);
         });        
     }
-    
+    static getNumberCartItem(req, res) {
+        /*
+        product(productID, versionDate, name, features, image, size, price, categoriesID, status)
+        order(orderID, transactionDate, totalPrice, note, cardID, userID, contactID, status)
+        orderItem(orderItemID, orderID, productID, versionDate, selectedSize, quantity)
+        */
+        let orderID = null;
+        db.query("SELECT orderID FROM order WHERE status = 0 and userID = ?", [req.data.userID], (err, data) => {
+            if (err) return res.status(401).json(err);
+            if (data.length) return;
+            orderID = data[0].orderID;
+        });
+        if (orderID === null) {
+            // not thing in cart
+            return res.status(200).json("0");
+        }
+        const getNumberInCartQuery =
+            "SELECT COUNT(*) FROM orderItem WHERE orderID = ?)"
+        db.query(getNumberInCartQuery, [orderID], (err, data) => {
+            if (err) return res.status(401).json(err);
+           return res.status(200).json(data[0]);
+        });
+    }
     // Payment Section
     static async checkOutCart(req, res) { 
         /*
@@ -186,7 +238,7 @@ export default class Order {
         order(orderID, transactionDate, totalPrice, note, cardID, userID, contactID, status )
         orderItem(orderItemID, orderID, productID, versionDate, selectedSize, quantity)
         card(cardID, acc_name, acc_number, expireDate, cvc, type, timeStamp)
-        contact(contactID, address, city, zipcode, state, phone, userID, timeStamp)
+        contact(contactID, email, name,  address, city, zipcode, state, phone, userID, timeStamp)
         */
         const entryData = req.data.entry;
         const currentDate = new Date();  
@@ -304,7 +356,7 @@ export default class Order {
     }
     // Ordered Histroy Section
     static getOrderHistory(req, res) { 
-        db.query("SELECT orderID FROM order WHERE status <> 0 and userID = ?", [req.data.userID], (err, data) => {
+        db.query("SELECT * FROM order LEFT NATURAL JOIN card WHERE status <> 0 and userID = ?", [req.data.userID], (err, data) => {
             if (err) return res.status(401).json(err);            
             // let return it in protected package
             const encryptedData = MySecurity.encryptedData(MySecurity.getUserToken(req.key), data);
@@ -313,10 +365,11 @@ export default class Order {
     }
     static async getOrderHistoryDeatail(req, res) { 
         /*
+        product(productID, versionDate, name, features, image, size, price, categoriesID, status)
         order(orderID, transactionDate, totalPrice, note, cardID, userID, contactID, status )
         orderItem(orderItemID, orderID, productID, versionDate, selectedSize, quantity)
         card(cardID, acc_name, acc_number, expireDate, cvc, type, timeStamp)
-        contact(contactID, address, city, zipcode, state, phone, userID, timeStamp)
+        contact(contactID, name, email, address, city, zipcode, state, phone, userID, timeStamp)
         */
         const entryData = req.data.entry;
         if (entryData.orderID == null) return res.status(401).json("Order not found");

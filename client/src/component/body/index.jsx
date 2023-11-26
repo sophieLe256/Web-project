@@ -3,46 +3,53 @@ import "./body.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { DUMMY_DATA } from "../../dummyData/dummyData";
 
 export const Body = () => {
   // Define the number of products per row
+
+  const [categoriesData, setCategoriesData] = useState(null);
+  const [newProductData, setNewProductData] = useState(null);
   const productsPerRow = 3;
 
-  // Function to chunk the array into smaller arrays
-  const chunkArray = (array, size) => {
-    return array.reduce((chunks, item, index) => {
-      if (index % size === 0) {
-        chunks.push([item]);
-      } else {
-        chunks[chunks.length - 1].push(item);
-      }
-      return chunks;
-    }, []);
-  };
+  useEffect(async () => {
+    // let fetch data
+    try {
+      const data = { limit: 6 };
+      const respond1 = await ClientAPI.post("getCategories", data);
+      console.log("From ProductLayout.jsx: ", respond1);
+      setCategoriesData(MySecurity.decryptedData(respond1));
 
-  // Reverse the order of the DUMMY_DATA array
-  const reversedData = DUMMY_DATA.slice().reverse();
+      const respond2 = await ClientAPI.post("getProduct", data);
+      console.log("From Product.jsx: ", respond2);
+      setNewProductData(MySecurity.decryptedData(respond2));
+      if (newProductData.page != currentPage)
+        setCurrentPage = newProductData.page;
+    }
+    catch (err) {
+      console.log("From ProductLayout.jsx: ", err);
+    }
 
-  // Chunk the reversed array into smaller arrays based on productsPerRow
-  const chunkedData = chunkArray(reversedData, productsPerRow);
-
-  // Limit to 2 rows
-  const limitedData = chunkedData.slice(0, 2);
+  }, []);
 
   return <>
-
     <div className="body d-flex">
       <div className="header-menu">
         <div className="overlay-box">
           {/* Menu */}
-          <ul className="menu-list">
-            <li><Link to="/styles">Best Seller</Link></li>
-            <li><Link to="/products">Products</Link></li>
-            <li><Link to="/t-shirts">T-Shirts</Link></li>
-            <li><Link to="/jackets">Jackets</Link></li>
-            <li><Link to="/pants">Pants</Link></li>
-            <li><Link to="/accessories">Accessories</Link></li>
+          <ul className="menu-list">          
+            <li>
+              <Link to="/styles">Best Seller</Link>
+            </li>
+            <li>
+              <Link to="/products?page=1">Products</Link>
+            </li>
+            {
+              categoriesData.map((row) => (
+                <li>
+                  <Link to={`/products?cat=${row.categoriesID}&page=1`}>{row.type}</Link>
+                </li>
+              ))
+            }
           </ul>
         </div>
         <img
@@ -168,13 +175,16 @@ export const Body = () => {
       </div>
 
       <Container className="border-0 product-new-arival">
-        {limitedData.map((row, rowIndex) => (
-          <Row key={rowIndex}>
-            {row.map((product) => (
-              <ProductItem key={product.id} data={product} />
-            ))}
-          </Row>
-        ))}
+        {
+          newProductData.map((item, index) => (
+            (index % productsPerRow === 0) ? (
+              <Row key={index}>
+                {newProductData.slice(index, productsPerRow).map((product) => (
+                  <ProductItem key={product.id} data={product} />
+                ))}
+              </Row>
+            ) : ({})
+          ))}       
       </Container>
 
     </div>
@@ -190,13 +200,13 @@ const ProductItem = ({ data }) => {
         <img
           role="button"
           className="w-100"
-          src={data.image}
+          src={endPoint + data.image}
           alt="WebP rules."
         ></img>
       </Link>
 
       <div className="body-name body-text">{data.name}</div>
-      <div className="body-price body-text">{data.price}</div>
+      <div className="body-price body-text">${data.price}</div>
     </Col>
   );
 };
