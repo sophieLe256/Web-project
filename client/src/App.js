@@ -8,11 +8,7 @@ import { Styles } from "./pages/styles";
 import { ProductsDetails } from "./pages/products-details";
 import { ShoppingCart } from "./pages/shopping-cart";
 import { CheckOut } from "./pages/checkout";
-import { Tshirts } from "./pages/t-shirts";
-import { Jackets } from "./pages/jackets";
-import { Pants } from "./pages/pants";
-import { Accessories } from "./pages/accessories";
-// import { OutletSale } from "./pages/outlet-sale";
+
 import { OrderHistory } from "./pages/order-history";
 import { OrderDetail } from "./pages/order-details";
 import { Description } from "./component/description";
@@ -23,7 +19,7 @@ import { MainLayout } from "./layouts/MainLayout";
 import { AdminDashboard } from './admin/adminDashboard';
 import { AdminProduct } from './admin/adminProduct/index';
 import { AdminUpdateProduct } from './admin/adminProduct/adminUpdateProduct';
-import { AdminLogin } from './admin/adminLogin';
+
 const router = createBrowserRouter([
   {
     path: "/",

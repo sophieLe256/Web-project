@@ -3,8 +3,7 @@ import { useParams } from 'react-router-dom';
 import Sidebar from '../adminLayout/SideBar';
 import Navbar from '../adminLayout/NavBar';
 import "./adminProduct.css";
-import { DUMMY_DATA } from "../../dummyData/dummyData";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { endPoint } from '../../api/clientAPI';
 
 export const AdminUpdateProduct = () => {

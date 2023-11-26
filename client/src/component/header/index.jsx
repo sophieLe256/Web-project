@@ -21,7 +21,22 @@ export const Header = () => {
       console.log("From HeaderGetCart.jsx: ", err);
     }
   };
-
+  const handleLogOut = async () => {
+    try {
+      const data = { nothing: "nothing" };
+      const respond = await ClientAPI.post("logout", data);
+      console.log("From HeaderLogOut.jsx: ", respond);
+      setToast({
+        bg: "success",
+        message: "Log Out success.",
+        show: true,
+      });
+      navigate("/");
+    }
+    catch (err) {
+      console.log("From HeaderLogOut.jsx: ", err);
+    }
+  };
   useEffect(() => {   
     window.addEventListener("cartUpdated", handleCartUpdate);
     return () => {
@@ -128,10 +143,10 @@ export const Header = () => {
                       </li>
                     )}                  
                   <li>
-                    <Link to="/order-history">Order History</Link>
+                      <Link to="/order-history">Order History</Link>
                   </li>
                     <li>
-                      <Link to="/auth/logout">Logout</Link>
+                      <Link to="/" onClick={handleLogOut} >Logout</Link> 
                     </li>
                 </ul>
               </div>

@@ -6,7 +6,7 @@ import crypto from "crypto";
 {/*
 Using Table: 
 User(userID, email, password, fullname, isAdmin)
-UserToken(userID,tokenKey,createdDate,status)
+UserToken(userID,tokenKey,createdDate)
 
 Function:
 register() 
@@ -53,11 +53,12 @@ export default class Authentication {
 
             // encrypt password          
             const hash = await bcrypt.hash(req.password, 10);
-            const q = "INSERT INTO users(email, password, fullname) VALUES (?)"          
+            const q = "INSERT INTO users(email, password, fullname, isAdmin) VALUES (?)"          
             const values = [
                 req.email,
                 hash,
                 req.fullName,
+                0
             ]
             db.query(q, values, (err, data) => {
                 // console.log(data);
@@ -92,7 +93,7 @@ export default class Authentication {
                 res.cookie("access_token", tokenS, {
                     httpOnly: true
                 });
-                res.cookie("userID", data[0].id, {
+                res.cookie("userID", data[0].userID, {
                     httpOnly: true
                 });
                 res.cookie("isAdmin", data[0].isAdmin, {
@@ -104,7 +105,17 @@ export default class Authentication {
     }
     static logout(req, res) {       
         db.query("DELETE FROM UserToken WHERE tokenKey LIKE '?%'", [req.key], async (err, data) => {
-            if (err) return res.json(err);           
+            if (err) return res.json(err);      
+            // put to client cookie ???
+            res.cookie("access_token", null, {
+                httpOnly: true
+            });
+            res.cookie("userID", null, {
+                httpOnly: true
+            });
+            res.cookie("isAdmin", null, {
+                httpOnly: true
+            });     
             return res.status(200).json("Log out");
         });        
     }
