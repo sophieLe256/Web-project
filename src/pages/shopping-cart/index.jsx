@@ -21,7 +21,7 @@ export const ShoppingCart = () => {
     e.preventDefault();
     const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
     const updatedCart = existingCart.filter(
-      (item) => item.productId !== productId || item.size !== size
+      (item) => !(item.productId === productId && item.size === size)
     );
 
     localStorage.setItem("cart", JSON.stringify(updatedCart));
@@ -37,11 +37,10 @@ export const ShoppingCart = () => {
     window.dispatchEvent(new Event("cartUpdated"));
   };
 
-
-  const handleQuantityChange = (productId, newQuantity) => {
+  const handleQuantityChange = (productId, size, newQuantity) => {
     const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
     const updatedCart = existingCart.map((item) => {
-      if (item.productId === productId) {
+      if (item.productId === productId && item.size === size) {
         item.quantity = newQuantity;
       }
       return item;
@@ -57,10 +56,10 @@ export const ShoppingCart = () => {
     window.dispatchEvent(new Event("cartUpdated"));
   };
 
-  const handleIncrease = (productId) => {
+  const handleIncrease = (productId, size) => {
     const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
     const updatedCart = existingCart.map((item) => {
-      if (item.productId === productId) {
+      if (item.productId === productId && item.size === size) {
         if (item.quantity < 10) {
           item.quantity += 1;
         }
@@ -78,10 +77,10 @@ export const ShoppingCart = () => {
     window.dispatchEvent(new Event("cartUpdated"));
   };
 
-  const handleDecrease = (productId) => {
+  const handleDecrease = (productId, size) => {
     const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
     const updatedCart = existingCart.map((item) => {
-      if (item.productId === productId) {
+      if (item.productId === productId && item.size === size) {
         if (item.quantity > 1) {
           item.quantity -= 1;
         }
@@ -149,7 +148,7 @@ export const ShoppingCart = () => {
                                       <button
                                         type="button"
                                         className="qty-btn plus"
-                                        onClick={() => handleIncrease(product.productId)}
+                                        onClick={() => handleIncrease(product.productId, product.size)}
                                       >
                                         +
                                       </button>
@@ -165,7 +164,7 @@ export const ShoppingCart = () => {
                                       <button
                                         type="button"
                                         className="minus qty-btn stop"
-                                        onClick={() => handleDecrease(product.productId)}
+                                        onClick={() => handleDecrease(product.productId, product.size)}
                                       >
                                         -
                                       </button>
