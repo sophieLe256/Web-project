@@ -1,35 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./body.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ClientAPI, {endPoint} from "../../api/clientAPI";
+import MySecurity from "../../api/mySecurity";
+
 
 export const Body = () => {
   // Define the number of products per row
 
   const [categoriesData, setCategoriesData] = useState(null);
-  const [newProductData, setNewProductData] = useState(null);
-  const productsPerRow = 3;
+  const [newProductData, setNewProductData] = useState(null);  
+  const productsPerRow = 3;  
 
-  useEffect(async () => {
-    // let fetch data
-    try {
-      const data = { limit: 6 };
-      const respond1 = await ClientAPI.post("getCategories", data);
-      console.log("From ProductLayout.jsx: ", respond1);
-      setCategoriesData(MySecurity.decryptedData(respond1));
+  useEffect( () => {
+    async function fetchData() {
+      // let fetch data
+      try {
+        const data = { limit: 6 };
+        let respond1 = await ClientAPI.post("getCategories", data);
+        setCategoriesData(MySecurity.decryptedData(respond1.data));
 
-      const respond2 = await ClientAPI.post("getProduct", data);
-      console.log("From Product.jsx: ", respond2);
-      setNewProductData(MySecurity.decryptedData(respond2));
-      if (newProductData.page != currentPage)
-        setCurrentPage = newProductData.page;
+        let respond2 = await ClientAPI.post("getNewestProduct", data);
+        setNewProductData(MySecurity.decryptedData(respond2.data));
+      }
+      catch (err) {
+        console.log("From ProductLayout.jsx: ", err);
+      }
     }
-    catch (err) {
-      console.log("From ProductLayout.jsx: ", err);
-    }
-
+    fetchData();
   }, []);
+  
+  if (categoriesData === null) {
+    return (
+      <div className="loading">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return <>
     <div className="body d-flex">
@@ -175,7 +184,7 @@ export const Body = () => {
       </div>
 
       <Container className="border-0 product-new-arival">
-        {
+        {newProductData!== null &&
           newProductData.map((item, index) => (
             (index % productsPerRow === 0) ? (
               <Row key={index}>
@@ -183,7 +192,7 @@ export const Body = () => {
                   <ProductItem key={product.id} data={product} />
                 ))}
               </Row>
-            ) : ({})
+            ) : null
           ))}       
       </Container>
 
@@ -196,7 +205,7 @@ export const Body = () => {
 const ProductItem = ({ data }) => {
   return (
     <Col className="d-flex product-item">
-      <Link to={`/products-details/${data.id}`}>
+      <Link to={`/products-details/${data.productID}`}>
         <img
           role="button"
           className="w-100"

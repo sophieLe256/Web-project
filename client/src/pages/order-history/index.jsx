@@ -1,23 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./history.css";
+import ClientAPI from "../../api/clientAPI";
+import MySecurity from "../../api/mySecurity";
 
 export const OrderHistory = () => {
   const [orderHistory, setOrderHistory] = useState([]);
 
-  useEffect(async () => {
+  useEffect(() => {
+    async function fetchData() {
     // let fetch data
     try {
       const data = { nothing: "nothing" };
       const respond = await ClientAPI.post("getOrderHistory", data);
-      console.log("From OrderHistory.jsx: ", respond);
-      setOrderHistory(MySecurity.decryptedData(respond));
+      console.log("From OrderHistory.jsx: ", respond.data);
+      setOrderHistory(MySecurity.decryptedData(respond.data));
     }
     catch (err) {
       console.log("From OrderHistory.jsx: ", err);
     }
-
+  }
+  fetchData();
   }, []);
+
+  if (orderHistory === null) {
+    return (
+      <div className="loading">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="order-history-container">
@@ -40,7 +52,7 @@ export const OrderHistory = () => {
               <tr key={index} className="order-item">
                 <td>{order.orderID}</td>
                 <td>{new Date(order.transactionDate).toLocaleDateString()}</td>
-                <td>${order.totalPrice.toFixed(2)}</td>
+                <td>${parseFloat(order.totalPrice).toFixed(2)}</td>
                 <td>{order.type}</td>
                 <td>
                   <Link to={`/order-details/${order.orderID}`}>View Details</Link>

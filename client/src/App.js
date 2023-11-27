@@ -47,7 +47,7 @@ const router = createBrowserRouter([
         element: <AboutUs />,
       },
       {
-        path: "products-details/:productId",
+        path: "products-details/:productID",
         element: <ProductsDetails />,
       },
       {
@@ -79,7 +79,7 @@ const router = createBrowserRouter([
         element: <OrderHistory />,
       },
       {
-        path: "order-details/:orderId",
+        path: "order-details/:orderID",
         element: <OrderDetail />,
       },
     ],
@@ -97,7 +97,7 @@ const router = createBrowserRouter([
     element: <AdminProduct />,
   },
   {
-    path: "adminUpdateProduct/:productId",
+    path: "adminUpdateProduct/:productID",
     element: <AdminUpdateProduct />,
   },
 ]

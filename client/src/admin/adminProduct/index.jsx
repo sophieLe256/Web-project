@@ -3,6 +3,8 @@ import Sidebar from '../adminLayout/SideBar';
 import Navbar from '../adminLayout/NavBar';
 import "./adminProduct.css";
 import { endPoint } from '../../api/clientAPI';
+import ClientAPI from "../../api/clientAPI";
+import MySecurity from "../../api/mySecurity";
 
 
 export const AdminProduct = () => {
@@ -12,22 +14,10 @@ export const AdminProduct = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [image, setImage] = useState(null);
     const [selectedSizes, setSelectedSizes] = useState([]); 
-
+    const [productData, setProductData] = useState(null);
     const [categoriesData, setCategoriesData] = useState(null);
-    const [inputValues, setInputValues] = useState({});
-
-    // Get Categoris list
-    useEffect(async () => {       
-        try {
-            const data = { nothing: "nothing" };
-            const respond = await ClientAPI.post("getCategories", data);
-            console.log("From AdminProductCategories.jsx: ", respond);
-            setCategoriesData(MySecurity.decryptedData(respond));
-        }
-        catch (err) {
-            console.log("From AdminProductCategories.jsx: ", err);
-        }
-    }, []);
+    const [inputValues, setInputValues] = useState({});   
+    
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -64,21 +54,17 @@ export const AdminProduct = () => {
     const handleAddProduct = async (event) => {
         event.preventDefault();
         // add new product
-        try {
-            let data = inputValues;
-            data = {
-                ...prevValues,
+        try {          
+            let data = {
+                ...inputValues,
                 size: selectedSizes.join(",").toString(),
                 image: ""               
             }
             const respond = await ClientAPI.post("addProduct", data, image);
-            console.log("From AdminAddProductLayout.jsx: ", respond);    
-            setToast({
-                bg: "success",
-                message: "Add Product success.",
-                show: true,
-            });
-            setCurrentPage(productData.totalPage);
+            console.log("From AdminAddProductLayout.jsx: ", respond.data);  
+            //? get product list ?
+            
+            setCurrentPage(productData.totalPage+1);
         }
         catch (err) {
             console.log("From AdminAddProductLayout.jsx: ", err);
@@ -89,17 +75,13 @@ export const AdminProduct = () => {
     const removeProduct = async (productID) =>{  
         // remove product
         try {            
-            data = {
+            const data = {
                 productID: productID,
             }
             const respond = await ClientAPI.post("removeProduct", data, image);
-            console.log("From AdminRemoveProductLayout.jsx: ", respond);
-            setToast({
-                bg: "success",
-                message: "Remove Product success.",
-                show: true,
-            });
-            setCurrentPage(productData.totalPage);
+            console.log("From AdminRemoveProductLayout.jsx: ", respond.data);
+           
+            setCurrentPage(currentPage);
         }
         catch (err) {
             console.log("From AdminRemoveProductLayout.jsx: ", err);
@@ -122,28 +104,53 @@ export const AdminProduct = () => {
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
     };
+    // Get Categoris list
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const data = { nothing: "nothing" };
+                const respond = await ClientAPI.post("getCategories", data);
+                console.log("From AdminProductCategories.jsx: ", respond.data);
+                setCategoriesData(MySecurity.decryptedData(respond.data));
+            }
+            catch (err) {
+                console.log("From AdminProductCategories.jsx: ", err);
+            }
+        }
+        fetchData();
+    }, []);
 
-    // get product
-    const [productData, setProductData] = useState(null);
-    useEffect(async () => {              
+    // get product    
+    useEffect(() => {         
+        async function fetchData() {     
         try {
             const data = {
                 page: currentPage,
                 limit: productsPerPage,             
             };
             const respond = await ClientAPI.post("getProduct", data);
-            console.log("From AdminProduct.jsx: ", respond);
-            setProductData(MySecurity.decryptedData(respond));
-            if (productData.page != currentPage)
-                setCurrentPage = productData.page;
+            console.log("From AdminProduct.jsx: ", respond.data);
+            setProductData(MySecurity.decryptedData(respond.data));
+            if (respond.data.page !== currentPage)
+                setCurrentPage(respond.data.page);
         }
         catch (err) {
             console.log("From AdminProduct.jsx: ", err);
         }  
+    }
+    fetchData();
     }, [currentPage]);
 
+    if (categoriesData === null || productData === null) {
+        return (
+            <div className="loading">
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
     return (
-        <section id="content" className='adminPage'>
+        <section id="content" className='adminPage'>            
             <Sidebar />
             <Navbar />
             <main className="content-main-product">
@@ -182,7 +189,7 @@ export const AdminProduct = () => {
                                     </a>
                                 </td>
                                 <td>{item.name}</td>
-                                <td>${item.price.toFixed(2)}</td>
+                                <td>${parseFloat(item.price).toFixed(2)}</td>
                                 <td>{item.type}</td>
                                 <td>{item.size}</td>
                                 <td>
@@ -192,7 +199,7 @@ export const AdminProduct = () => {
                                         </a>
                                     </div>
                                     <form method="post" action="">
-                                        <button className="delete" name="deleteProduct" value={item.productID} onClick={removeProduct(item.productID)}>
+                                        <button className="delete" name="deleteProduct" value={item.productID} onClick={() => removeProduct(item.productID)}>
                                             Delete
                                         </button>
                                     </form>

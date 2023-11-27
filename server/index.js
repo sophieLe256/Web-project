@@ -1,11 +1,16 @@
 import express  from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors"
-import Product from "./behavior/product";
-import Order from "./behavior/order";
+import Product from "./behavior/product.js";
+import Orders from "./behavior/order.js";
+import { checkDatabase } from "./db.js";
 import multer from "multer";
 import fs from "fs";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import path from "path";
+import MySecurity from "./behavior/myServerSecurity.js";
+import Authentication from "./behavior/authentication.js";
 // Server port
 var app = express()
 const port = 3000
@@ -16,15 +21,25 @@ app.use(cookieParser())
 app.use(cors());
 // check database
 checkDatabase();
+
 // read picture from disk
-const getImageData = () => {
-    const imagePath = path.join(__dirname, 'images', imageName);
+const getImageData = (imageName) => {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);    
+    let imagePath = path.join(__dirname, 'images', imageName);
     try {
         // Read the contents of the image file
         const imageData = fs.readFileSync(imagePath);
         return imageData;
-    } catch (error) {
-        console.error('Error reading image file:', error);
+    } catch (error) {        
+        try{
+            imagePath = path.join(__dirname, 'images', "not-found.png");
+            const imageData2 = fs.readFileSync(imagePath);
+            return imageData2;
+        }
+        catch(err){
+            console.error('Error reading image file:', error);
+        }
         return null;
     }
 };
@@ -35,8 +50,7 @@ Swithcher rules:
     + decrypted
     + switch by action
 Package Struct:
-req_encrypted={
-    file: imageUpload,
+req_encrypted={    
     body = {
         key: partOfKey,
         data: encryptedData={
@@ -44,6 +58,7 @@ req_encrypted={
             action: action, // use for swtich
             entry: data // json data from client
         }
+        file: imageUpload,
     }
 }
 res.sendout ={
@@ -52,80 +67,83 @@ res.sendout ={
 }
 */}
 // Switcher
-app.post("/dummydata", upload.single('file'), (req_encode, res) => {
-    let req = MySecurity.decryptedPackage(req_encode);
-    if (req == null) return res.status(400).json("Bad Request");    
-    switch (req.body.data.entry.action) {
+app.post("/dummydata", upload.single('file'), async (req, res) => {  
+    if (req === null) return res.status(400).json("Bad Request");  
+    
+    let data = JSON.parse(req.body.data);
+    let key = req.body.key;  
+    switch (data.action) {
         // authentication
         case "login":
-            Authentication.login(req.body.data.entry, res);
+            Authentication.login(data, res);
             break;
         case "register":
-            Authentication.register(req.body.data.entry, res);
+            Authentication.register(data, res);
             break;
         case "logout":
-            Authentication.logout(req.body, res);
+            Authentication.logout(key, res);
             break;
         // product
         case "getProduct":
-            Product.getProduct(req.body, res);
+            Product.getProduct(key, data, res);
             break;
         case "getProductDetail":
-            Product.getProductDetail(req.body, res);
+            
+            Product.getProductDetail(key, data, res);
             break;
         case "getNewestProduct":
-            Product.getNewestProduct(req.body, res);
+            Product.getNewestProduct(key, data, res);
             break;           
         case "addProduct":
             // handle upload file
-            if(req.file !=null)
+            if(req.body.file !=null)
             {
-                const { originalname, filename } = req.file;
-                req.body.data.entry.image = filename;
+                const { originalname, filename } = req.body.file;
+                entry.image = filename;
             }
-            Product.addProduct(req.body, res);
+            Product.addProduct(data, res);
             break;
         case "removeProduct":
-            Product.removeProduct(req.body, res);
+            Product.removeProduct(data, res);
             break;
         case "updateProduct":
             // handle upload file
-            if (req.file != null) {
-                const { originalname, filename } = req.file;
-                req.body.data.entry.image = filename;
+            if (req.body.file !== null) {
+                const { originalname, filename } = req.body.file;
+                entry.image = filename;
             }
-            Product.updateProduct(req.body, res);
+            Product.updateProduct(data, res);
             break;
         case "getCategories":
-            Product.getCategories(req.body, res);
+            Product.getCategories(key, res);
             break;
         // order
         case "addCart":
-            Order.addCart(req.body, res);
+            Orders.addCart(data, res);
             break;
         case "getNumberCartItem":
-            Order.getNumberCartItem(req.body, res);
+            Orders.getNumberCartItem(data, res);
             break;
         case "getCartItem":
-            Order.getCartItem(req.body, res);
+            Orders.getCartItem(key,data, res);
             break;
         case "updateCartItem":
-            Order.updateCartItem(req.body, res);
+            Orders.updateCartItem(data, res);
             break;
         case "checkOutCart":
-            Order.checkOutCart(req.body, res);
+            await Orders.checkOutCart(data, res);
             break;
         case "getContact":
-            Order.getContact(req.body, res);
+            Orders.getContact(key, data, res);
             break;
         case "getOrderHistory":
-            Order.getOrderHistory(req.body, res);
+            Orders.getOrderHistory(key, data, res);
             break;
         case "getOrderHistoryDeatail":
-            Order.getOrderHistoryDeatail(req.body, res);
+            Orders.getOrderHistoryDeatail(key, data, res);
             break;
         case "updateOrderStatus":
-            Order.updateOrderStatus(req.body, res);
+            Orders.updateOrderStatus(data, res);
             break;
         
         default:        
@@ -133,6 +151,10 @@ app.post("/dummydata", upload.single('file'), (req_encode, res) => {
             break;
     }
 })
+app.get('/test/getCategories',(req,res)=>{
+    Product.getCategories(req.body, res);
+});
+
 // send picture out
 app.get('/dummydata/:imageName', (req, res) => {
     const imageName = req.params.imageName;

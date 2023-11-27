@@ -5,29 +5,19 @@ import Navbar from '../adminLayout/NavBar';
 import "./adminProduct.css";
 import { useNavigate } from "react-router-dom";
 import { endPoint } from '../../api/clientAPI';
+import ClientAPI from "../../api/clientAPI";
+import MySecurity from "../../api/mySecurity";
 
 export const AdminUpdateProduct = () => {
     const [image, setImage] = useState('');
-    const { productId } = useParams();    
+    const { productID } = useParams();    
     
     const [selectedSizes, setSelectedSizes] = useState([]);
     const [inputValues, setInputValues] = useState({});
     const [categoriesData, setCategoriesData] = useState(null);
 
-    const navigate = useNavigate();
-
-    // Get Categoris list
-    useEffect(async () => {
-        try {
-            const data = { nothing: "nothing" };
-            const respond = await ClientAPI.post("getCategories", data);
-            console.log("From AdminProductCategories.jsx: ", respond);
-            setCategoriesData(MySecurity.decryptedData(respond));
-        }
-        catch (err) {
-            console.log("From AdminProductCategories.jsx: ", err);
-        }
-    }, []);
+    const navigate = useNavigate();    
+    
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -63,19 +53,13 @@ export const AdminUpdateProduct = () => {
     const handleEditProduct = async (event) => {
         event.preventDefault();
         
-        try {
-            let data = inputValues;
-            data = {
-                ...prevValues,
+        try {         
+            let data = {
+                ...inputValues,
                 size: selectedSizes.join(",").toString(),
             }
             const respond = await ClientAPI.post("updateProduct", data, image);
-            console.log("From AdminUpdateProductLayout.jsx: ", respond);
-            setToast({
-                bg: "success",
-                message: "Edit Product success.",
-                show: true,
-            });
+            console.log("From AdminUpdateProductLayout.jsx: ", respond.data);            
             navigate("/adminProduct");
         }
         catch (err) {
@@ -84,15 +68,23 @@ export const AdminUpdateProduct = () => {
     };
 
     // get inital product detail
-    useEffect(async () => {
-        // Add logic to fetch product details using productId and update state variables
+    useEffect(() => {
+        // Add logic to fetch product details using productID and update state variables
+        async function fetchData() {
         try {
+
+            // Get Categoris list
             const data = {
                 productID: productID,
             };
-            const respond = await ClientAPI.post("getProductDetail_data", data);
-            console.log("From AdminGetEditProduct.jsx: ", respond);
-            let productData = MySecurity.decryptedData(respond);
+            const respond1 = await ClientAPI.post("getCategories", data);
+            console.log("From AdminProductCategories.jsx: ", respond1.data);
+            setCategoriesData(MySecurity.decryptedData(respond1.data));
+            // get product information
+            
+            const respond2 = await ClientAPI.post("getProductDetail", data);
+            console.log("From AdminGetEditProduct.jsx: ", respond2.data);
+            let productData = MySecurity.decryptedData(respond2.data);
             setInputValues({
                 productID: productID,
                 name: productData.name,
@@ -107,10 +99,21 @@ export const AdminUpdateProduct = () => {
         catch (err) {
             console.log("From AdminGetEditProduct.jsx: ", err);
         }  
+    }
+    fetchData();
     }, []);
-
+    
+    if (categoriesData === null || categoriesData === undefined) {
+        return (
+            <section id="content" className='adminPage'> 
+            <div className="loading">
+                <p>Loading...</p>
+            </div>
+            </section>
+        );
+    }
     return (
-        <section id="content" className='adminPage'>
+        <section id="content" className='adminPage'>            
             <Sidebar />
             <Navbar />
             <main>
@@ -119,7 +122,6 @@ export const AdminUpdateProduct = () => {
                         <h1>Edit Product</h1>
                     </div>
                 </div>
-
                 <div className="updateProduct">
                     <form onSubmit={handleEditProduct} encType="multipart/form-data">
                         <label htmlFor="categoriesID">Categories:</label>

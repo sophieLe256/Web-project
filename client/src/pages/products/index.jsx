@@ -1,55 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./products.css";
 import { Col, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+
+import ClientAPI, { endPoint } from "../../api/clientAPI";
 import MySecurity from "../../api/mySecurity";
-import { ClientAPI, endPoint } from "../../api/clientAPI";
+
 
 export const Products = () => {
   const productsPerPage = 12;
   const productsPerRow = 3;
   const maxVisibleButtons = 3;
-  const [currentPage, setCurrentPage] = useState(searchParams.get('page') ? 1 : searchParams.get('page'));
-  const [categoryID, setCategoryID] = useState(null);
-  const [productData, setProductData] = useState(null);
-  
-
   const location = useLocation();
-
-  useEffect(async () => {
-    const searchParams = new URLSearchParams(location.search);
-    setCategoryID(searchParams.get('cat'));    
-    // let fetch data
-    try {
-      const data = {
-        page: currentPage,
-        limit: productsPerPage,
-        categoriesID: categoryID
-      };
-      const respond = await ClientAPI.post("getProduct", data);
-      console.log("From Product.jsx: ",respond);
-      setProductData(MySecurity.decryptedData(respond));
-      if(productData.page != currentPage)
-        setCurrentPage = productData.page;
+  let searchParams = new URLSearchParams(location.search);
+  const [currentPage, setCurrentPage] = useState(searchParams.get('page'));
+  const [categoryID, setCategoryID] = useState(searchParams.get('cat'));
+  const [productData, setProductData] = useState(null);
+  const navigate = useNavigate();  
+  useEffect(() => {
+    async function fetchData() {   
+      try {
+        const data = {
+          page: currentPage,
+          limit: productsPerPage,
+          categoriesID: searchParams.get('cat')
+        };
+        const respond = await ClientAPI.post("getProduct", data);
+        console.log("From Product.jsx: ", respond.data.data);
+        await setProductData(MySecurity.decryptedData(respond.data));
+        if (respond.data.page !== currentPage)
+          setCurrentPage(respond.data.page);
+      }
+      catch (err) {
+        console.log("From Product.jsx: ", err);
+      }
     }
-    catch (err){
-      console.log("From Product.jsx: ", err);
-    }  
-
+    fetchData();
   }, [location.search]);
-  
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    if (categoryID)
-      history.push(`/products?page=${page}`);
+    if (categoryID === null)
+      navigate(`/products?page=${page}`);
     else
-      history.push(`/products?cat=${categoryID}&page=${page}`);
+      navigate(`/products?cat=${categoryID}&page=${page}`);
     // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const visiblePageNumbers = (() => {
+    if (productData===null) return null;
     const halfMaxButtons = Math.floor(maxVisibleButtons / 2);
     let startPage = Math.max(1, currentPage - halfMaxButtons);
     let endPage = Math.min(productData.totalPage, startPage + maxVisibleButtons - 1);
@@ -61,22 +62,30 @@ export const Products = () => {
     return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
   })();
 
+  if (productData === null) {
+    return (
+      <div className="loading">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <>
       <div className="col-xl-10 col-lg-9 col-md-12 col-12 content-collection products-container">
         {
-        productData.data.map((item, index) => (
-          (index % productsPerRow === 0)?(
-            <Row key={index}>
-            {productData.data.slice(index,productsPerRow).map((product) => (
-              <ProductItem key={product.id} data={product} />
-              ))}
-            </Row>
-          ):({})          
-        ))}
+          productData.data.map((item, index) => (
+            (index % productsPerRow === 0) ? (
+              <Row key={index}>
+                {productData.data.slice(index, index + productsPerRow).map((product) => (
+                  <ProductItem key={product.id} data={product} />
+                ))}
+              </Row>
+            ) : null
+          ))
+        }
         <div className="pagination">
-          {visiblePageNumbers.map((pageNumber) => (
+          {visiblePageNumbers!==null && visiblePageNumbers.map((pageNumber) => (
             <button
               key={pageNumber}
               onClick={() => handlePageChange(pageNumber)}
@@ -94,11 +103,11 @@ export const Products = () => {
 const ProductItem = ({ data }) => {
   return (
     <Col className="d-flex product-item">
-      <Link to={`/products-details/${data.id}`}>
+      <Link to={`/products-details/${data.productID}`}>
         <img
           role="button"
           className="w-100"
-          src={endPoint+data.image}
+          src={endPoint + data.image}
           alt="WebP rules."
         ></img>
       </Link>

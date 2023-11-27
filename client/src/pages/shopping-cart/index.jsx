@@ -3,25 +3,29 @@ import "./shopping-cart.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import { endPoint } from "../../api/clientAPI";
-
+import ClientAPI from "../../api/clientAPI";
+import MySecurity from "../../api/mySecurity";
 
 export const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0.0);
   const [refresh, setRefresh] = useState(0.0);
-  useEffect(async () => {
+  useEffect(() => {
+    async function fetchData() {
     try {
       const data = { nothing: "nothing" };
       const respond = await ClientAPI.post("getCartItem", data);
-      console.log("From ShoppingCart.jsx: ", respond);
-      setCartItems(MySecurity.decryptedData(respond));
+      console.log("From ShoppingCart.jsx: ", respond.data);
+      setCartItems(MySecurity.decryptedData(respond.data));
       // Calculate total price based on quantity
-      const total = cartItems.items.reduce((acc, product) => acc + product.price * product.quantity, 0);
+      const total = respond.data.items.reduce((acc, product) => acc + product.price * product.quantity, 0);
       setTotalPrice(total);
     }
     catch (err) {
       console.log("From ShoppingCart.jsx: ", err);
     }
+  }
+  fetchData();
   }, [refresh]);
   
   // update item in shooping cart
@@ -33,7 +37,7 @@ export const ShoppingCart = () => {
         quantity: quantity
       };
       const respond = await ClientAPI.post("updateCartItem", data);
-      console.log(`From ${caller}.jsx: `, respond);
+      console.log(`From ${caller}.jsx: `, respond.data);
       window.dispatchEvent(new Event("cartUpdated"));
       setRefresh(Math.random());
     }
@@ -41,23 +45,22 @@ export const ShoppingCart = () => {
       console.log(`From ${caller}.jsx: `, err);
     }
   }
-  const handleRemoveItem = async (orderItemID) => {
-    e.preventDefault();
+  const handleRemoveItem = async (orderItemID) => {   
     orderItemChange(orderItemID, 0, "ShoppingCart_Remove");
   };
 
   const handleQuantityChange = async (orderItemID, quantity) => {
-    e.preventDefault();
+    //e.preventDefault();
     orderItemChange(orderItemID, quantity, "ShoppingCart_Change");    
   };
 
   const handleIncrease = (orderItemID, quantity) => {
-    e.preventDefault();
+    //e.preventDefault();
     orderItemChange(orderItemID, quantity, "ShoppingCart_Increase");   
 
   };
   const handleDecrease = (orderItemID, quantity) => {
-    e.preventDefault();
+    //e.preventDefault();
     orderItemChange(orderItemID, quantity, "ShoppingCart_Increase");  
   };
 
@@ -71,7 +74,7 @@ export const ShoppingCart = () => {
                 <div className="header-page">
                   <h1>Cart</h1>
                 </div>
-                {cartItems.length > 0 ? (
+                {cartItems!==null && cartItems.items.length > 0 ? (
                   <div className="mainCart-detail">
                     <div className="list-pageform-cart">
                       <div className="cart-row">
@@ -111,7 +114,7 @@ export const ShoppingCart = () => {
                                       <button
                                         type="button"
                                         className="qty-btn plus"
-                                        onClick={() => handleIncrease(product.orderItemID, (product.quantity + 1 > 10 ? 10 : product.quantity+1))}
+                                        onClick={() => handleIncrease(product.orderItemID, (parseInt(product.quantity) + 1 > 10 ? 10 : parseInt(product.quantity) + 1))}
                                       >
                                         +
                                       </button>
@@ -122,12 +125,12 @@ export const ShoppingCart = () => {
                                         max="10"
                                         value={product.quantity}
                                         className="tc line-item-qty item-quantity"
-                                        onChange={(e) => handleQuantityChange(product.orderItemID, (parseInt(e.target.value, 10) === NaN ? product.quantity : parseInt(e.target.value, 10)))}
+                                        onChange={(e) => handleQuantityChange(product.orderItemID, (parseInt(e.target.value) < 1 && parseInt(e.target.value) > 10 ? parseInt(product.quantity) : parseInt(e.target.value,1)))}
                                       />
                                       <button
                                         type="button"
                                         className="minus qty-btn stop"
-                                        onClick={() => handleDecrease(product.orderItemID, (product.quantity - 1 < 1 ? 1 : product.quantity-1))}
+                                        onClick={() => handleDecrease(product.orderItemID, (parseInt(product.quantity) - 1 < 1 ? 1 : parseInt(product.quantity) - 1))}
                                       >
                                         -
                                       </button>

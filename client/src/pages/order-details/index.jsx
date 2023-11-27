@@ -2,28 +2,33 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./orderdetail.css";
 import { endPoint } from "../../api/clientAPI";
+import ClientAPI from "../../api/clientAPI";
+import MySecurity from "../../api/mySecurity";
 
 export const OrderDetail = () => {
   const { orderID } = useParams();
   const [orderDetails, setOrderDetails] = useState(null);
 
-  useEffect(async () => {
+  useEffect(() => {
+    async function fetchData() {
     // let fetch data
     try {
       const data = { orderID: orderID };
       const respond = await ClientAPI.post("getOrderHistoryDeatail", data);
-      console.log("From OrderDetail.jsx: ", respond);
-      setOrderDetails(MySecurity.decryptedData(respond));
+      console.log("From OrderDetail.jsx: ", respond.data);
+      setOrderDetails(MySecurity.decryptedData(respond.data));
     }
     catch (err) {
       console.log("From OrderDetail.jsx: ", err);
     }
+  }
+  fetchData();
 
   }, []);
 
-  if (orderDetails == null) {
+  if (orderDetails === null) {
     return (
-      <div className="order-detail-container">
+      <div className="loading">
         <p>Loading...</p>
       </div>
     );
@@ -42,7 +47,7 @@ export const OrderDetail = () => {
           <h2>Thank You For Your Order!</h2>
           <p><strong>Order ID:</strong> {orderDetails.order.orderID}</p>
           <p><strong>Order Date:</strong> {new Date(orderDetails.order.transactionDate).toLocaleDateString()}</p>
-          <p><strong>Total Price:</strong> ${orderDetails.order.totalPrice.toFixed(2)}</p>
+          <p><strong>Total Price:</strong> ${parseFloat(orderDetails.order.totalPrice).toFixed(2)}</p>
         </div>
         <br/>
         <div className="custommer-information">
@@ -93,8 +98,8 @@ export const OrderDetail = () => {
                   </td>
                   <td>{item.quantity}</td>
                   <td>{item.size}</td>
-                  <td>${item.price.toFixed(2)}</td>
-                  <td>${(item.price * item.quantity).toFixed(2)}</td>
+                  <td>${parseFloat(item.price).toFixed(2)}</td>
+                  <td>${(parseFloat(item.price) * parseFloat(item.quantity)).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>

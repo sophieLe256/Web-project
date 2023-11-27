@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from "react";
 import "./header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'js-cookie';
+import ClientAPI from "../../api/clientAPI";
+import { Toast } from 'react-bootstrap';
 
 export const Header = () => {
-  const [isShow1, setIsShow1] = useState(false);
-  const [isShow3, setIsShow3] = useState(false);
+  const [isShow1, setIsShow1] = useState(false);  
   const [isShow2, setIsShow2] = useState(false);
+  const [isShow3, setIsShow3] = useState(false);
+  const [isShow4, setIsShow4] = useState(false);
   const [cartTotal, setCartTotal] = useState(0);
-
+  const navigate = useNavigate();
+  const [toast, setToast] = useState({
+    show: false,
+    bg: "success",
+    message: "",
+  });
   const handleCartUpdate = async () => {
     try {
       const data = { nothing: "nothing" };
       const respond = await ClientAPI.post("getNumberCartItem", data);
-      console.log("From HeaderGetCart.jsx: ", respond);
-      setCartTotal(updatedTotal);
+      console.log("From HeaderGetCart.jsx: ", respond.data);
+      setCartTotal(respond.data);
     }
     catch (err) {
       console.log("From HeaderGetCart.jsx: ", err);
@@ -25,7 +33,13 @@ export const Header = () => {
     try {
       const data = { nothing: "nothing" };
       const respond = await ClientAPI.post("logout", data);
-      console.log("From HeaderLogOut.jsx: ", respond);
+      console.log("From HeaderLogOut.jsx: ", respond.data);
+      if (respond.data === "Log out")
+      {
+        Cookies.remove("userID");
+        Cookies.remove("isAdmin");
+        Cookies.remove("access_token");     
+      }
       setToast({
         bg: "success",
         message: "Log Out success.",
@@ -46,6 +60,16 @@ export const Header = () => {
 
   return (
     <div className="header d-flex align-items-center">
+      <Toast
+        className="position-fixed top-0 end-0"
+        onClose={() => setToast((prev) => ({ ...prev, show: false }))}
+        show={toast.show}
+        delay={3000}
+        bg={toast.bg}
+        autohide
+      >
+        <Toast.Body className="text-light fs-6">{toast.message}</Toast.Body>
+      </Toast>
       <Link to="/" className="left d-flex justify-content-around">
         <img
           role="button"
@@ -126,18 +150,18 @@ export const Header = () => {
               src="header-icon-4.webp"
               alt="WebP rules."
             ></img>
-            {Cookies.get("userID")!==null?(
+            { isShow4 && (Cookies.get("userID") ===undefined?(
               <div className="login">
                 <ul>
                   <li>
-                    <Link to="/auth/login">Login</Link>
+                    <Link to="/login">Login</Link>
                   </li>                               
                 </ul>
               </div>
             ):(
               <div className="login">
                 <ul>
-                    {Cookies.get("isAdmin")===1 && (
+                    {Cookies.get("isAdmin") !== undefined && Cookies.get("isAdmin") === '1' && (
                       <li>
                         <Link to="/adminDashboard">Account</Link>
                       </li>
@@ -150,7 +174,7 @@ export const Header = () => {
                     </li>
                 </ul>
               </div>
-            )}
+            ))}
             
           </div>
         </div>

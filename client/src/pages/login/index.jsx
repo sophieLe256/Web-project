@@ -1,27 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Container,
   Form,
+  Toast
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import ClientAPI from "../../api/clientAPI";
+import Cookies from 'js-cookie';
 
 export const Login = () => {
   const navigate = useNavigate();
-
+  const [toast, setToast] = useState({
+    show: false,
+    bg: "success",
+    message: "",
+  });
   const [user, setUser] = useState({
-    Email: "",
-    Password: "",
+    email: "",
+    password: "",
   });  
+  useEffect(()=>{
+    if (Cookies.get("userID") !== undefined)
+      navigate("/");
+  })
+ 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {    
       const respond = await ClientAPI.post("login",user);
-      console.log("From Login.js: ",respond);
-      if(Cookies.get("userID") !=null){
+      console.log("From Login.js: ",respond.data);
+      if(respond.data.userID !==undefined){
+        Cookies.set("userID", respond.data.userID);
+        Cookies.set("isAdmin", respond.data.isAdmin); 
+               
         setToast({
           bg: "success",
           message: "Login success. Redirect to home page...",
@@ -39,7 +53,8 @@ export const Login = () => {
           show: true,
         });
       }
-    } catch (error) {      
+    } catch (error) {   
+      alert(error);
       console.log(error);
     }
   };
@@ -55,6 +70,16 @@ export const Login = () => {
   return (
     <main className="customers-login-rabbit-en py-5">
       <div className="layout-account">
+        <Toast
+          className="position-fixed top-0 end-0"
+          onClose={() => setToast((prev) => ({ ...prev, show: false }))}
+          show={toast.show}
+          delay={3000}
+          bg={toast.bg}
+          autohide
+        >
+          <Toast.Body className="text-light fs-6">{toast.message}</Toast.Body>
+        </Toast>
         <Container>
           <div className="wrapbox-content-account">
             <div className="header-login-page"><h1>LOG IN</h1></div>
@@ -68,8 +93,8 @@ export const Login = () => {
                   <input
                     required
                     type="email"
-                    value={user.Email}
-                    onChange={(e) => handleInputChange(e, "Email")}
+                    value={user.email}
+                    onChange={(e) => handleInputChange(e, "email")}
                     id="customer_email"
                     placeholder="Email"
                     className="text"
@@ -81,8 +106,8 @@ export const Login = () => {
                   <input
                     required
                     type="password"
-                    value={user.Password}
-                    onChange={(e) => handleInputChange(e, "Password")}
+                    value={user.password}
+                    onChange={(e) => handleInputChange(e, "password")}
                     id="customer_password"
                     placeholder="Password"
                     className="text"
@@ -108,12 +133,12 @@ export const Login = () => {
                     </Button>
                   </div>
                   <div className="req_pass">
-                    <span role="button" onClick={() => navigate("/auth/register")}>
+                    <span role="button" onClick={() => navigate("/register")}>
                       Forgot password?
                     </span>
                     <br />
                     or{" "}
-                    <span role="button" onClick={() => navigate("/auth/register")}>
+                    <span role="button" onClick={() => navigate("/register")}>
                       REGISTER
                     </span>
                   </div>

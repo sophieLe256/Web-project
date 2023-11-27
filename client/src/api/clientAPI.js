@@ -4,7 +4,7 @@ export const endPoint = "http://127.0.0.1:3000/dummydata/";
 
 export default class ClientAPI{ 
     static async post(action,data,selectedImage =null){
-        const formData = new FormData();
+        let formData = new FormData();
         switch(action){
             case "login":                
             case "register":               
@@ -27,13 +27,13 @@ export default class ClientAPI{
             case "getOrderHistory":                
             case "getOrderHistoryDeatail":                
             case "updateOrderStatus":
+                //console.log("data send: ",data);
                 formData = MySecurity.encryptedPackage(action, data, selectedImage);  
                 break;
             default:
                 console.log("Bad request");
                 return null;
-        }             
-            
+        }       
         return await axios.post(endPoint, formData);        
     }
     

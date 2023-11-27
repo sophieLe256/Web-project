@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Container,
@@ -6,19 +6,34 @@ import {
 } from "react-bootstrap";
 
 import "./register.css";
+import ClientAPI from "../../api/clientAPI";
+import { useNavigate } from "react-router-dom";
+import { Toast } from 'react-bootstrap';
+import Cookies from "js-cookie";
+
 export const Register = () => {
  
   const [user, setUser] = useState({
-    FullName: "",
-    Email: "",
-    Password: "",
+    fullName: "",
+    email: "",
+    password: "",
   });
+  const [toast, setToast] = useState({
+    show: false,
+    bg: "success",
+    message: "",
+  });
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (Cookies.get("userID") !== undefined)
+      navigate("/");
+  })
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       
-      if (!user.Email || !user.Password || !user.FullName) {
+      if (!user.email || !user.password || !user.fullName) {
         return setToast({
           bg: "info",
           message: "Please enter your information!",
@@ -33,7 +48,7 @@ export const Register = () => {
         show: true,
       });
       const timeout = setTimeout(() => {
-        navigate("/auth/login");
+        navigate("/login");
         clearTimeout(timeout);
       }, 500);
 
@@ -53,6 +68,16 @@ export const Register = () => {
 
   return (
     <div className="layout-account">
+      <Toast
+        className="position-fixed top-0 end-0"
+        onClose={() => setToast((prev) => ({ ...prev, show: false }))}
+        show={toast.show}
+        delay={3000}
+        bg={toast.bg}
+        autohide
+      >
+        <Toast.Body className="text-light fs-6">{toast.message}</Toast.Body>
+      </Toast>
       <Container>
         <div className="wrapbox-content-account">
           <div className="header-register-page"><h1>CREATE ACCOUNT</h1></div>
@@ -60,55 +85,26 @@ export const Register = () => {
             <Form className="register-form" id="register-form" onSubmit={handleSubmit}>
               <p className="errors" style={{ display: "none" }}>
                 <span className="text-error"></span>
-              </p>
-              <div className="clearfix large_form">
-                <label for="customer_email" className="icon-field"></label>
-                <input
-                  required
-                  type="surname"
-                  value={user.Surname}
-                  onChange={(e) => handleInputChange(e, "Surname")}
-                  id="customer_surname"
-                  placeholder="Surname"
-                  className="text"
-                />
-              </div>
+              </p>              
               <div className="clearfix large_form">
                 <label for="customer_email" className="icon-field"></label>
                 <input
                   required
                   type="name"
-                  value={user.Name}
-                  onChange={(e) => handleInputChange(e, "Name")}
+                  value={user.fullName}
+                  onChange={(e) => handleInputChange(e, "fullName")}
                   id="customer_name"
-                  placeholder="Name"
+                  placeholder="Full Name"
                   className="text"
                 />
-              </div>
-              <div className="radio-buttons">
-                <input type="radio" value="Male" name="gender" /> Male
-                <input type="radio" value="Female" name="gender" /> Female
-              </div>
-              <div className="clearfix large_form">
-                <label for="customer_email" className="icon-field"></label>
-                <input
-                  required
-                  type="date"
-                  value={user.dateofbirth}
-                  onChange={(e) => handleInputChange(e, "mm/dd/yy")}
-                  id="customer_dateofbirth"
-                  placeholder="mm/dd/yy"
-                  className="text"
-                  size="8"
-                />
-              </div>
+              </div>                      
               <div className="clearfix large_form">
                 <label for="customer_email" className="icon-field"></label>
                 <input
                   required
                   type="email"
-                  value={user.Email}
-                  onChange={(e) => handleInputChange(e, "Email")}
+                  value={user.email}
+                  onChange={(e) => handleInputChange(e, "email")}
                   id="customer_email"
                   placeholder="Email"
                   className="text"
@@ -120,8 +116,8 @@ export const Register = () => {
                 <input
                   required
                   type="password"
-                  value={user.Password}
-                  onChange={(e) => handleInputChange(e, "Password")}
+                  value={user.password}
+                  onChange={(e) => handleInputChange(e, "password")}
                   id="customer_password"
                   placeholder="Password"
                   className="text"

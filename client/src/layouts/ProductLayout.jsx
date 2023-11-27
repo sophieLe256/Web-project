@@ -1,26 +1,39 @@
 //ul li link
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Products } from "../pages/products/index";
 import "./ProductLayout.css";
 import { ProductsDetails } from "../pages/products-details";
+import ClientAPI from "../api/clientAPI";
+import MySecurity from "../api/mySecurity";
+
 
 export const ProductLayout = () => {
   const [categoriesData, setCategoriesData] = useState(null);
 
-  useEffect(async () => {
+  useEffect(() => {
+    async function fetchData() {
     // let fetch data
     try {
       const data = {nothing:"nothing"};
       const respond = await ClientAPI.post("getCategories", data);
-      console.log("From ProductLayout.jsx: ", respond);
-      setCategoriesData(MySecurity.decryptedData(respond));
+      console.log("From ProductLayout.jsx: ", respond.data);
+      setCategoriesData(MySecurity.decryptedData(respond.data));
     }
     catch (err) {
       console.log("From ProductLayout.jsx: ", err);
     }
+  }
+  fetchData();  
+  }, []);
 
-  }, [categoriesData]);
+  if (categoriesData === null) {
+    return (
+      <div className="loading">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <>

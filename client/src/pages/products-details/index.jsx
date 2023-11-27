@@ -1,34 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./products-details.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import ClientAPI, { endPoint } from "../../api/clientAPI";
 import MySecurity from "../../api/mySecurity";
-import { ClientAPI, endPoint } from "../../api/clientAPI";
+import Cookies from "js-cookie";
+
 
 export const ProductsDetails = () => {
   let { productID } = useParams();
   const [selectedSize, setSelectedSize] = useState("");  
   const [productData, setProductData] = useState(null);
-
-  useEffect(async () => {    
+  const navigate = useNavigate();
+  useEffect(() => {    
     // let fetch data
+    async function fetchData() {
     try {
       const data = {
         productID: productID,
       };
       const respond = await ClientAPI.post("getProductDetail", data);
-      console.log("From ProductDetail.jsx: ", respond);
-      setProductData(MySecurity.decryptedData(respond));     
+      console.log("From ProductDetail.jsx: ", respond.data);
+      setProductData(MySecurity.decryptedData(respond.data));     
     }
     catch (err) {
       console.log("From ProductDetail.jsx: ", err);
     }
-
-  }, []);
-  // product not found
-  const navigate = useNavigate();
-  if (productData == null) {
-    return navigate.push(`/products?page=1`);
   }
+    fetchData();
+  }, []);
 
   const handleSizeChange = (size) => {
     setSelectedSize(size);
@@ -36,14 +35,16 @@ export const ProductsDetails = () => {
 
   const handleAddToCart = async (e) => {
     e.preventDefault(); 
+    if(Cookies.get("userID") === undefined)
+      navigate("/login");
     // let post data
     try {
       const data = {
         productID: productID,        
-        size: (selectedSize==""?productData.size.split(",")[0]:selectedSize),
+        selectedSize: (selectedSize==""?productData.size.split(",")[0]:selectedSize),
       };
       const respond = await ClientAPI.post("addCart", data);
-      console.log("From ProductDetail_AddCart.jsx: ", respond);
+      console.log("From ProductDetail_AddCart.jsx: ", respond.data);
     }
     catch (err) {
       console.log("From ProductDetail_AddCart.jsx: ", err);
@@ -51,6 +52,14 @@ export const ProductsDetails = () => {
     window.dispatchEvent(new Event("cartUpdated"));
   };
   
+  if (productData === null) {
+    return (
+      <div className="loading">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div id="product-template">
