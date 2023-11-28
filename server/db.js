@@ -1,16 +1,14 @@
 import mysql from "mysql2"
-import mysql2 from "mysql2/promise"
 import fs from "fs"
 
 const dbConfig = {
     host: "localhost",
     user: "root",
-    password: "admin",
+    password: "Nhi04031080.",
     database: "badrabbit"
 }
 
 export const db = mysql.createConnection(dbConfig)
-export const db2 = await mysql2.createConnection(dbConfig)
 /*
 product(productID, versionDate, name, features, image, size, price, categoriesID, status)
 categories(categoriesID, type)
@@ -25,7 +23,7 @@ export const checkDatabase = async () => {
     let db3 = mysql.createConnection({
         host: "localhost",
         user: "root",
-        password: "admin",
+        password: "Nhi04031080.",
     });
     // check if database exist
     db3.execute(`SHOW DATABASES LIKE "badrabbit"`, async (err, results) => {    

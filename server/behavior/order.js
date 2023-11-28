@@ -1,4 +1,4 @@
-import { db, db2 } from "../db.js"
+import { db } from "../db.js"
 import MySecurity from "./myServerSecurity.js";
 
 {/*

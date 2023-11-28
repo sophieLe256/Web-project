@@ -13,96 +13,6 @@ export const ShoppingCart = () => {
 
   //inital data
   useEffect(() => {
-<<<<<<< HEAD:src/pages/shopping-cart/index.jsx
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(storedCart);
-
-    // Calculate total price based on quantity
-    const total = storedCart.reduce((acc, product) => acc + product.price * product.quantity, 0);
-    setTotalPrice(total);
-  }, []);
-
-  const handleRemoveItem = (productId, size, e) => {
-    e.preventDefault();
-    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const updatedCart = existingCart.filter(
-      (item) => !(item.productId === productId && item.size === size)
-    );
-
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    setCartItems(updatedCart);
-
-    // Calculate total price based on quantity
-    const total = updatedCart.reduce(
-      (acc, product) => acc + product.price * product.quantity,
-      0
-    );
-    setTotalPrice(total);
-
-    window.dispatchEvent(new Event("cartUpdated"));
-  };
-
-  const handleQuantityChange = (productId, size, newQuantity) => {
-    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const updatedCart = existingCart.map((item) => {
-      if (item.productId === productId && item.size === size) {
-        item.quantity = newQuantity;
-      }
-      return item;
-    });
-
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    setCartItems(updatedCart);
-
-    // Calculate total price based on quantity
-    const total = updatedCart.reduce((acc, product) => acc + product.price * product.quantity, 0);
-    setTotalPrice(total);
-
-    window.dispatchEvent(new Event("cartUpdated"));
-  };
-
-  const handleIncrease = (productId, size) => {
-    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const updatedCart = existingCart.map((item) => {
-      if (item.productId === productId && item.size === size) {
-        if (item.quantity < 10) {
-          item.quantity += 1;
-        }
-      }
-      return item;
-    });
-
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    setCartItems(updatedCart);
-
-    // Calculate total price based on quantity
-    const total = updatedCart.reduce((acc, product) => acc + product.price * product.quantity, 0);
-    setTotalPrice(total);
-
-    window.dispatchEvent(new Event("cartUpdated"));
-  };
-
-  const handleDecrease = (productId, size) => {
-    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const updatedCart = existingCart.map((item) => {
-      if (item.productId === productId && item.size === size) {
-        if (item.quantity > 1) {
-          item.quantity -= 1;
-        }
-      }
-      return item;
-    });
-
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-    setCartItems(updatedCart);
-
-    // Calculate total price based on quantity
-    const total = updatedCart.reduce((acc, product) => acc + product.price * product.quantity, 0);
-    setTotalPrice(total);
-
-    window.dispatchEvent(new Event("cartUpdated"));
-  };
-=======
     async function fetchData() {
     try {
       const data = { nothing: "nothing" };
@@ -137,7 +47,6 @@ export const ShoppingCart = () => {
       //console.log(`From ${caller}.jsx: `, err);
     }
   }
->>>>>>> 2abd0013c43b7e280716aa562f65f1ed1bb19137:client/src/pages/shopping-cart/index.jsx
 
   return (
     <main className="cart-rabbit-en py-5">
@@ -189,11 +98,7 @@ export const ShoppingCart = () => {
                                       <button
                                         type="button"
                                         className="qty-btn plus"
-<<<<<<< HEAD:src/pages/shopping-cart/index.jsx
-                                        onClick={() => handleIncrease(product.productId, product.size)}
-=======
                                         onClick={() => handleOrderItemChange(product.orderItemID, (parseInt(product.quantity) + 1 > 10 ? 10 : parseInt(product.quantity) + 1))}
->>>>>>> 2abd0013c43b7e280716aa562f65f1ed1bb19137:client/src/pages/shopping-cart/index.jsx
                                       >
                                         +
                                       </button>
@@ -209,11 +114,7 @@ export const ShoppingCart = () => {
                                       <button
                                         type="button"
                                         className="minus qty-btn stop"
-<<<<<<< HEAD:src/pages/shopping-cart/index.jsx
-                                        onClick={() => handleDecrease(product.productId, product.size)}
-=======
                                         onClick={() => handleOrderItemChange(product.orderItemID, (parseInt(product.quantity) - 1 < 1 ? 1 : parseInt(product.quantity) - 1))}
->>>>>>> 2abd0013c43b7e280716aa562f65f1ed1bb19137:client/src/pages/shopping-cart/index.jsx
                                       >
                                         -
                                       </button>

@@ -38,7 +38,7 @@ export const ProductLayout = () => {
             <li>
               <Link to="/products?page=1">Products</Link>
             </li>
-            {
+            {categoriesData!== null && categoriesData!== undefined &&
               categoriesData.map((row) => (
                 <li>
                   <Link to={`/products?cat=${row.categoriesID}&page=1`}>{row.type}</Link>
