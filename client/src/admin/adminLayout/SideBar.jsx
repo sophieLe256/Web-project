@@ -22,12 +22,12 @@ const Sidebar = ({ hidden }) => {
   const handleLogOut = async () => {
     try {
       const data = { nothing: "nothing" };
-      const respond = await ClientAPI.post("logout", data);
-      console.log("From HeaderLogOut.jsx: ", respond.data);     
+      await ClientAPI.post("logout", data);
+      //console.log("From HeaderLogOut.jsx: ", respond.data);     
       navigate("/");
     }
     catch (err) {
-      console.log("From HeaderLogOut.jsx: ", err);
+      //console.log("From HeaderLogOut.jsx: ", err);
     }
   };
   return (

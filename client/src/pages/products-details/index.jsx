@@ -11,6 +11,7 @@ export const ProductsDetails = () => {
   const [selectedSize, setSelectedSize] = useState("");  
   const [productData, setProductData] = useState(null);
   const navigate = useNavigate();
+
   useEffect(() => {    
     // let fetch data
     async function fetchData() {
@@ -19,11 +20,17 @@ export const ProductsDetails = () => {
         productID: productID,
       };
       const respond = await ClientAPI.post("getProductDetail", data);
-      console.log("From ProductDetail.jsx: ", respond.data);
+      if(respond.data === null || respond.data === undefined)
+      {
+        alert("Not found Product Detail")
+        navigate("/products?page=1")
+      }
+
+      //console.log("From ProductDetail.jsx: ", respond.data);
       setProductData(MySecurity.decryptedData(respond.data));     
     }
     catch (err) {
-      console.log("From ProductDetail.jsx: ", err);
+      //console.log("From ProductDetail.jsx: ", err);
     }
   }
     fetchData();
@@ -41,39 +48,35 @@ export const ProductsDetails = () => {
     try {
       const data = {
         productID: productID,        
-        selectedSize: (selectedSize==""?productData.size.split(",")[0]:selectedSize),
+        selectedSize: (selectedSize===""?productData.size.split(",")[0]:selectedSize),
       };
-      const respond = await ClientAPI.post("addCart", data);
-      console.log("From ProductDetail_AddCart.jsx: ", respond.data);
+
+      await ClientAPI.post("addCart", data);
+      alert("Added item to cart");
+      //console.log("From ProductDetail_AddCart.jsx: ", respond.data);
     }
     catch (err) {
-      console.log("From ProductDetail_AddCart.jsx: ", err);
+      alert("Eorr in added item to cart");
+      //console.log("From ProductDetail_AddCart.jsx: ", err);
     }
     window.dispatchEvent(new Event("cartUpdated"));
   };
-  
-  if (productData === null) {
-    return (
-      <div className="loading">
-        <p>Loading...</p>
-      </div>
-    );
-  }
 
   return (
     <>
       <div id="product-template">
-        <div class="product-detail">
-          <div class="product-info">
+        <div className="product-detail">
+          {productData !== null && productData !== undefined ? (
+          <div className="product-info">
             <img src={endPoint+productData.image} alt={productData.name}></img>
             <div className="product-display">
               <h1 class="font-weight-bold">{productData.name}</h1>
 
-              <div class="product-price-wrap">
+              <div className="product-price-wrap">
                 <span class="product-price font-weight-bold">${productData.price}</span>
               </div>
 
-              <div class="product-desc">
+              <div className="product-desc">
                 <p></p>
                 <p>
                   <span style={{ fontSize: "15px" }}>
@@ -101,8 +104,8 @@ export const ProductsDetails = () => {
                 id="selected-variant-1050687980"
                 value="1113887328"
               />
-              <div class="product-options product-options-1050687980">
-                <div class="option option-size option-1 d-flex align-items-center">
+              <div className="product-options product-options-1050687980">
+                <div className="option option-size option-1 d-flex align-items-center">
                   <span
                     class="text-uppercase font-weight-bold"
                     style={{
@@ -142,7 +145,7 @@ export const ProductsDetails = () => {
                 >
                   Size guide
                 </a>
-                <div class="policy_pro">
+                <div className="policy_pro">
                   <a
                     href="/pages/chinh-sach-doi-tra"
                     class="product-size-chart text-uppercase font-weight-bold"
@@ -167,7 +170,7 @@ export const ProductsDetails = () => {
                   />
                 </a>
 
-                <div class="bh-logo mt-4">
+                <div className="bh-logo mt-4">
                   <img
                     width="150"
                     height="63"
@@ -177,6 +180,9 @@ export const ProductsDetails = () => {
               </div>
             </div>
           </div>
+          ):(
+              <p>Loading...</p>
+          )}
         </div>
       </div>
     </>

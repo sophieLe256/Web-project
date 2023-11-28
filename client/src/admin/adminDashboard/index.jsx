@@ -25,8 +25,8 @@ export const AdminDashboard = () => {
                 onDarkModeChange={handleDarkModeChange}
             />
             <main>
-                <div class="head-title">
-                    <div class="adminLeft">
+                <div className="head-title">
+                    <div className="adminLeft">
                         <h1>Dashboard</h1>
                         <ul class="breadcrumb">
                             <li>
@@ -67,9 +67,9 @@ export const AdminDashboard = () => {
                         </span>
                     </li>
                 </ul>
-                <div class="table-data">
-                    <div class="order">
-                        <div class="head">
+                <div className="table-data">
+                    <div className="order">
+                        <div className="head">
                             <h3>Recent Orders</h3>
                             <i class='bx bx-search' ></i>
                             <i class='bx bx-filter' ></i>

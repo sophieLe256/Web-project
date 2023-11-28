@@ -49,7 +49,7 @@ export default class MySecurity {
         // temporary disable security
         let partOfKey = "createNewAccount"
         let secretKey = this.getUserToken();
-        console.log(secretKey);
+        //console.log(secretKey);
         
         if (secretKey !== null && secretKey !== "createNewAccount") {
             partOfKey = secretKey.substring(0, Math.floor(Math.random() * (20 - 10 + 1) + 10));
@@ -78,8 +78,8 @@ export default class MySecurity {
         let formData = new FormData();        
         formData.append('key', "");
         formData.append('data', JSON.stringify(jsondata));
-        if (selectedImage) {
-            formData.append('image', selectedImage);
+        if (selectedImage !==null && selectedImage !== undefined) {
+            formData.append('picture', selectedImage);
         }
         return formData;
     }

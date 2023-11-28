@@ -12,11 +12,7 @@ import Cookies from 'js-cookie';
 
 export const Login = () => {
   const navigate = useNavigate();
-  const [toast, setToast] = useState({
-    show: false,
-    bg: "success",
-    message: "",
-  });
+  
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -31,31 +27,22 @@ export const Login = () => {
     event.preventDefault();
     try {    
       const respond = await ClientAPI.post("login",user);
-      console.log("From Login.js: ",respond.data);
+      //console.log("From Login.js: ",respond.data);
       if(respond.data.userID !==undefined){
         Cookies.set("userID", respond.data.userID);
         Cookies.set("isAdmin", respond.data.isAdmin); 
-               
-        setToast({
-          bg: "success",
-          message: "Login success. Redirect to home page...",
-          show: true,
-        });
+        alert("Login success. Redirect to home page...")
         const timeout = setTimeout(() => {
           navigate("/");
           clearTimeout(timeout);
         }, 500);
       }
       else{
-        setToast({
-          bg: "Fail",
-          message: "Login fail.",
-          show: true,
-        });
+        alert("Login fail.")
       }
     } catch (error) {   
       alert(error);
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -69,17 +56,7 @@ export const Login = () => {
   };
   return (
     <main className="customers-login-rabbit-en py-5">
-      <div className="layout-account">
-        <Toast
-          className="position-fixed top-0 end-0"
-          onClose={() => setToast((prev) => ({ ...prev, show: false }))}
-          show={toast.show}
-          delay={3000}
-          bg={toast.bg}
-          autohide
-        >
-          <Toast.Body className="text-light fs-6">{toast.message}</Toast.Body>
-        </Toast>
+      <div className="layout-account">        
         <Container>
           <div className="wrapbox-content-account">
             <div className="header-login-page"><h1>LOG IN</h1></div>
@@ -89,7 +66,7 @@ export const Login = () => {
                   <span className="text-error"></span>
                 </p>
                 <div className="clearfix large_form">
-                  <label for="customer_email" className="icon-field"></label>
+                  <label htmlFor="customer_email" className="icon-field"></label>
                   <input
                     required
                     type="email"
@@ -102,7 +79,7 @@ export const Login = () => {
                 </div>
 
                 <div className="clearfix large_form">
-                  <label for="customer_password" className="icon-field"></label>
+                  <label htmlFor="customer_password" className="icon-field"></label>
                   <input
                     required
                     type="password"

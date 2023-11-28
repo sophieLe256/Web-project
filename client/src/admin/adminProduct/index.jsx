@@ -60,14 +60,15 @@ export const AdminProduct = () => {
                 size: selectedSizes.join(",").toString(),
                 image: ""               
             }
-            const respond = await ClientAPI.post("addProduct", data, image);
-            console.log("From AdminAddProductLayout.jsx: ", respond.data);  
-            //? get product list ?
-            
+            await ClientAPI.post("addProduct", data, image);
+            //console.log("From AdminAddProductLayout.jsx: ", respond.data);  
+            alert("Added Product")            
             setCurrentPage(productData.totalPage+1);
+            
         }
         catch (err) {
-            console.log("From AdminAddProductLayout.jsx: ", err);
+            //console.log("From AdminAddProductLayout.jsx: ", err);
+            alert("Error in Add Product")
         }
         closeModal();
     };
@@ -78,13 +79,15 @@ export const AdminProduct = () => {
             const data = {
                 productID: productID,
             }
-            const respond = await ClientAPI.post("removeProduct", data, image);
-            console.log("From AdminRemoveProductLayout.jsx: ", respond.data);
-           
+            await ClientAPI.post("removeProduct", data, image);
+            //console.log("From AdminRemoveProductLayout.jsx: ", respond.data);       
+            alert("Deleted Product")    
             setCurrentPage(currentPage);
+           
         }
         catch (err) {
-            console.log("From AdminRemoveProductLayout.jsx: ", err);
+            //console.log("From AdminRemoveProductLayout.jsx: ", err);
+            alert("Error in Delete Product")
         }
     }
 
@@ -104,38 +107,27 @@ export const AdminProduct = () => {
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
     };
-    // Get Categoris list
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const data = { nothing: "nothing" };
-                const respond = await ClientAPI.post("getCategories", data);
-                console.log("From AdminProductCategories.jsx: ", respond.data);
-                setCategoriesData(MySecurity.decryptedData(respond.data));
-            }
-            catch (err) {
-                console.log("From AdminProductCategories.jsx: ", err);
-            }
-        }
-        fetchData();
-    }, []);
-
-    // get product    
+    
     useEffect(() => {         
         async function fetchData() {     
         try {
             const data = {
                 page: currentPage,
-                limit: productsPerPage,             
+                limit: productsPerPage,
             };
-            const respond = await ClientAPI.post("getProduct", data);
-            console.log("From AdminProduct.jsx: ", respond.data);
-            setProductData(MySecurity.decryptedData(respond.data));
-            if (respond.data.page !== currentPage)
-                setCurrentPage(respond.data.page);
+            // Get Categoris list
+            const respond1 = await ClientAPI.post("getCategories", data);
+            //console.log("From AdminProductCategories.jsx: ", respond1.data);
+            setCategoriesData(MySecurity.decryptedData(respond1.data));
+            // get product 
+            const respond2 = await ClientAPI.post("getProduct", data);
+            //console.log("From AdminProduct.jsx: ", respond2.data);
+            setProductData(MySecurity.decryptedData(respond2.data));
+            if (respond2.data.page !== currentPage)
+                setCurrentPage(respond2.data.page);
         }
         catch (err) {
-            console.log("From AdminProduct.jsx: ", err);
+            //console.log("From AdminProduct.jsx: ", err);
         }  
     }
     fetchData();

@@ -13,28 +13,22 @@ export const OrderHistory = () => {
     try {
       const data = { nothing: "nothing" };
       const respond = await ClientAPI.post("getOrderHistory", data);
-      console.log("From OrderHistory.jsx: ", respond.data);
+      //console.log("From OrderHistory.jsx: ", respond.data);
       setOrderHistory(MySecurity.decryptedData(respond.data));
     }
     catch (err) {
-      console.log("From OrderHistory.jsx: ", err);
+      //console.log("From OrderHistory.jsx: ", err);
     }
   }
   fetchData();
   }, []);
 
-  if (orderHistory === null) {
-    return (
-      <div className="loading">
-        <p>Loading...</p>
-      </div>
-    );
-  }
+  
 
   return (
     <div className="order-history-container">
       <h1 className="banner">Order History</h1>
-      {orderHistory.length === 0 ? (
+      {orderHistory === null || orderHistory === undefined || orderHistory.length === 0 ? (
         <p>No orders yet. Start shopping now!</p>
       ) : (
         <table className="order-table">

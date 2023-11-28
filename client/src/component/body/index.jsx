@@ -3,7 +3,7 @@ import "./body.css";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ClientAPI, {endPoint} from "../../api/clientAPI";
+import ClientAPI, { endPoint } from "../../api/clientAPI";
 import MySecurity from "../../api/mySecurity";
 
 
@@ -11,10 +11,10 @@ export const Body = () => {
   // Define the number of products per row
 
   const [categoriesData, setCategoriesData] = useState(null);
-  const [newProductData, setNewProductData] = useState(null);  
-  const productsPerRow = 3;  
+  const [newProductData, setNewProductData] = useState(null);
+  const productsPerRow = 3;
 
-  useEffect( () => {
+  useEffect(() => {
     async function fetchData() {
       // let fetch data
       try {
@@ -26,33 +26,25 @@ export const Body = () => {
         setNewProductData(MySecurity.decryptedData(respond2.data));
       }
       catch (err) {
-        console.log("From ProductLayout.jsx: ", err);
+        //console.log("From ProductLayout.jsx: ", err);
       }
     }
     fetchData();
   }, []);
-  
-  if (categoriesData === null) {
-    return (
-      <div className="loading">
-        <p>Loading...</p>
-      </div>
-    );
-  }
 
   return <>
     <div className="body d-flex">
       <div className="header-menu">
         <div className="overlay-box">
           {/* Menu */}
-          <ul className="menu-list">          
+          <ul className="menu-list">
             <li>
               <Link to="/styles">Best Seller</Link>
             </li>
             <li>
               <Link to="/products?page=1">Products</Link>
             </li>
-            {
+            {categoriesData !== null && categoriesData !== undefined &&
               categoriesData.map((row) => (
                 <li>
                   <Link to={`/products?cat=${row.categoriesID}&page=1`}>{row.type}</Link>
@@ -75,8 +67,8 @@ export const Body = () => {
       </div>
       <div className="banner w-80">
         <div className="row">
-          <div class="col-12 col-sm-6 col-lg-6 col-xl-6">
-            <div class="banner">
+          <div className="col-12 col-sm-6 col-lg-6 col-xl-6">
+            <div className="banner">
               <img
                 className="aspect-ratio"
                 src="style-6.webp"
@@ -84,8 +76,8 @@ export const Body = () => {
               ></img>
             </div>
           </div>
-          <div class="col-12 col-sm-6 col-lg-6 col-xl-6">
-            <div class="banner">
+          <div className="col-12 col-sm-6 col-lg-6 col-xl-6">
+            <div className="banner">
               <img
                 className="aspect-ratio"
                 src="style-7.webp"
@@ -93,8 +85,8 @@ export const Body = () => {
               ></img>
             </div>
           </div>
-          <div class="col-12 col-sm-6 col-lg-6 col-xl-6">
-            <div class="banner">
+          <div className="col-12 col-sm-6 col-lg-6 col-xl-6">
+            <div className="banner">
               <img
                 className="aspect-ratio"
                 src="style-8.webp"
@@ -102,8 +94,8 @@ export const Body = () => {
               ></img>
             </div>
           </div>
-          <div class="col-12 col-sm-6 col-lg-6 col-xl-6">
-            <div class="banner">
+          <div className="col-12 col-sm-6 col-lg-6 col-xl-6">
+            <div className="banner">
               <img
                 className="aspect-ratio"
                 src="style-9.webp"
@@ -184,7 +176,7 @@ export const Body = () => {
       </div>
 
       <Container className="border-0 product-new-arival">
-        {newProductData!== null &&
+        {newProductData !== null &&
           newProductData.map((item, index) => (
             (index % productsPerRow === 0) ? (
               <Row key={index}>
@@ -193,7 +185,7 @@ export const Body = () => {
                 ))}
               </Row>
             ) : null
-          ))}       
+          ))}
       </Container>
 
     </div>

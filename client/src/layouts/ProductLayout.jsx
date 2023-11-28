@@ -17,23 +17,15 @@ export const ProductLayout = () => {
     try {
       const data = {nothing:"nothing"};
       const respond = await ClientAPI.post("getCategories", data);
-      console.log("From ProductLayout.jsx: ", respond.data);
+      //console.log("From ProductLayout.jsx: ", respond.data);
       setCategoriesData(MySecurity.decryptedData(respond.data));
     }
     catch (err) {
-      console.log("From ProductLayout.jsx: ", err);
+      //console.log("From ProductLayout.jsx: ", err);
     }
   }
   fetchData();  
   }, []);
-
-  if (categoriesData === null) {
-    return (
-      <div className="loading">
-        <p>Loading...</p>
-      </div>
-    );
-  }
 
   return (
     <>

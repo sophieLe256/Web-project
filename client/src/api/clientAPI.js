@@ -27,11 +27,11 @@ export default class ClientAPI{
             case "getOrderHistory":                
             case "getOrderHistoryDeatail":                
             case "updateOrderStatus":
-                //console.log("data send: ",data);
+                ////console.log("data send: ",data);
                 formData = MySecurity.encryptedPackage(action, data, selectedImage);  
                 break;
             default:
-                console.log("Bad request");
+                //console.log("Bad request");
                 return null;
         }       
         return await axios.post(endPoint, formData);        

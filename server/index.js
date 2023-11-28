@@ -44,7 +44,15 @@ const getImageData = (imageName) => {
     }
 };
 // get image from clients
-const upload = multer({dest: 'images/'});
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'images/'); // Set your destination folder
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${Date.now()}_${file.originalname}`); // Set your filename logic
+    },
+});
+const upload = multer({storage: storage});
 {/*
 Swithcher rules: 
     + decrypted
@@ -67,7 +75,7 @@ res.sendout ={
 }
 */}
 // Switcher
-app.post("/dummydata", upload.single('file'), async (req, res) => {  
+app.post("/dummydata", upload.single('picture'), async (req, res) => {  
     if (req === null) return res.status(400).json("Bad Request");  
     
     let data = JSON.parse(req.body.data);
@@ -96,23 +104,21 @@ app.post("/dummydata", upload.single('file'), async (req, res) => {
             break;           
         case "addProduct":
             // handle upload file
-            if(req.body.file !=null)
-            {
-                const { originalname, filename } = req.body.file;
-                entry.image = filename;
-            }
+            if (req.file !== null && req.file != undefined) {
+                data.entry.image = req.file.filename;
+            }  
             Product.addProduct(data, res);
+            break;        
+        case "updateProduct":
+            // handle upload file
+            console.log(req);
+            if (req.file !== null && req.file != undefined) {
+                data.entry.image = req.file.filename;
+            }            
+            Product.updateProduct(data, res);
             break;
         case "removeProduct":
             Product.removeProduct(data, res);
-            break;
-        case "updateProduct":
-            // handle upload file
-            if (req.body.file !== null) {
-                const { originalname, filename } = req.body.file;
-                entry.image = filename;
-            }
-            Product.updateProduct(data, res);
             break;
         case "getCategories":
             Product.getCategories(key, res);

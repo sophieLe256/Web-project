@@ -13,44 +13,38 @@ export const Header = () => {
   const [isShow4, setIsShow4] = useState(false);
   const [cartTotal, setCartTotal] = useState(0);
   const navigate = useNavigate();
-  const [toast, setToast] = useState({
-    show: false,
-    bg: "success",
-    message: "",
-  });
+  
   const handleCartUpdate = async () => {
     try {
       const data = { nothing: "nothing" };
       const respond = await ClientAPI.post("getNumberCartItem", data);
-      console.log("From HeaderGetCart.jsx: ", respond.data);
+      //console.log("From HeaderGetCart.jsx: ", respond.data);
       setCartTotal(respond.data);
     }
     catch (err) {
-      console.log("From HeaderGetCart.jsx: ", err);
+      //console.log("From HeaderGetCart.jsx: ", err);
     }
   };
   const handleLogOut = async () => {
     try {
       const data = { nothing: "nothing" };
       const respond = await ClientAPI.post("logout", data);
-      console.log("From HeaderLogOut.jsx: ", respond.data);
+      //console.log("From HeaderLogOut.jsx: ", respond.data);
       if (respond.data === "Log out")
       {
         Cookies.remove("userID");
         Cookies.remove("isAdmin");
         Cookies.remove("access_token");     
       }
-      setToast({
-        bg: "success",
-        message: "Log Out success.",
-        show: true,
-      });
+      alert("Log Out success.")
       navigate("/");
     }
     catch (err) {
-      console.log("From HeaderLogOut.jsx: ", err);
+      //console.log("From HeaderLogOut.jsx: ", err);
+      alert("Log Out got Error.")
     }
   };
+
   useEffect(() => {   
     window.addEventListener("cartUpdated", handleCartUpdate);
     return () => {
@@ -59,17 +53,7 @@ export const Header = () => {
   }, []);
 
   return (
-    <div className="header d-flex align-items-center">
-      <Toast
-        className="position-fixed top-0 end-0"
-        onClose={() => setToast((prev) => ({ ...prev, show: false }))}
-        show={toast.show}
-        delay={3000}
-        bg={toast.bg}
-        autohide
-      >
-        <Toast.Body className="text-light fs-6">{toast.message}</Toast.Body>
-      </Toast>
+    <div className="header d-flex align-items-center">      
       <Link to="/" className="left d-flex justify-content-around">
         <img
           role="button"

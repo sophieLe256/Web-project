@@ -10,59 +10,43 @@ export const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0.0);
   const [refresh, setRefresh] = useState(0.0);
+
+  //inital data
   useEffect(() => {
     async function fetchData() {
     try {
       const data = { nothing: "nothing" };
       const respond = await ClientAPI.post("getCartItem", data);
-      console.log("From ShoppingCart.jsx: ", respond.data);
+      //console.log("From ShoppingCart.jsx: ", respond.data);
       setCartItems(MySecurity.decryptedData(respond.data));
       // Calculate total price based on quantity
       const total = respond.data.items.reduce((acc, product) => acc + product.price * product.quantity, 0);
       setTotalPrice(total);
     }
     catch (err) {
-      console.log("From ShoppingCart.jsx: ", err);
+      //console.log("From ShoppingCart.jsx: ", err);
     }
   }
   fetchData();
   }, [refresh]);
   
   // update item in shooping cart
-  const orderItemChange = async (orderItemID, quantity, caller) => {
+  const handleOrderItemChange = async (orderItemID, quantity) => {
     try {
       const data = {
         orderID: cartItems.orderID,
         orderItemID: orderItemID,
         quantity: quantity
       };
-      const respond = await ClientAPI.post("updateCartItem", data);
-      console.log(`From ${caller}.jsx: `, respond.data);
+      await ClientAPI.post("updateCartItem", data);
+      //console.log(`From ${caller}.jsx: `, respond.data);
       window.dispatchEvent(new Event("cartUpdated"));
       setRefresh(Math.random());
     }
     catch (err) {
-      console.log(`From ${caller}.jsx: `, err);
+      //console.log(`From ${caller}.jsx: `, err);
     }
   }
-  const handleRemoveItem = async (orderItemID) => {   
-    orderItemChange(orderItemID, 0, "ShoppingCart_Remove");
-  };
-
-  const handleQuantityChange = async (orderItemID, quantity) => {
-    //e.preventDefault();
-    orderItemChange(orderItemID, quantity, "ShoppingCart_Change");    
-  };
-
-  const handleIncrease = (orderItemID, quantity) => {
-    //e.preventDefault();
-    orderItemChange(orderItemID, quantity, "ShoppingCart_Increase");   
-
-  };
-  const handleDecrease = (orderItemID, quantity) => {
-    //e.preventDefault();
-    orderItemChange(orderItemID, quantity, "ShoppingCart_Increase");  
-  };
 
   return (
     <main className="cart-rabbit-en py-5">
@@ -114,7 +98,7 @@ export const ShoppingCart = () => {
                                       <button
                                         type="button"
                                         className="qty-btn plus"
-                                        onClick={() => handleIncrease(product.orderItemID, (parseInt(product.quantity) + 1 > 10 ? 10 : parseInt(product.quantity) + 1))}
+                                        onClick={() => handleOrderItemChange(product.orderItemID, (parseInt(product.quantity) + 1 > 10 ? 10 : parseInt(product.quantity) + 1))}
                                       >
                                         +
                                       </button>
@@ -125,12 +109,12 @@ export const ShoppingCart = () => {
                                         max="10"
                                         value={product.quantity}
                                         className="tc line-item-qty item-quantity"
-                                        onChange={(e) => handleQuantityChange(product.orderItemID, (parseInt(e.target.value) < 1 && parseInt(e.target.value) > 10 ? parseInt(product.quantity) : parseInt(e.target.value,1)))}
+                                        onChange={(e) => handleOrderItemChange(product.orderItemID, (parseInt(e.target.value) < 1 && parseInt(e.target.value) > 10 ? parseInt(product.quantity) : parseInt(e.target.value,1)))}
                                       />
                                       <button
                                         type="button"
                                         className="minus qty-btn stop"
-                                        onClick={() => handleDecrease(product.orderItemID, (parseInt(product.quantity) - 1 < 1 ? 1 : parseInt(product.quantity) - 1))}
+                                        onClick={() => handleOrderItemChange(product.orderItemID, (parseInt(product.quantity) - 1 < 1 ? 1 : parseInt(product.quantity) - 1))}
                                       >
                                         -
                                       </button>
@@ -143,7 +127,7 @@ export const ShoppingCart = () => {
                                 <td className="item-remove">
                                   <a
                                     href="#"
-                                    onClick={() => handleRemoveItem(product.orderItemID, 0)}
+                                    onClick={() => handleOrderItemChange(product.orderItemID, 0)}
                                   >
                                     <img src="//theme.hstatic.net/1000351433/1001138941/14/delete.png?v=243" />
                                   </a>
@@ -215,9 +199,9 @@ export const ShoppingCart = () => {
                     </div>
                   </div>
                 ) : (
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 contentCart-detail">
-                    <div class="mainCart-detail">
-                      <div class="expanded-message text-center font-weight-bold">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-12 contentCart-detail">
+                    <div className="mainCart-detail">
+                      <div className="expanded-message text-center font-weight-bold">
                         <p>YOUR CART is empty</p>
                         <img
                           className="cart_icon"

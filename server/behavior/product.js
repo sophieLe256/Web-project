@@ -66,10 +66,12 @@ export default class Product {
     static addProduct(inputD, res) {
         try {
             let entryData = inputD.entry;
+            if (entryData.image === null || entryData.image === undefined || entryData.image.replace(' ', '').trim() === '')
+                entryData.image = "not-found.png"
             // insert new Product
-            const newProductQuery = "INSERT INTO product( versionDate, name, features, image, size, price, categoriesID, status) VALUES (?,?,?,?,?,?,?,1)";
+            const newProductQuery = `INSERT INTO product( versionDate, name, features, image, size, price, categoriesID, status) VALUES (?,?,?,?,?,?,${entryData.categoriesID},1)`;
             const currentDate = new Date();
-            const values = [currentDate, entryData.name, entryData.features, entryData.image, entryData.size, entryData.price, entryData.categoriesID];
+            const values = [currentDate, entryData.name, entryData.features, entryData.image, entryData.size, entryData.price];
             db.execute(newProductQuery, values, (err, data1) => {
                 // console.log(data);
                 if (err) return res.status(500).json(err);
@@ -116,49 +118,52 @@ export default class Product {
         }
     }
     static updateProduct(inputD, res) {
-        try {
-            let entryData = inputD.entry;
-            if (entryData.productID === null) return res.status(400).json("Update Product fail (no ID)");
-            // get current active product by ID:
-            db.execute(`SELECT * FROM product WHERE productID = ${entryData.productID} AND status = 1`, (err, data1) => {
+        // try {
+        console.log("inputD = ", inputD)
+        let entryData = inputD.entry;
+        if (entryData.image === null || entryData.image === undefined || entryData.image.replace(' ', '').trim() === '')
+            entryData.image = "not-found.png"
+        if (entryData.productID === null) return res.status(400).json("Update Product fail (no ID)");
+        // get current active product by ID:
+        db.execute(`SELECT * FROM product WHERE productID = ${entryData.productID} AND status = 1`, (err, data1) => {
+            if (err) return res.status(500).json(err);
+            if (data1.length === 0) return res.status(401).json("Update Product fail. Not found");
+            const oldVersion = data1[0].versionDate;
+            // check is this used in any Order
+            db.execute(`SELECT * FROM orderItem WHERE productID = ${entryData.productID} AND versionDate = '${oldVersion}'`, (err, data2) => {
                 if (err) return res.status(500).json(err);
-                if (data1.length === 0) return res.status(401).json("Update Product fail. Not found");
-                const oldVersion = data1[0].versionDate;
-                // check is this used in any Order
-                db.execute(`SELECT * FROM orderItem WHERE productID = ${entryData.productID} AND versionDate = '${oldVersion}'`, (err, data2) => {
-                    if (err) return res.status(500).json(err);
-                    if (data2.length === 0) {
-                        // not in use
-                        const overrideProductQuery = "UPDATE product SET versionDate = ?, name = ?, features = ?, image = ?, size = ?, price = ?, categoriesID = ?, status = 1 WHERE productID = ? AND versionDate = ?";
+                if (data2.length === 0) {
+                    // not in use
+                    const overrideProductQuery = `UPDATE product SET versionDate = ?, name = ?, features = ?, image = ?, size = ?, price = ?, categoriesID = ${entryData.categoriesID}, status = 1 WHERE productID = ${entryData.productID} AND versionDate = ?`;
+                    const currentDate = new Date();
+                    const values = [currentDate, entryData.name, entryData.features, entryData.image, entryData.size, entryData.price, oldVersion];
+                    db.execute(overrideProductQuery, values, (err, data3) => {
+                        if (err) return res.status(500).json(err);
+                        return res.status(200).json("Update Product Succesful.");
+                    });
+                }
+                else {
+                    // create new and disable old one.
+                    // disable old one                    
+                    db.execute(`UPDATE product SET status = 0 WHERE productID = ${entryData.productID} AND versionDate = '${oldVersion}'`, (err, data3) => {
+                        if (err) return res.status(500).json(err);
+                        // create new one
+                        const createProductQuery = `INSERT INTO product( productID, versionDate, name, features, image, size, price, categoriesID, status) VALUES (${entryData.productID},?,?,?,?,?,?,${entryData.categoriesID},1)`;
                         const currentDate = new Date();
-                        const values = [currentDate, entryData.name, entryData.features, entryData.image, entryData.size, entryData.price, entryData.categoriesID, entryData.productID, oldVersion];
-                        db.execute(overrideProductQuery, values, (err, data3) => {
+                        const values = [currentDate, entryData.name, entryData.features, entryData.image, entryData.size, entryData.price];
+                        db.execute(createProductQuery, values, (err, data3) => {
                             if (err) return res.status(500).json(err);
                             return res.status(200).json("Update Product Succesful.");
                         });
-                    }
-                    else {
-                        // create new and disable old one.
-                        // disable old one                    
-                        db.execute(`UPDATE product SET status = 0 WHERE productID = ${entryData.productID} AND versionDate = '${oldVersion}`, (err, data3) => {
-                            if (err) throw new Error(err);
-                            // create new one
-                            const createProductQuery = "INSERT INTO product( productID, versionDate, name, features, image, size, price, categoriesID, status) VALUES (?,?,?,?,?,?,?,?,1)";
-                            const currentDate = new Date();
-                            const values = [entryData.productID, currentDate, entryData.name, entryData.features, entryData.image, entryData.size, entryData.price, entryData.categoriesID];
-                            db.execute(createProductQuery, values, (err, data3) => {
-                                if (err) throw new Error(err);
-                                return res.status(200).json("Update Product Succesful.");
-                            });
-                        });
-                    }
-                });
-
+                    });
+                }
             });
-        }
-        catch (error) {
-            return res.status(401).json("updateProduct fail. ", error);
-        }
+
+        });
+        // }
+        // catch (error) {
+        //     return res.status(401).json("updateProduct fail. ", error);
+        // }
     }
     static getCategories(key, res) {
         try {
@@ -208,7 +213,7 @@ export default class Product {
                     let totalPage = Math.ceil(parseInt(data1[0].totalPage) / limit);
                     if (totalPage <= 0) totalPage = 1;
                     if (page > totalPage) page = totalPage;
-                    
+
                     // all things
                     db.execute(`SELECT * FROM product NATURAL LEFT JOIN categories WHERE status = 1 LIMIT ${limit} OFFSET ${(page - 1) * limit}`, (err, data2) => {
                         if (err) return res.status(500).json(err);

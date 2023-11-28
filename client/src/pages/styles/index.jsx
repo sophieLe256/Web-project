@@ -7,8 +7,8 @@ export const Styles = () => {
     <>
       <main class="page-rabbit-list-outfit py-5">
         <div id="list-outfit">
-          <div class="container">
-            <div class="text-under d-flex justify-content-between align-items-center">
+          <div className="container">
+            <div className="text-under d-flex justify-content-between align-items-center">
               <h2 class="text-effect font-weight-bold h2 text-left">
                 <span>CHOOSE YOUR OWN STYLES</span>
                 <svg
@@ -148,8 +148,8 @@ export const Styles = () => {
               </div>
 
               {/* Outfit Item 5 */}
-              <div class="col-6 col-sm-6 col-md-4">
-                <div class="outfit-item">
+              <div className="col-6 col-sm-6 col-md-4">
+                <div className="outfit-item">
                   <a
                     href="/collections/outfit-6-smiley-rabbit-hoodie?id=5"
                     title="OUTFIT RB #6"
@@ -177,8 +177,8 @@ export const Styles = () => {
               </div>
 
               {/* Outfit Item 6 */}
-              <div class="col-6 col-sm-6 col-md-4">
-                <div class="outfit-item">
+              <div className="col-6 col-sm-6 col-md-4">
+                <div className="outfit-item">
                   <a
                     href="/collections/outfit-7-team-hoodie?id=6"
                     title="OUTFIT RB #7"
@@ -206,8 +206,8 @@ export const Styles = () => {
               </div>
 
               {/* Outfit Item 7 */}
-              <div class="col-6 col-sm-6 col-md-4">
-                <div class="outfit-item">
+              <div className="col-6 col-sm-6 col-md-4">
+                <div className="outfit-item">
                   <a
                     href="/collections/outfit-4-purple-cartoon-cardigan?id=7"
                     title="OUTFIT RB #4"
@@ -235,8 +235,8 @@ export const Styles = () => {
               </div>
 
               {/* Outfit Item 8 */}
-              <div class="col-6 col-sm-6 col-md-4">
-                <div class="outfit-item">
+              <div className="col-6 col-sm-6 col-md-4">
+                <div className="outfit-item">
                   <a
                     href="/collections/outfit-3-rabbit-bts-cardigan?id=8"
                     title="OUTFIT RB #3"
@@ -264,8 +264,8 @@ export const Styles = () => {
               </div>
 
               {/* Outfit Item 9 */}
-              <div class="col-6 col-sm-6 col-md-4">
-                <div class="outfit-item">
+              <div className="col-6 col-sm-6 col-md-4">
+                <div className="outfit-item">
                   <a
                     href="/collections/outfit-2-rabbit-n-friend-polo?id=9"
                     title="OUTFIT RB #2"

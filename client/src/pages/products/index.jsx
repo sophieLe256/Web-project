@@ -15,11 +15,11 @@ export const Products = () => {
   const location = useLocation();
   let searchParams = new URLSearchParams(location.search);
   const [currentPage, setCurrentPage] = useState(searchParams.get('page'));
-  const [categoryID, setCategoryID] = useState(searchParams.get('cat'));
+  const [categoryID] = useState(searchParams.get('cat'));
   const [productData, setProductData] = useState(null);
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
   useEffect(() => {
-    async function fetchData() {   
+    async function fetchData() {
       try {
         const data = {
           page: currentPage,
@@ -27,13 +27,13 @@ export const Products = () => {
           categoriesID: searchParams.get('cat')
         };
         const respond = await ClientAPI.post("getProduct", data);
-        console.log("From Product.jsx: ", respond.data.data);
+        //console.log("From Product.jsx: ", respond.data.data);
         await setProductData(MySecurity.decryptedData(respond.data));
         if (respond.data.page !== currentPage)
           setCurrentPage(respond.data.page);
       }
       catch (err) {
-        console.log("From Product.jsx: ", err);
+        //console.log("From Product.jsx: ", err);
       }
     }
     fetchData();
@@ -50,7 +50,7 @@ export const Products = () => {
   };
 
   const visiblePageNumbers = (() => {
-    if (productData===null) return null;
+    if (productData === null) return null;
     const halfMaxButtons = Math.floor(maxVisibleButtons / 2);
     let startPage = Math.max(1, currentPage - halfMaxButtons);
     let endPage = Math.min(productData.totalPage, startPage + maxVisibleButtons - 1);
@@ -62,40 +62,38 @@ export const Products = () => {
     return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
   })();
 
-  if (productData === null) {
-    return (
-      <div className="loading">
-        <p>Loading...</p>
-      </div>
-    );
-  }
-
   return (
     <>
-      <div className="col-xl-10 col-lg-9 col-md-12 col-12 content-collection products-container">
-        {
-          productData.data.map((item, index) => (
-            (index % productsPerRow === 0) ? (
-              <Row key={index}>
-                {productData.data.slice(index, index + productsPerRow).map((product) => (
-                  <ProductItem key={product.id} data={product} />
-                ))}
-              </Row>
-            ) : null
-          ))
-        }
-        <div className="pagination">
-          {visiblePageNumbers!==null && visiblePageNumbers.map((pageNumber) => (
-            <button
-              key={pageNumber}
-              onClick={() => handlePageChange(pageNumber)}
-              className={currentPage === pageNumber ? "active" : ""}
-            >
-              {pageNumber}
-            </button>
-          ))}
+      {productData !== null && productData !== undefined ? (
+        <div className="col-xl-10 col-lg-9 col-md-12 col-12 content-collection products-container">
+          {
+            productData.data.map((item, index) => (
+              (index % productsPerRow === 0) ? (
+                <Row key={index}>
+                  {productData.data.slice(index, index + productsPerRow).map((product) => (
+                    <ProductItem key={product.id} data={product} />
+                  ))}
+                </Row>
+              ) : null
+            ))
+          }
+          <div className="pagination">
+            {visiblePageNumbers !== null && visiblePageNumbers.map((pageNumber) => (
+              <button
+                key={pageNumber}
+                onClick={() => handlePageChange(pageNumber)}
+                className={currentPage === pageNumber ? "active" : ""}
+              >
+                {pageNumber}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="loading">
+          <p>Loading...</p>
+        </div>
+      )}
     </>
   );
 };

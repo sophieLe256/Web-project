@@ -8,7 +8,6 @@ import {
 import "./register.css";
 import ClientAPI from "../../api/clientAPI";
 import { useNavigate } from "react-router-dom";
-import { Toast } from 'react-bootstrap';
 import Cookies from "js-cookie";
 
 export const Register = () => {
@@ -18,11 +17,7 @@ export const Register = () => {
     email: "",
     password: "",
   });
-  const [toast, setToast] = useState({
-    show: false,
-    bg: "success",
-    message: "",
-  });
+  
   const navigate = useNavigate();
   useEffect(() => {
     if (Cookies.get("userID") !== undefined)
@@ -34,26 +29,19 @@ export const Register = () => {
     try {
       
       if (!user.email || !user.password || !user.fullName) {
-        return setToast({
-          bg: "info",
-          message: "Please enter your information!",
-          show: true,
-        });
+        return alert("Please enter your information!")
       }
-      const respond = await ClientAPI.post("register", user);
-      console.log("From register.jsx: ",respond);      
-      setToast({
-        bg: "success",
-        message: "Register success. Redirect to login page...",
-        show: true,
-      });
+      await ClientAPI.post("register", user);
+      //console.log("From register.jsx: ",respond);      
+      alert("Register success. Redirect to login page...")      
       const timeout = setTimeout(() => {
         navigate("/login");
         clearTimeout(timeout);
       }, 500);
 
     } catch (error) {
-      console.log(error);
+      //console.log(error);
+      alert("Register Fail") 
     }
   };
 
@@ -67,17 +55,7 @@ export const Register = () => {
   };
 
   return (
-    <div className="layout-account">
-      <Toast
-        className="position-fixed top-0 end-0"
-        onClose={() => setToast((prev) => ({ ...prev, show: false }))}
-        show={toast.show}
-        delay={3000}
-        bg={toast.bg}
-        autohide
-      >
-        <Toast.Body className="text-light fs-6">{toast.message}</Toast.Body>
-      </Toast>
+    <div className="layout-account">      
       <Container>
         <div className="wrapbox-content-account">
           <div className="header-register-page"><h1>CREATE ACCOUNT</h1></div>
@@ -87,7 +65,7 @@ export const Register = () => {
                 <span className="text-error"></span>
               </p>              
               <div className="clearfix large_form">
-                <label for="customer_email" className="icon-field"></label>
+                <label htmlFor="customer_email" className="icon-field"></label>
                 <input
                   required
                   type="name"
@@ -99,7 +77,7 @@ export const Register = () => {
                 />
               </div>                      
               <div className="clearfix large_form">
-                <label for="customer_email" className="icon-field"></label>
+                <label htmlFor="customer_email" className="icon-field"></label>
                 <input
                   required
                   type="email"
@@ -112,7 +90,7 @@ export const Register = () => {
               </div>
 
               <div className="clearfix large_form">
-                <label for="customer_password" className="icon-field"></label>
+                <label htmlFor="customer_password" className="icon-field"></label>
                 <input
                   required
                   type="password"

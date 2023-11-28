@@ -16,14 +16,7 @@ export const AdminUpdateProduct = () => {
     const [inputValues, setInputValues] = useState({});
     const [categoriesData, setCategoriesData] = useState(null);
 
-    const navigate = useNavigate();    
-    
-
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        // Perform additional logic if needed
-        setImage(file);
-    };
+    const navigate = useNavigate();   
 
     const handleSizeChange = (event) => {
         const { id, checked } = event.target;
@@ -58,12 +51,18 @@ export const AdminUpdateProduct = () => {
                 ...inputValues,
                 size: selectedSizes.join(",").toString(),
             }
+            //console.log("image = ",image);
             const respond = await ClientAPI.post("updateProduct", data, image);
-            console.log("From AdminUpdateProductLayout.jsx: ", respond.data);            
-            navigate("/adminProduct");
+            //console.log("From AdminUpdateProductLayout.jsx: ", respond.data);   
+            if(respond.data !==null && respond.data!== undefined)     
+            {    
+                alert("Edited product")
+                navigate("/adminProduct")
+            }
         }
         catch (err) {
-            console.log("From AdminUpdateProductLayout.jsx: ", err);
+            //console.log("From AdminUpdateProductLayout.jsx: ", err);
+            alert("Can not Edit product")
         }
     };
 
@@ -72,18 +71,17 @@ export const AdminUpdateProduct = () => {
         // Add logic to fetch product details using productID and update state variables
         async function fetchData() {
         try {
-
             // Get Categoris list
             const data = {
                 productID: productID,
             };
             const respond1 = await ClientAPI.post("getCategories", data);
-            console.log("From AdminProductCategories.jsx: ", respond1.data);
+            //console.log("From AdminProductCategories.jsx: ", respond1.data);
             setCategoriesData(MySecurity.decryptedData(respond1.data));
             // get product information
             
             const respond2 = await ClientAPI.post("getProductDetail", data);
-            console.log("From AdminGetEditProduct.jsx: ", respond2.data);
+            //console.log("From AdminGetEditProduct.jsx: ", respond2.data);
             let productData = MySecurity.decryptedData(respond2.data);
             setInputValues({
                 productID: productID,
@@ -93,11 +91,11 @@ export const AdminUpdateProduct = () => {
                 categoriesID: productData.categoriesID,
                 size: productData.size,
                 price: productData.price
-            });
+            });           
             setSelectedSizes(productData.size.split(","));
         }
         catch (err) {
-            console.log("From AdminGetEditProduct.jsx: ", err);
+            //console.log("From AdminGetEditProduct.jsx: ", err);
         }  
     }
     fetchData();
@@ -140,8 +138,8 @@ export const AdminUpdateProduct = () => {
                         <input type="text" name="price" value={inputValues.price} onChange={handleInputChange} /><br /><br />
 
                         <img src={endPoint + inputValues.image} alt="Product Image" width="200" /><br />
-                        <label htmlFor="image">Image URL:</label><br />
-                        <input type="file" name="image" onChange={handleImageChange} /><br /><br />
+                        <label htmlFor="picture">Image URL:</label><br />
+                        <input type="file" name="picture" onChange={(e) => {setImage (e.target.files[0])}} /><br /><br />
 
                         <label htmlFor="size">Size:</label>
                         <div className="checkbox-group" id="size">
@@ -153,6 +151,7 @@ export const AdminUpdateProduct = () => {
                                         name="size[]"
                                         value={name}
                                         onChange={handleSizeChange}
+                                        checked={selectedSizes.includes(name)}
                                     />
                                     <label htmlFor={name}>{name}</label>
                                 </React.Fragment>

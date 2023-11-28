@@ -20,12 +20,13 @@ export const CheckOut = () => {
 
         const data = { nothing: "nothing" };
         const respond = await ClientAPI.post("getCartItem", data);
-        console.log("From Checkout_getCart.jsx: ", respond.data);
-        if (respond.data === null && orderID_Processed !== null)
+        //console.log("From Checkout_getCart.jsx: ", respond.data);
+        if (orderID_Processed !== null)
           navigate(`/order-details/${orderID_Processed}`);
         if (respond.data === null || respond.data.orderID === undefined || respond.data.items.length === 0)
           navigate("/products?page=1"); //not found order.
 
+        setorderID_Processed(respond.data.orderID);
         setCartItems(MySecurity.decryptedData(respond.data));
 
         // Calculate total price based on quantity
@@ -39,7 +40,7 @@ export const CheckOut = () => {
 
       }
       catch (err) {
-        console.log("From Checkout_getCart.jsx: ", err);
+        //console.log("From Checkout_getCart.jsx: ", err);
       }
     }
     fetchData();
@@ -69,34 +70,29 @@ export const CheckOut = () => {
     // data ready to send
     try {
       setorderID_Processed(cartItems.orderID);
-      const respond = await ClientAPI.post("checkOutCart", inputValues);
-      console.log("From CheckOutCart.jsx: ", respond.data);
+      await ClientAPI.post("checkOutCart", inputValues);
+      //console.log("From CheckOutCart.jsx: ", respond.data);
+      alert("Check Out sucessful.")
       navigate(`/order-details/${cartItems.orderID}`);
     }
     catch (err) {
-
-      console.log("From CheckOutCart.jsx: ", err);
-      console.log("From CheckOutCart.jsx: error ", err.respond.data);
+      alert("Error in Check Out process.")
+      //console.log("From CheckOutCart.jsx: ", err);
+      //console.log("From CheckOutCart.jsx: error ", err.respond.data);
     }
   };
 
-  if (cartItems === null) {
-    return (
-      <div className="loading">
-        <p>Loading...</p>
-      </div>
-    );
-  }
-
   return (
     <div className="checkout-container">
+      {orderID_Processed !== null && orderID_Processed !== undefined ? (
       <div className="checkout-content">
         <div className="order-summary">
           <Link to="/" className="tag">
             <h1 className="banner">Funny Bunny Official Store</h1>
           </Link>
           <div></div>
-          <h2>Delivery Information</h2>
+          
+          <h2>Delivery Information</h2>          
           <form className="check-form">
             <input type="text" id="name" name="name" className="text_fill" placeholder="Name" required onChange={handleInputChange} />
             <div className="container">
@@ -218,6 +214,9 @@ export const CheckOut = () => {
 
         </div>
       </div>
+      ):(<div className="loading">
+        <p>Loading...</p>
+      </div>)}
     </div>
   );
 };
