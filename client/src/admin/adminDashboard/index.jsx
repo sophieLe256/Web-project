@@ -28,41 +28,37 @@ export const AdminDashboard = () => {
                 <div className="head-title">
                     <div className="adminLeft">
                         <h1>Dashboard</h1>
-                        <ul class="breadcrumb">
+                        <ul className="breadcrumb">
                             <li>
                                 <a href="#">Dashboard</a>
                             </li>
-                            <li><i class='bx bx-chevron-right' ></i></li>
+                            <li><i className='bx bx-chevron-right' ></i></li>
                             <li>
-                                <a class="active" href="#">Home</a>
+                                <a className="active" href="#">Home</a>
                             </li>
                         </ul>
-                    </div>
-                    <a href="#" class="btn-download">
-                        <i class='bx bxs-cloud-download' ></i>
-                        <span class="text">Download PDF</span>
-                    </a>
+                    </div>                    
                 </div>
 
-                <ul class="box-info">
+                <ul className="box-info">
                     <li>
-                        <i class='bx bxs-calendar-check' ></i>
-                        <span class="text">
-                            <h3>0</h3>
+                        <i className='bx bxs-calendar-check' ></i>
+                        <span className="text">
+                            <h3>5</h3>
                             <p>New Order</p>
                         </span>
                     </li>
                     <li>
-                        <i class='bx bxs-group' ></i>
-                        <span class="text">
-                            <h3>0</h3>
+                        <i className='bx bxs-group' ></i>
+                        <span className="text">
+                            <h3>30</h3>
                             <p>Visitors</p>
                         </span>
                     </li>
                     <li>
-                        <i class='bx bxs-dollar-circle' ></i>
-                        <span class="text">
-                            <h3>$0</h3>
+                        <i className='bx bxs-dollar-circle' ></i>
+                        <span className="text">
+                            <h3>$1000</h3>
                             <p>Total Sales</p>
                         </span>
                     </li>
@@ -71,8 +67,8 @@ export const AdminDashboard = () => {
                     <div className="order">
                         <div className="head">
                             <h3>Recent Orders</h3>
-                            <i class='bx bx-search' ></i>
-                            <i class='bx bx-filter' ></i>
+                            <i className='bx bx-search' ></i>
+                            <i className='bx bx-filter' ></i>
                         </div>
                         <table>
                             <thead>
@@ -87,22 +83,22 @@ export const AdminDashboard = () => {
                                     <td>
                                         <p>Sophie Le</p>
                                     </td>
-                                    <td>01-10-2023</td>
-                                    <td><span class="status completed">Completed</span></td>
+                                    <td>04-03-2023</td>
+                                    <td><span className="status completed">Completed</span></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <p>An Cao</p>
                                     </td>
                                     <td>01-10-2023</td>
-                                    <td><span class="status pending">Pending</span></td>
+                                    <td><span className="status pending">Pending</span></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <p>Nhon La</p>
                                     </td>
-                                    <td>01-10-2023</td>
-                                    <td><span class="status process">Process</span></td>
+                                    <td>11-28-2023</td>
+                                    <td><span className="status process">Process</span></td>
                                 </tr>
                             </tbody>
                         </table>

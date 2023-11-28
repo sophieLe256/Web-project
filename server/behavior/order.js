@@ -183,7 +183,7 @@ export default class Orders {
         orderItem(orderItemID, orderID, productID, versionDate, selectedSize, quantity)
         */
         try {
-            console.log(inputD);
+            //console.log(inputD);
             const getNumberInCartQuery =
                 `SELECT SUM(quantity) as number FROM orderItem WHERE orderID = (SELECT orderID FROM orders WHERE status = 0 and userID = ${inputD.userID})`
             db.execute(getNumberInCartQuery, (err, data1) => {
@@ -206,7 +206,7 @@ export default class Orders {
         */
         try {
             let entryData = inputD.entry;
-            console.log("inputD ", inputD);
+            //console.log("inputD ", inputD);
             const currentDate = new Date();
             //await db2.beginTransaction();
 
@@ -268,7 +268,7 @@ export default class Orders {
                                         let totalPrice = 0;
                                         db.execute(`SELECT O.orderID, SUM(O.quantity * P.price) AS totalPrice FROM orderItem AS O, product AS P WHERE O.orderID = ${entryData.orderID} AND O.productID = P.productID GROUP BY O.orderID;`, (err, data6) => {
                                             if (err) return res.status(401).json(err);
-                                            console.log("data6[0].totalPrice = ", data6[0].totalPrice);
+                                            //console.log("data6[0].totalPrice = ", data6[0].totalPrice);
                                             totalPrice = data6[0].totalPrice;
                                             // update Order
                                             const checkoutOrderQuery = `UPDATE orders SET transactionDate = '${currentDate}', totalPrice = ${totalPrice},  note = '${entryData.note}', cardID = ${cardID},  contactID = ${contactID}, status = 1 WHERE orderID = ${entryData.orderID};`;
@@ -292,7 +292,7 @@ export default class Orders {
                                     let totalPrice = 0;
                                     db.execute(`SELECT O.orderID, SUM(O.quantity * P.price) AS totalPrice FROM orderItem AS O, product AS P WHERE O.orderID = ${entryData.orderID} AND O.productID = P.productID GROUP BY O.orderID;`, (err, data5) => {
                                         if (err) return res.status(401).json(err);
-                                        console.log("data5[0].totalPrice 2 = ", data5[0].totalPrice);
+                                        //console.log("data5[0].totalPrice 2 = ", data5[0].totalPrice);
                                         totalPrice = data5[0].totalPrice;
                                         // update Order
                                         const checkoutOrderQuery = `UPDATE orders SET transactionDate = '${currentDate}', totalPrice = ${totalPrice},  note = '${entryData.note}', cardID = ${cardID},  contactID = ${contactID}, status = 1 WHERE orderID = ${entryData.orderID};`;
@@ -335,7 +335,7 @@ export default class Orders {
                                     let totalPrice = 0;
                                     db.execute(`SELECT O.orderID, SUM(O.quantity * P.price) AS totalPrice FROM orderItem AS O, product AS P WHERE O.orderID = ${entryData.orderID} AND O.productID = P.productID GROUP BY O.orderID;`, (err, data5) => {
                                         if (err) return res.status(401).json(err);
-                                        console.log("data5[0].totalPrice = ", data5[0].totalPrice);
+                                        //console.log("data5[0].totalPrice = ", data5[0].totalPrice);
                                         totalPrice = data5[0].totalPrice;
 
                                         // update order                           
@@ -358,7 +358,7 @@ export default class Orders {
                                 let totalPrice = 0;
                                 db.execute("SELECT O.orderID, SUM(O.quantity * P.price) AS totalPrice FROM orderItem AS O, product AS P WHERE O.orderID = ${entryData.orderID} AND O.productID = P.productID GROUP BY O.orderID;", (err, data4) => {
                                     if (err) return res.status(401).json(err);
-                                    console.log("data4[0].totalPrice = ", data4[0].totalPrice);
+                                    //console.log("data4[0].totalPrice = ", data4[0].totalPrice);
                                     totalPrice = data4[0].totalPrice;
                                     // update order                        
                                     const checkoutOrderQuery = `UPDATE orders SET transactionDate = '${currentDate}', totalPrice = ${totalPrice},  note = '${entryData.note}', cardID = ${cardID},  contactID = ${contactID}, status = 1 WHERE orderID = ${entryData.orderID};`;
@@ -389,7 +389,7 @@ export default class Orders {
             });
         }
         catch (err) {
-            console.log(err);
+            //console.log(err);
             return res.status(200).json("getContact fail. ", error);
         }
     }
@@ -404,7 +404,7 @@ export default class Orders {
             });
         }
         catch (err) {
-            console.log(err);
+            //console.log(err);
             return res.status(200).json("getOrderHistory fail. ", error);
         }
     }
@@ -418,7 +418,7 @@ export default class Orders {
         */
         try {
             let entryData = inputD.entry;
-            console.log("inputD= ", inputD);
+            //console.log("inputD= ", inputD);
             if (entryData.orderID === null) return res.status(401).json("Order not found");
             let orderPack = {
                 order: {},

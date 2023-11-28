@@ -54,7 +54,7 @@ export default class Authentication {
             // encrypt password          
             const hash = await bcrypt.hash(entryData.password, 10);
             db.execute(`INSERT INTO user(email, password, fullName, isAdmin) VALUES ('${entryData.email}','${hash}','${entryData.fullName}',0)`, (err, data) => {
-                // console.log(data);
+                // //console.log(data);
                 if (err) return res.status(500).json(err);
                 return res.status(200).json("User has been created.");
 
@@ -63,7 +63,7 @@ export default class Authentication {
     }
     static login(data, res) {
         let entryData = data.entry;
-        console.log(entryData);
+        //console.log(entryData);
         db.execute(`SELECT * FROM user WHERE email= '${entryData.email}'`, (err, data) => {
             if (err) return res.json(err);
             if (data.length === 0) return res.status(401).json("email or password is incorrect...");

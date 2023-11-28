@@ -73,7 +73,7 @@ export default class Product {
             const currentDate = new Date();
             const values = [currentDate, entryData.name, entryData.features, entryData.image, entryData.size, entryData.price];
             db.execute(newProductQuery, values, (err, data1) => {
-                // console.log(data);
+                // //console.log(data);
                 if (err) return res.status(500).json(err);
                 return res.status(200).json("Product Added Succesful.");
             })
@@ -119,7 +119,7 @@ export default class Product {
     }
     static updateProduct(inputD, res) {
         // try {
-        console.log("inputD = ", inputD)
+        //console.log("inputD = ", inputD)
         let entryData = inputD.entry;
         if (entryData.image === null || entryData.image === undefined || entryData.image.replace(' ', '').trim() === '')
             entryData.image = "not-found.png"

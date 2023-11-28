@@ -116,8 +116,8 @@ export const Header = () => {
                 src="header-icon-3.webp"
                 alt="WebP rules."
               ></img>
-              <span class="count-holder">
-                <span class="count">{cartTotal}</span>
+              <span className="count-holder">
+                <span className="count">{cartTotal}</span>
               </span>
               {isShow3 &&
                 <div className="shopping"> shopping cart</div>

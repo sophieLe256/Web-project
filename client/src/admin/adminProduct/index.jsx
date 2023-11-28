@@ -149,13 +149,13 @@ export const AdminProduct = () => {
                 <div className="head-title">
                     <div className="adminLeft">
                         <h1>Products</h1>
-                        <ul class="breadcrumb">
+                        <ul className="breadcrumb">
                             <li>
                                 <a href="#">Products</a>
                             </li>
-                            <li><i class='bx bx-chevron-right' ></i></li>
+                            <li><i className='bx bx-chevron-right' ></i></li>
                             <li>
-                                <a class="active" href="#">Home</a>
+                                <a className="active" href="#">Home</a>
                             </li>
                         </ul>
                     </div>
@@ -199,7 +199,7 @@ export const AdminProduct = () => {
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </table> 
 
                 <button id="add-btn" onClick={openModal}>
                     Add Item

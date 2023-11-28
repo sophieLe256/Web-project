@@ -70,10 +70,10 @@ export const ProductsDetails = () => {
           <div className="product-info">
             <img src={endPoint+productData.image} alt={productData.name}></img>
             <div className="product-display">
-              <h1 class="font-weight-bold">{productData.name}</h1>
+              <h1 className="font-weight-bold">{productData.name}</h1>
 
               <div className="product-price-wrap">
-                <span class="product-price font-weight-bold">${productData.price}</span>
+                <span className="product-price font-weight-bold">${productData.price}</span>
               </div>
 
               <div className="product-desc">
@@ -97,7 +97,7 @@ export const ProductsDetails = () => {
                 <p></p>
               </div>
 
-              <hr class="product-info-break" />
+              <hr className="product-info-break" />
 
               <input
                 type="hidden"
@@ -107,7 +107,7 @@ export const ProductsDetails = () => {
               <div className="product-options product-options-1050687980">
                 <div className="option option-size option-1 d-flex align-items-center">
                   <span
-                    class="text-uppercase font-weight-bold"
+                    className="text-uppercase font-weight-bold"
                     style={{
                       paddingRight: "10px",
                       fontSize: "20px",
@@ -141,14 +141,14 @@ export const ProductsDetails = () => {
                   href="#"
                   data-toggle="modal"
                   data-target="#product-sizechart-modal"
-                  class="product-size-chart text-uppercase font-weight-bold"
+                  className="product-size-chart text-uppercase font-weight-bold"
                 >
                   Size guide
                 </a>
                 <div className="policy_pro">
                   <a
                     href="/pages/chinh-sach-doi-tra"
-                    class="product-size-chart text-uppercase font-weight-bold"
+                    className="product-size-chart text-uppercase font-weight-bold"
                   >
                     RETURN POLICY
                   </a>
@@ -156,7 +156,7 @@ export const ProductsDetails = () => {
 
                 <a
                   href="#"
-                  class="product-add-cart text-uppercase font-weight-bold"
+                  className="product-add-cart text-uppercase font-weight-bold"
                   onClick={(e) => handleAddToCart(e)}
                 >
                   ADD TO CART{" "}

@@ -5,11 +5,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export const Styles = () => {
   return (
     <>
-      <main class="page-rabbit-list-outfit py-5">
+      <main className="page-rabbit-list-outfit py-5">
         <div id="list-outfit">
           <div className="container">
             <div className="text-under d-flex justify-content-between align-items-center">
-              <h2 class="text-effect font-weight-bold h2 text-left">
+              <h2 className="text-effect font-weight-bold h2 text-left">
                 <span>CHOOSE YOUR OWN STYLES</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +25,7 @@ export const Styles = () => {
                   </g>
                 </svg>
               </h2>
-              <span class="h2 font-weight-bold text-right">
+              <span className="h2 font-weight-bold text-right">
                 MAKE YOUR STYLE
               </span>
             </div>
@@ -108,7 +108,7 @@ export const Styles = () => {
                         data-srcset="//file.hstatic.net/1000351433/collection/artboard_3_36f0fd72ac7d41b1bbc96fa8d868e08d_master.png"
                       />
                       <img
-                        class=" lazyloaded"
+                        className=" lazyloaded"
                         alt="OUTFIT RB #8"
                         src="//file.hstatic.net/1000351433/collection/artboard_3_36f0fd72ac7d41b1bbc96fa8d868e08d_master.png"
                         data-src="//file.hstatic.net/1000351433/collection/artboard_3_36f0fd72ac7d41b1bbc96fa8d868e08d_master.png"
@@ -137,7 +137,7 @@ export const Styles = () => {
                         data-srcset="//file.hstatic.net/1000351433/collection/artboard_6_b6a3f2d62f6344be83ef47d791c6059c_master.png"
                       />
                       <img
-                        class=" lazyloaded"
+                        className=" lazyloaded"
                         alt="OUTFIT RB #5"
                         src="//file.hstatic.net/1000351433/collection/artboard_6_b6a3f2d62f6344be83ef47d791c6059c_master.png"
                         data-src="//file.hstatic.net/1000351433/collection/artboard_6_b6a3f2d62f6344be83ef47d791c6059c_master.png"
@@ -166,7 +166,7 @@ export const Styles = () => {
                         data-srcset="//file.hstatic.net/1000351433/collection/artboard_5_8a9564b48c044a728eeb1f28da2e9b93_master.png"
                       />
                       <img
-                        class=" lazyloaded"
+                        className=" lazyloaded"
                         alt="OUTFIT RB #6"
                         src="//file.hstatic.net/1000351433/collection/artboard_5_8a9564b48c044a728eeb1f28da2e9b93_master.png"
                         data-src="//file.hstatic.net/1000351433/collection/artboard_5_8a9564b48c044a728eeb1f28da2e9b93_master.png"
@@ -195,7 +195,7 @@ export const Styles = () => {
                         data-srcset="//file.hstatic.net/1000351433/collection/artboard_4_49ee20525f06496abf1a3087f5142ec4_master.png"
                       />
                       <img
-                        class=" lazyloaded"
+                        className=" lazyloaded"
                         alt="OUTFIT RB #7"
                         src="//file.hstatic.net/1000351433/collection/artboard_4_49ee20525f06496abf1a3087f5142ec4_master.png"
                         data-src="//file.hstatic.net/1000351433/collection/artboard_4_49ee20525f06496abf1a3087f5142ec4_master.png"
@@ -224,7 +224,7 @@ export const Styles = () => {
                         data-srcset="//file.hstatic.net/1000351433/collection/artboard_7_9bfbd17b314e43538b8d66303127d503_master.png"
                       />
                       <img
-                        class=" lazyloaded"
+                        className=" lazyloaded"
                         alt="OUTFIT RB #4"
                         src="//file.hstatic.net/1000351433/collection/artboard_7_9bfbd17b314e43538b8d66303127d503_master.png"
                         data-src="//file.hstatic.net/1000351433/collection/artboard_7_9bfbd17b314e43538b8d66303127d503_master.png"
@@ -253,7 +253,7 @@ export const Styles = () => {
                         data-srcset="//file.hstatic.net/1000351433/collection/artboard_8_4b5d889dc57844a3827ef6e9c43cd2df_master.png"
                       />
                       <img
-                        class=" lazyloaded"
+                        className=" lazyloaded"
                         alt="OUTFIT RB #3"
                         src="//file.hstatic.net/1000351433/collection/artboard_8_4b5d889dc57844a3827ef6e9c43cd2df_master.png"
                         data-src="//file.hstatic.net/1000351433/collection/artboard_8_4b5d889dc57844a3827ef6e9c43cd2df_master.png"
@@ -282,7 +282,7 @@ export const Styles = () => {
                         data-srcset="//file.hstatic.net/1000351433/collection/artboard_9_243286ed53954d858f99e4add9a1f7d9_master.png"
                       />
                       <img
-                        class=" lazyloaded"
+                        className=" lazyloaded"
                         alt="OUTFIT RB #2"
                         src="//file.hstatic.net/1000351433/collection/artboard_9_243286ed53954d858f99e4add9a1f7d9_master.png"
                         data-src="//file.hstatic.net/1000351433/collection/artboard_9_243286ed53954d858f99e4add9a1f7d9_master.png"

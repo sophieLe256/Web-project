@@ -120,8 +120,8 @@
     border-radius: 4px;
     cursor: pointer;
     position: fixed;
-    bottom: 30px;
-    right: 60px;
+    bottom: 4em;
+    right: 2em;
 }
 
 #add-btn:hover {
