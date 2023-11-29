@@ -23,10 +23,10 @@ app.use(cors());
 checkDatabase();
 
 // read picture from disk
-const getImageData = (imageName) => {
+const getImageData = (folder, imageName) => {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);    
-    let imagePath = path.join(__dirname, 'images', imageName);
+    let imagePath = path.join(__dirname, folder, imageName);
     try {
         // Read the contents of the image file
         const imageData = fs.readFileSync(imagePath);
@@ -49,7 +49,8 @@ const storage = multer.diskStorage({
         cb(null, 'images/'); // Set your destination folder
     },
     filename: function (req, file, cb) {
-        cb(null, `${Date.now()}_${file.originalname}`); // Set your filename logic
+        const list = file.originalname.split('.');
+        cb(null, `${Date.now()}.${list[list.length-1]}`); // Set your filename logic
     },
 });
 const upload = multer({storage: storage});
@@ -164,7 +165,20 @@ app.get('/test/getCategories',(req,res)=>{
 // send picture out
 app.get('/dummydata/:imageName', (req, res) => {
     const imageName = req.params.imageName;
-    const imageData = getImageData(imageName);
+    const imageData = getImageData('images',imageName);
+
+    // Set appropriate headers
+    res.setHeader('Content-Type', 'image/jpeg');
+    res.setHeader('Content-Length', imageData.length);
+
+    // Send the image data as the response
+    res.end(imageData);
+});
+
+app.get('/dummydata/default/:imageName', (req, res) => {
+    //console.log(req.params)
+    const imageName = req.params.imageName;
+    const imageData = getImageData('default',imageName);
 
     // Set appropriate headers
     res.setHeader('Content-Type', 'image/jpeg');

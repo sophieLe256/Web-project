@@ -69,7 +69,7 @@ export default class Product {
             if (entryData.image === null || entryData.image === undefined || entryData.image.replace(' ', '').trim() === '')
                 entryData.image = "not-found.png"
             // insert new Product
-            const newProductQuery = `INSERT INTO product( versionDate, name, features, image, size, price, categoriesID, status) VALUES (?,?,?,?,?,?,${entryData.categoriesID},1)`;
+            const newProductQuery = `INSERT INTO product(versionDate, name, features, image, size, price, categoriesID, status) VALUES (?,?,?,?,?,?,${entryData.categoriesID},1)`;
             const currentDate = new Date();
             const values = [currentDate, entryData.name, entryData.features, entryData.image, entryData.size, entryData.price];
             db.execute(newProductQuery, values, (err, data1) => {
@@ -80,7 +80,7 @@ export default class Product {
 
         }
         catch (error) {
-            return res.status(401).json("addProduct fail. ", error);
+            return res.status(500).json("addProduct fail. ", error);
         }
     }
     static removeProduct(inputD, res) {
@@ -114,7 +114,7 @@ export default class Product {
             });
         }
         catch (error) {
-            return res.status(401).json("removeProduct fail. ", error);
+            return res.status(500).json("removeProduct fail. ", error);
         }
     }
     static updateProduct(inputD, res) {
@@ -127,7 +127,7 @@ export default class Product {
         // get current active product by ID:
         db.execute(`SELECT * FROM product WHERE productID = ${entryData.productID} AND status = 1`, (err, data1) => {
             if (err) return res.status(500).json(err);
-            if (data1.length === 0) return res.status(401).json("Update Product fail. Not found");
+            if (data1.length === 0) return res.status(500).json("Update Product fail. Not found");
             const oldVersion = data1[0].versionDate;
             // check is this used in any Order
             db.execute(`SELECT * FROM orderItem WHERE productID = ${entryData.productID} AND versionDate = '${oldVersion}'`, (err, data2) => {
@@ -162,7 +162,7 @@ export default class Product {
         });
         // }
         // catch (error) {
-        //     return res.status(401).json("updateProduct fail. ", error);
+        //     return res.status(500).json("updateProduct fail. ", error);
         // }
     }
     static getCategories(key, res) {
@@ -176,7 +176,7 @@ export default class Product {
             });
         }
         catch (error) {
-            return res.status(401).json("getCategories fail. ", error);
+            return res.status(500).json("getCategories fail. ", error);
         }
     }
     static getNewestProduct(key, inputD, res) {
@@ -186,14 +186,14 @@ export default class Product {
             if (entryData.limit !== null) {
                 limit = parseInt(entryData.limit);
             }
-            db.execute(`SELECT * FROM product NATURAL LEFT JOIN categories WHERE status = 1 ORDER BY versionDate DESC LIMIT ${limit};`, (err, data) => {
+            db.execute(`SELECT * FROM product NATURAL LEFT JOIN categories WHERE status = 1 ORDER BY productID DESC, versionDate DESC LIMIT ${limit};`, (err, data) => {
                 if (err) return res.status(500).json(err);
                 const encryptedData = MySecurity.encryptedData(MySecurity.getUserToken(key), data);
                 return res.status(200).json(encryptedData);
             });
         }
         catch (error) {
-            return res.status(401).json("getNewestProduct fail. ", error);
+            return res.status(500).json("getNewestProduct fail. ", error);
         }
     }
     static getProduct(key, inputD, res) {
@@ -215,7 +215,7 @@ export default class Product {
                     if (page > totalPage) page = totalPage;
 
                     // all things
-                    db.execute(`SELECT * FROM product NATURAL LEFT JOIN categories WHERE status = 1 LIMIT ${limit} OFFSET ${(page - 1) * limit}`, (err, data2) => {
+                    db.execute(`SELECT * FROM product NATURAL LEFT JOIN categories WHERE status = 1 ORDER BY productID DESC, versionDate DESC LIMIT ${limit} OFFSET ${(page - 1) * limit}`, (err, data2) => {
                         if (err) return res.status(500).json(err);
                         let packages = {
                             totalPage: totalPage,
@@ -230,12 +230,12 @@ export default class Product {
             else {
 
                 // count total item
-                db.execute(`SELECT COUNT(*) FROM product NATURAL LEFT JOIN categories WHERE status = 1 AND categoriesID = ${entryData.categoriesID}`, (err, data1) => {
+                db.execute(`SELECT COUNT(*) FROM product NATURAL LEFT JOIN categories WHERE status = 1 AND categoriesID = ${entryData.categoriesID} ORDER BY productID DESC, versionDate DESC;`, (err, data1) => {
                     if (err) return res.status(500).json(err);
                     let totalPage = Math.ceil(parseInt(data1[0]) / limit);
                     if (page > totalPage) page = totalPage;
                     // all things
-                    db.execute(`SELECT * FROM product NATURAL LEFT JOIN categories WHERE status = 1 AND categoriesID = ${entryData.categoriesID} LIMIT ${limit} OFFSET ${(page - 1) * limit}`, (err, data2) => {
+                    db.execute(`SELECT * FROM product NATURAL LEFT JOIN categories WHERE status = 1 AND categoriesID = ${entryData.categoriesID} ORDER BY productID DESC, versionDate DESC LIMIT ${limit} OFFSET ${(page - 1) * limit}`, (err, data2) => {
                         if (err) return res.status(500).json(err);
                         let packages = {
                             totalPage: totalPage,
@@ -249,7 +249,7 @@ export default class Product {
             }
         }
         catch (error) {
-            return res.status(401).json("getProduct fail. ", error);
+            return res.status(500).json("getProduct fail. ", error);
         }
     }
     static getProductDetail(key, inputD, res) {
@@ -261,7 +261,7 @@ export default class Product {
                 // get current active product
                 db.execute(`SELECT * FROM product WHERE productID = ${entryData.productID} AND status = 1`, (err, data1) => {
                     if (err) return res.status(500).json(err);
-                    if (data1.length == 0) return res.status(401).json("Product Not found or removed");
+                    if (data1.length == 0) return res.status(500).json("Product Not found or removed");
                     const currentVersion = data1[0].versionDate;
 
                     db.execute(`SELECT * FROM product NATURAL LEFT JOIN categories WHERE productID = ${entryData.productID} AND versionDate = '${currentVersion}'`, (err, data2) => {
@@ -281,7 +281,7 @@ export default class Product {
             }
         }
         catch (error) {
-            return res.status(401).json("getProductDetail fail. ", error);
+            return res.status(500).json("getProductDetail fail. ", error);
         }
 
     }

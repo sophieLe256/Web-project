@@ -13,6 +13,11 @@ export const OrderDetail = () => {
     async function fetchData() {
       // let fetch data
       try {
+        if(orderID === null || orderID === undefined)
+        {
+          alert("Not found Order Detail yet.")
+          navigator("/products?page=1")
+        }
         const data = { orderID: orderID };
         const respond = await ClientAPI.post("getOrderHistoryDeatail", data);
         //console.log("From OrderDetail.jsx: ", respond.data);
@@ -24,7 +29,7 @@ export const OrderDetail = () => {
     }
     fetchData();
 
-  }, []);
+  }, [orderDetails]);
 
   // Function to display only the last four digits of the card number
   const getLastFourDigits = (cardNumber) => {
@@ -90,7 +95,7 @@ export const OrderDetail = () => {
                       </div>
                     </td>
                     <td>{item.quantity}</td>
-                    <td>{item.size}</td>
+                    <td>{item.selectedSize}</td>
                     <td>${parseFloat(item.price).toFixed(2)}</td>
                     <td>${(parseFloat(item.price) * parseFloat(item.quantity)).toFixed(2)}</td>
                   </tr>

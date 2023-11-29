@@ -4,7 +4,8 @@ import fs from "fs"
 const dbConfig = {
     host: "localhost",
     user: "root",
-    password: "Nhi04031080.",
+    // password: "Nhi04031080.",
+    password: "admin",
     database: "badrabbit"
 }
 
@@ -21,9 +22,9 @@ UserToken(userID,tokenKey,createdDate)
 */
 export const checkDatabase = async () => {   
     let db3 = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "Nhi04031080.",
+        host: dbConfig.host,
+        user: dbConfig.user,
+        password: dbConfig.password,
     });
     // check if database exist
     db3.execute(`SHOW DATABASES LIKE "badrabbit"`, async (err, results) => {    

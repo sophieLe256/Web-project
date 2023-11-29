@@ -165,7 +165,7 @@ export const ShoppingCart = () => {
                       <div className="order-noted-block">
                         <div className="checkout-buttons clearfix">
                           <label
-                            for="note"
+                            htmlFor="note"
                             className="note-label h4 font-weight-bold"
                           >
                             ORDER NOTES
@@ -205,7 +205,7 @@ export const ShoppingCart = () => {
                         <p>YOUR CART is empty</p>
                         <img
                           className="cart_icon"
-                          src="cart_icon.jpg"
+                            src={endPoint +"default/cart_icon.jpg"}
                           alt="WebP rules."
                         ></img>
                       </div>

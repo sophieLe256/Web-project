@@ -192,7 +192,7 @@ export default class Orders {
             });
         }
         catch (error) {
-            return res.status(200).json("getNumberCartItem fail. ", error);
+            return res.status(200).json(0);
         }
     }
     // Payment Section

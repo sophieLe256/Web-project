@@ -3,7 +3,7 @@ import "./header.css";
 import { Link, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'js-cookie';
-import ClientAPI from "../../api/clientAPI";
+import ClientAPI, { endPoint } from "../../api/clientAPI";
 import { Toast } from 'react-bootstrap';
 
 export const Header = () => {
@@ -44,27 +44,24 @@ export const Header = () => {
       alert("Log Out got Error.")
     }
   };
-
+  
   useEffect(() => {   
-    window.addEventListener("cartUpdated", handleCartUpdate);
-    return () => {
-      window.removeEventListener("cartUpdated", handleCartUpdate);
-    };
+    window.addEventListener("cartUpdated", handleCartUpdate)    
   }, []);
-
+  window.dispatchEvent(new Event("cartUpdated"))
   return (
     <div className="header d-flex align-items-center">      
       <Link to="/" className="left d-flex justify-content-around">
         <img
           role="button"
           className="image-left"
-          src="banner.png"
+          src={endPoint+"default/banner.png"}
           alt="WebP rules."
         ></img>
         <img
           role="button"
           className="image-left"
-          src="logo.webp"
+          src={endPoint +"default/logo.webp"}
           alt="WebP rules."
         ></img>
       </Link>
@@ -76,7 +73,7 @@ export const Header = () => {
               <img
                 role="button"
                 className="image-right"
-                src="header-icon-1.webp"
+                src={endPoint +"default/header-icon-1.webp"}
                 alt="WebP rules."
               ></img>
               {isShow1 &&
@@ -92,7 +89,7 @@ export const Header = () => {
               <img
                 role="button"
                 className="image-right"
-                src="header-icon-2.webp"
+                src={endPoint +"default/header-icon-2.webp"}
                 alt="WebP rules."
               ></img>
               {isShow2 &&
@@ -113,11 +110,11 @@ export const Header = () => {
               <img
                 role="button"
                 className="image-right"
-                src="header-icon-3.webp"
+                src={endPoint+"default/header-icon-3.webp"}
                 alt="WebP rules."
               ></img>
               <span className="count-holder">
-                <span className="count">{cartTotal}</span>
+                <span className="count">{cartTotal?cartTotal:0}</span>
               </span>
               {isShow3 &&
                 <div className="shopping"> shopping cart</div>
@@ -131,7 +128,7 @@ export const Header = () => {
             <img
               role="button"
               className="image-right"
-              src="header-icon-4.webp"
+              src={endPoint+"default/header-icon-4.webp"}
               alt="WebP rules."
             ></img>
             { isShow4 && (Cookies.get("userID") ===undefined?(
