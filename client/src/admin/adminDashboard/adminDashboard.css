@@ -127,6 +127,12 @@
     overflow-x: hidden;
 }
 
+#sidebar .side-menu li button.logout {
+    color: var(--red);
+    border: none;
+    background: var(--light);
+}
+
 #sidebar .side-menu.top li.active a {
     color: var(--blue);
 }

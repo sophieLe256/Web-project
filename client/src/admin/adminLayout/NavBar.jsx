@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "./adminLayout.css";
+import { endPoint } from '../../api/clientAPI';
 
 const Navbar = ({ onDarkModeChange }) => {
   return (
@@ -11,7 +12,7 @@ const Navbar = ({ onDarkModeChange }) => {
         <span className="num">0</span>
       </a> */}
       <a href="/" target="_blank" className="profile" style={{position: 'absolute', right: '2em'}}>
-        <img src="/header-icon-1.webp" alt="Profile" />
+        <img src={endPoint +"default/header-icon-1.webp"} alt="Profile" />
       </a>
     </nav>
   );

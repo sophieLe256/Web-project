@@ -22,7 +22,7 @@ export const ProductLayout = () => {
     }
     catch (err) {
       //console.log("From ProductLayout.jsx: ", err);
-    }
+    }   
   }
   fetchData();  
   }, []);

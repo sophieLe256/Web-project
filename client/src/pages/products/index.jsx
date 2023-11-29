@@ -33,7 +33,7 @@ export const Products = () => {
           setCurrentPage(respond.data.page);
       }
       catch (err) {
-        //console.log("From Product.jsx: ", err);
+        console.log("From Product.jsx: ", err);
       }
     }
     fetchData();
@@ -91,7 +91,7 @@ export const Products = () => {
         </div>
       ) : (
         <div className="loading">
-          <p>Loading...</p>
+            <p>Loading...</p>
         </div>
       )}
     </>

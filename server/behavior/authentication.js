@@ -47,7 +47,7 @@ Good luck, Ac Nhon.
 export default class Authentication {
     static register(data, res) {
         let entryData = data.entry;
-        db.execute(`SELECT * FROM user WHERE email= ${entryData.email}`, async (err, data) => {
+        db.execute(`SELECT * FROM user WHERE email= '${entryData.email}'`, async (err, data) => {
             if (err) return res.json(err);
             if (data.length) return res.status(409).json("User already exists!");
 
@@ -81,7 +81,7 @@ export default class Authentication {
             const currentDate = new Date();
             // insert token key to Table ?  
            
-            db.execute(`INSERT INTO UserToken (userID, tokenKey, createdDate) VALUES (${other.userID},'${tokenS}','${currentDate}')`, (err, data2) => {
+            db.execute(`INSERT INTO usertoken (userID, tokenKey, createdDate) VALUES (${other.userID},'${tokenS}','${currentDate}')`, (err, data2) => {
                 if (err) return res.json(err);
                 // put to client cookie ???
                 res.cookie("access_token", tokenS, {
@@ -98,7 +98,7 @@ export default class Authentication {
         });
     }
     static logout(key, res) {
-        db.execute(`DELETE FROM UserToken WHERE tokenKey LIKE '${key}%'`, async (err, data) => {
+        db.execute(`DELETE FROM usertoken WHERE tokenKey LIKE '${key}%'`, async (err, data) => {
             if (err) return res.json(err);
             // put to client cookie ???
             res.cookie("access_token", undefined, {

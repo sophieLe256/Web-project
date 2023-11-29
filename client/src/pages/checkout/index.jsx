@@ -10,7 +10,6 @@ export const CheckOut = () => {
   const [cartItems, setCartItems] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0.0);
   const [inputValues, setInputValues] = useState({ type: "credit" });
-  const [orderID_Processed, setorderID_Processed] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,13 +19,10 @@ export const CheckOut = () => {
 
         const data = { nothing: "nothing" };
         const respond = await ClientAPI.post("getCartItem", data);
-        //console.log("From Checkout_getCart.jsx: ", respond.data);
-        if (orderID_Processed !== null)
-          navigate(`/order-details/${orderID_Processed}`);
+        //console.log("From Checkout_getCart.jsx: ", respond.data);       
         if (respond.data === null || respond.data.orderID === undefined || respond.data.items.length === 0)
-          navigate("/products?page=1"); //not found order.
+          return navigate("/products?page=1"); //not found order.
 
-        setorderID_Processed(respond.data.orderID);
         setCartItems(MySecurity.decryptedData(respond.data));
 
         // Calculate total price based on quantity
@@ -55,7 +51,8 @@ export const CheckOut = () => {
     }));
   };
 
-  const handlePlaceOrder = async () => {
+  const handlePlaceOrder = async (e) => {
+    e.preventDefault();
     // check input data
     const requiredFields = ['name', 'email', 'phone', 'address', 'city', 'zipcode', 'state', 'acc_name', 'acc_number', 'expireDate', 'cvc', 'type'];
     let error = "Please fill in:\n";
@@ -68,15 +65,14 @@ export const CheckOut = () => {
     if (error !== "Please fill in:\n")
       return alert(error);
     // data ready to send
-    try {
-      setorderID_Processed(cartItems.orderID);
+    try {      
       await ClientAPI.post("checkOutCart", inputValues);
       //console.log("From CheckOutCart.jsx: ", respond.data);
       alert("Check Out sucessful.")
       navigate(`/order-details/${cartItems.orderID}`);
     }
     catch (err) {
-      alert("Error in Check Out process.")
+      alert("Error in Check Out process: ",err)
       //console.log("From CheckOutCart.jsx: ", err);
       //console.log("From CheckOutCart.jsx: error ", err.respond.data);
     }
@@ -84,7 +80,7 @@ export const CheckOut = () => {
 
   return (
     <div className="checkout-container">
-      {orderID_Processed !== null && orderID_Processed !== undefined ? (
+      {cartItems !== null && cartItems !== undefined ? (
       <div className="checkout-content">
         <div className="order-summary">
           <Link to="/" className="tag">
@@ -118,7 +114,7 @@ export const CheckOut = () => {
                   <img
                     role="button"
                     className="image-left"
-                    src="credit.webp"
+                      src={endPoint +"default/credit.webp"}
                     alt="WebP rules."
                   />
                 </span>
@@ -135,7 +131,7 @@ export const CheckOut = () => {
                   <img
                     role="button"
                     className="image-left"
-                    src="debit.webp"
+                      src={endPoint +"default/debit.webp"}
                     alt="WebP rules."
                   />
                 </span>
@@ -162,7 +158,7 @@ export const CheckOut = () => {
               <Link to="/shopping-cart">
                 <p className="cart">Cart</p>
               </Link>
-              <button type="submit" className="place_order" onClick={handlePlaceOrder}>
+              <button className="place_order" onClick={(e) => handlePlaceOrder(e)}>
                 Place Order
               </button>
             </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './adminLayout.css';
 import ClientAPI from "../../api/clientAPI";
+import Cookies from 'js-cookie';
 
 
 const Sidebar = ({ hidden }) => {
@@ -22,11 +23,16 @@ const Sidebar = ({ hidden }) => {
     try {
       const data = { nothing: "nothing" };
       await ClientAPI.post("logout", data);
-      //console.log("From HeaderLogOut.jsx: ", respond.data);     
-      navigate("/");
+      Cookies.remove("userID")
+      Cookies.remove("isAdmin")
+      Cookies.remove("token")
+      //console.log("From HeaderLogOut.jsx: ", respond.data); 
     }
     catch (err) {
       //console.log("From HeaderLogOut.jsx: ", err);
+    }
+    finally{
+      navigate("/");
     }
   };
   return (
@@ -50,10 +56,10 @@ const Sidebar = ({ hidden }) => {
       </ul>
       <ul className="side-menu" style={{position:'absolute', bottom:'2em'}}>        
         <li>         
-          <Link to="/" className="logout" onClick={handleLogOut}>
+          <button className="logout" onClick={handleLogOut}>
             <i className="bx bxs-log-out-circle"></i>
             <span className="text">Logout</span>
-          </Link>
+          </button> 
         </li>
       </ul>
     </section>
