@@ -53,6 +53,20 @@ export const AdminProduct = () => {
 
     const handleAddProduct = async (event) => {
         event.preventDefault();
+
+        // check input data
+        const requiredFields = ['name', 'features', 'price'];
+        let error = "Please fill in:\n";
+        for (const field of requiredFields) {
+            const fieldValue = inputValues[field];
+            if (!fieldValue) {
+                error = error + field + " ";
+            }
+        }
+        if (error !== "Please fill in:\n")
+            return alert(error);
+        // data ready to send
+
         // add new product
         try {
             let data = {

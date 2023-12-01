@@ -46,6 +46,19 @@ export const AdminUpdateProduct = () => {
     const handleEditProduct = async (event) => {
         event.preventDefault();
 
+        // check input data
+        const requiredFields = ['name', 'features', 'price'];
+        let error = "Please fill in:\n";
+        for (const field of requiredFields) {
+            const fieldValue = inputValues[field];
+            if (!fieldValue) {
+                error = error + field + " ";
+            }
+        }
+        if (error !== "Please fill in:\n")
+            return alert(error);
+
+        // Submit change
         try {
             let data = {
                 ...inputValues,
@@ -110,7 +123,7 @@ export const AdminUpdateProduct = () => {
                         <h1>Edit Product</h1>
                     </div>
                 </div>
-                {(categoriesData !== null && categoriesData === undefined) ? (
+                {(categoriesData !== null && categoriesData !== undefined) ? (
                     <div className="updateProduct">
                         <form onSubmit={handleEditProduct} encType="multipart/form-data">
                             <label htmlFor="categoriesID">Categories:</label>
