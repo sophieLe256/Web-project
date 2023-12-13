@@ -1,8 +1,11 @@
 # :rabbit: Funny Bunny React Project
-[![GitHub stars](https://img.shields.io/github/stars/username/repository.svg?style=flat-square)](https://github.com/username/repository/stargazers)
+[![GitHub stars](https://img.shields.io/badge/Stars-0-yellow.svg?style=flat-square)](https://github.com/username/repository/stargazers)
+[![Maintainability](https://img.shields.io/badge/Maintainability-100%25-brightgreen.svg?style=flat-square)](https://codeclimate.com/github/username/repository)
+
+
 
 ## :computer: Description
-Welcome to the Funny Bunny Project! This project aims to user shopping experience, with a focus on essential features that make it incredibly useful. Our primary Goal is to provide users with a hassle-free and secure shopping experience, emphasizing ease of use and convenience.
+Welcome to the ***Funny Bunny Project*** ! This project aims to user shopping experience, with a focus on essential features that make it incredibly useful. Our primary goal is to provide users with a hassle-free and secure shopping experience, emphasizing ease of use and convenience.
 
 ## :star2: Installation
 
