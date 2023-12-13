@@ -13,7 +13,7 @@ Welcome to the ***Funny Bunny Project*** ! This project aims to user shopping ex
 To get started with the project, clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/username/repository.git
+git clone https://github.com/sophieLe256/Web-project
 ```
 
 ### 2. Navigate to the Project Directory
