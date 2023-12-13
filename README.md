@@ -37,7 +37,8 @@ Navigate into the client directory using the terminal or command prompt, and the
 cd repository/client
 npm start
 ```
-***This updated README provides step-by-step instructions for setting up and running both the server and client parts of the React project separately. Adjust the paths and commands as needed for your specific project structure.***
+> [!NOTE]
+> This updated README provides step-by-step instructions for setting up and running both the server and client parts of the React project separately. Adjust the paths and commands as needed for your specific project structure.
 
 ## Screeshots
 <img width="1511" alt="Screenshot 2023-12-13 at 2 50 39 PM" src="https://github.com/sophieLe256/Web-project/assets/102685323/5b43e5f0-e90c-40f5-b408-39442e9554e0">
