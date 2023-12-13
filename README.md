@@ -1,7 +1,7 @@
-# Funny Bunny React Project
-https://img.shields.io/badge/stars-0-blue
+# :rabbit: Funny Bunny React Project
 
-## Description
+
+## :computer: Description
 Welcome to the Funny Bunny Project! This project aims to user shopping experience, with a focus on essential features that make it incredibly useful. Our primary Goal is to provide users with a hassle-free and secure shopping experience, emphasizing ease of use and convenience.
 
 ## Installation
